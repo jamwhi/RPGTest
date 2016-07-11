@@ -24,5 +24,18 @@
 		"stackable": false,
 		"rarity": 1,
 		"slug": "bow"
+	},
+	{
+		"id": 2,
+		"title": "Magic Wand",
+		"val": 14,
+		"stats": {
+			"power": 8,
+			"durability": 2
+		},
+		"description": "A wand bursting with arcane energy.",
+		"stackable": false,
+		"rarity": 3,
+		"slug": "wand"
 	}
 ]
