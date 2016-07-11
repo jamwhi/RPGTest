@@ -37,5 +37,18 @@
 		"stackable": false,
 		"rarity": 3,
 		"slug": "wand"
+	},
+	{
+		"id": 3,
+		"title": "Iron Helmet",
+		"val": 12,
+		"stats": {
+			"power": 2,
+			"durability": 11
+		},
+		"description": "A helmet, useful for protecting your head.",
+		"stackable": false,
+		"rarity": 2,
+		"slug": "helmet"
 	}
 ]

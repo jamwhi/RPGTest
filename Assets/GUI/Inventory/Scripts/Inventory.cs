@@ -33,6 +33,7 @@ public class Inventory : MonoBehaviour {
 		AddItem(2);
 		AddItem(1);
 		AddItem(0);
+        AddItem(3);
 	}
 
 // Attempt to add an item to the inventory
