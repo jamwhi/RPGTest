@@ -1,0 +1,28 @@
+[
+	{
+		"id": 0,
+		"title": "Steel Sword",
+		"val": 10,
+		"stats": {
+			"power": 5,
+			"durability": 8
+		},
+		"description": "A well crafted steel sword.",
+		"stackable": true,
+		"rarity": 2,
+		"slug": "sword"
+	},
+	{
+		"id": 1,
+		"title": "Wooden Bow",
+		"val": 8,
+		"stats": {
+			"power": 3,
+			"durability": 5
+		},
+		"description": "A wooden bow, for shooting arrows.",
+		"stackable": false,
+		"rarity": 1,
+		"slug": "bow"
+	}
+]
