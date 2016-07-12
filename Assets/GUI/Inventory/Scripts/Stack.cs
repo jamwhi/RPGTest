@@ -7,6 +7,7 @@ public class Stack : MonoBehaviour {
     //private InputField amountText;
 
     public Inventory inventory;
+    public MouseControl mouseController;
     public GameObject stack;
     public InputField stackAmount;
     public Slider stackSlider;
@@ -36,22 +37,23 @@ public class Stack : MonoBehaviour {
         stack.SetActive(false);
         isActive = false;
     }
-
+    
     // Confirm button callback
     public void StackConfirm() {
 
         if (stackSlider.value == maxStack) {
-            itemToSeperate.AttachToMouse();
+            mouseController.AttachItemToMouse(itemToSeperate.gameObject);
         }
         else {
-            itemToSeperate.amount -= (int) stackSlider.value;
-            itemToSeperate.transform.GetChild(0).GetComponent<Text>().text = itemToSeperate.amount.ToString();
-            inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            itemToSeperate.SetAmount(itemToSeperate.amount - (int) stackSlider.value);
+            GameObject newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            mouseController.AttachItemToMouse(newItems); 
         }
 
         stack.SetActive(false);
         isActive = false;
     }
+    
 
     // Update the input field text
     public void ChangeStackText(float fromSlider) {

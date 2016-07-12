@@ -12,7 +12,6 @@ public class Inventory : MonoBehaviour {
 	public GameObject inventorySlot;
     public GameObject inventoryItem;
 	public List<GameObject> slots = new List<GameObject>();
-    public ItemData itemOnMouse;
 
 	void Start () {
 
@@ -23,11 +22,14 @@ public class Inventory : MonoBehaviour {
 
         // Add slots
 		for(int i = 0; i < slotAmount; i++){
-			slots.Add(Instantiate(inventorySlot));
-            slots[i].GetComponent<Slot>().slotId = i;
-			slots[i].transform.SetParent(slotPanel);
-			slots[i].name = "Slot " + i.ToString();
-		}
+            GameObject newSlot = Instantiate(inventorySlot);
+            Slot newSlotData = newSlot.GetComponent<Slot>();
+			newSlot.transform.SetParent(slotPanel);
+			newSlot.name = "Slot " + i.ToString();
+            newSlotData.slotItemData = null;
+            newSlotData.slotId = i;
+            slots.Add(newSlot);
+        }
 
 		AddItem(0);
 		AddItem(1);
@@ -64,16 +66,16 @@ public class Inventory : MonoBehaviour {
         // Add new item to inventory
 		for(int i = 0; i < slotAmount; i++){
             Slot currSlot = slots[i].GetComponent<Slot>();
-			if (currSlot.itemId < 0){
+			if (!currSlot.slotItemData){
                 GameObject itemObj = Instantiate(inventoryItem);
                 ItemData data = itemObj.GetComponent<ItemData>();
                 data.item = itemToAdd;
-				data.slot = i;
+				data.slot = currSlot;
 				itemObj.transform.SetParent(slots[i].transform);
 				itemObj.transform.position = Vector2.zero;
 				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
 				itemObj.name = itemToAdd.Title;
-                currSlot.itemId = itemToAdd.ID;
+                currSlot.slotItemData = data;
                 return;
 			}
 		}
@@ -88,33 +90,31 @@ public class Inventory : MonoBehaviour {
         return itemObj;
     }
     */
-
-    public void CreateItemFromStack(int id, int amount) {
+ 
+    public GameObject CreateItemFromStack(int id, int amount) {
 
         GameObject itemObj = Instantiate(inventoryItem);
         ItemData itemData = itemObj.GetComponent<ItemData>();
         Item item = database.FetchItemByID(id);
 
-        itemData.amount = amount;
         itemData.item = item;
-
-        itemObj.transform.SetParent(this.transform);
+        itemData.SetAmount(amount);    
         itemObj.GetComponent<Image>().sprite = item.Sprite;
         itemObj.name = item.Title;
-        itemData.onMouse = true;
-        itemOnMouse = itemData;
-        itemObj.transform.GetChild(0).GetComponent<Text>().text = amount.ToString();
-        itemData.AttachToMouse();
 
-        return;
+        return itemObj;
 
     }
+    
 
 // Search inventory for an item, return index.
 	public int SearchInventory(Item item){
 
 		for( int i = 0; i < slotAmount; i++){
-			if (slots[i].GetComponent<Slot>().itemId == item.ID){
+            ItemData slotDataToCheck = slots[i].GetComponent<Slot>().slotItemData;
+			if ( (slotDataToCheck != null) 
+                && (slotDataToCheck.item.ID == item.ID)
+                && (slotDataToCheck.amount < 20)) {
                 return i;
 			}
 		}

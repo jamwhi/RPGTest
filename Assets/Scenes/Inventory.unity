@@ -527,6 +527,7 @@ GameObject:
   - 114: {fileID: 632352030}
   - 114: {fileID: 632352031}
   - 114: {fileID: 632352032}
+  - 114: {fileID: 632352033}
   m_Layer: 5
   m_Name: InventoryPanel
   m_TagString: InventoryPanel
@@ -646,6 +647,23 @@ MonoBehaviour:
   itemToSeperate: {fileID: 0}
   isActive: 0
   maxStack: 20
+--- !u!114 &632352033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 632352025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfad4f974947fdd4b947d9d73d4bd82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventory: {fileID: 632352029}
+  tooltip: {fileID: 632352031}
+  stack: {fileID: 632352032}
+  itemObjOnMouse: {fileID: 0}
+  itemDataOnMouse: {fileID: 0}
+  dropSlot: {fileID: 0}
 --- !u!1 &776010837
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,66 +1,45 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System.Collections;
 using System;
 
-public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler {
-
-	public Item item;
+public class ItemData : MonoBehaviour,
+    // Implements 
+    IBeginDragHandler, 
+    IDragHandler, 
+    IEndDragHandler,
+    IPointerClickHandler, 
+    IPointerEnterHandler, 
+    IPointerExitHandler {
+	
 	public int amount = 1;
-	public int slot = -1;
+    public Slot slot = null;
     public bool onMouse = false;
+
+    public Item item;
+    public MouseControl mouseControl;
 
     private GameObject inventory;
 	private Inventory inv;
-    private Tooltip tooltip;
     private Stack stack;
 
 
-	void Awake(){
+	void Awake() {
 
         inventory = GameObject.FindWithTag("InventoryPanel");
 		inv = inventory.GetComponent<Inventory>();
-        tooltip = inventory.GetComponent<Tooltip>();
+        mouseControl = inv.GetComponent<MouseControl>();
         stack = inventory.GetComponent<Stack>();
-
-        if (tooltip == null || stack == null)
-            Debug.Log("Unable to find a component");
     }
 
     void Update() {
-        if (onMouse) {
-            this.transform.position = (Vector2)Input.mousePosition;
-        }
  
     }
 
-    // Attach this item to the mouse
-    public void AttachToMouse() {
-
-        this.transform.SetParent(this.inventory.transform);
-        this.transform.position = Input.mousePosition;
-        onMouse = true;
-        inv.itemOnMouse = this;
-        GetComponent<CanvasGroup>().blocksRaycasts = false;
-    }
-
-    // Attach this item to its designated slot
-    public void AttachToSlot() {
-
-        this.transform.SetParent(inv.slots[slot].transform);
-        this.transform.localPosition = new Vector3(32, -32, 0);
-        GetComponent<CanvasGroup>().blocksRaycasts = true;
-        onMouse = false;
-    }
-
-    // Swap the item on the mouse for this item
-    public void SwapTwoItems(ItemData itemToSwap) {
-        int tempSlot = this.slot;
-        this.slot = itemToSwap.slot;
-        itemToSwap.slot = tempSlot;
-        inv.slots[this.slot].GetComponent<Slot>().itemId = this.item.ID;
-        inv.slots[itemToSwap.slot].GetComponent<Slot>().itemId = itemToSwap.item.ID;
-        this.AttachToSlot();
+    public void SetAmount(int newAmount) {
+        this.amount = newAmount;
+        this.gameObject.transform.GetComponentInChildren<Text>().text = this.amount.ToString();
     }
 
     // ----------------Drag and Drop items---------------------
@@ -68,35 +47,22 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     // Begin
     public void OnBeginDrag(PointerEventData eventData) {
 
-		if(item != null){
-            AttachToMouse();
-        }
+            mouseControl.AttachItemToMouse(this.gameObject);
 	}
 
     // During
 	public void OnDrag(PointerEventData eventData) {
-
-		if(item != null){
-			this.transform.position = eventData.position;
-		}
 	}
-
     // End
 	public void OnEndDrag(PointerEventData eventData) {
-
-        if(item != null) {
-            AttachToSlot();
-            inv.itemOnMouse.onMouse = false;
-            inv.itemOnMouse = null;
-        }
+        // This ensures the item locks to a slot if it is released 
+        // not over a slot. If the item is dropped over a slot,
+        // this function essentially fires twice (once in OnDrop)
+        // Maybe there is a better way.
+        if (this.slot != null) {
+            mouseControl.AttachItemToSlot(this.gameObject, slot);
+        } 
 	}
-
-    // If item dropped on another item
-    public void OnDrop(PointerEventData eventData) {
-
-        ItemData droppedItem = eventData.pointerDrag.GetComponent<ItemData>();
-        SwapTwoItems(droppedItem);
-    }
 
     // ----------------End Drag Handling-----------------------
 
@@ -104,37 +70,22 @@ public class ItemData : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     public void OnPointerEnter(PointerEventData eventData) {
 
         if (!stack.isActive) {
-            tooltip.Activate(item, eventData.position);
+            mouseControl.ActivateTooltip(item, eventData.position);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData) {
-
-        tooltip.Deactivate();
+        mouseControl.DeactivateTooltip();
     }
+
+
 
     // Single Click (left click to attach item to mouse, shift click to open stack)
     public void OnPointerClick(PointerEventData eventData) {
 
-        bool shiftDown = Input.GetKey(KeyCode.LeftShift);
+        Debug.Log("Clicked On: " + this.item.Title);
+        mouseControl.ClickOnItem(this, eventData.position);
 
-        if (shiftDown && item.Stackable && !inv.itemOnMouse && (this.amount > 1)) {
-            stack.Activate(this, eventData.pressPosition);
-        }
-        else if (shiftDown && (this.amount == 1)) {
-            return;
-        }
-        else if (!inv.itemOnMouse) {
-            stack.StackCancel();
-            AttachToMouse();
-        }
-        else if (inv.itemOnMouse) {
-            SwapTwoItems(inv.itemOnMouse);
-            inv.itemOnMouse.AttachToSlot();
-            inv.itemOnMouse.onMouse = false;
-            inv.itemOnMouse = null;
-        }
     }
-
 
 }
