@@ -8,11 +8,11 @@ public class ItemDatabase : MonoBehaviour {
 
     // Database of items
 	private List<Item> database = new List<Item>();
-	private JsonData itemData;
+	private JsonData itemsInDatabase;
 
 	void Start(){
 
-		itemData = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
+		itemsInDatabase = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
 		ConstructItemDatabase();
 	}
 
@@ -28,17 +28,19 @@ public class ItemDatabase : MonoBehaviour {
 
 	private void ConstructItemDatabase() {
 
-		for(int i = 0; i < itemData.Count; i++) {
+		for(int i = 0; i < itemsInDatabase.Count; i++) {
 			database.Add(new Item( 
-				(int)itemData[i]["id"], 
-				itemData[i]["title"].ToString(), 
-				(int)itemData[i]["val"],
-				(int)itemData[i]["stats"]["power"],
-				(int)itemData[i]["stats"]["durability"],
-				itemData[i]["description"].ToString(),
-				(bool)itemData[i]["stackable"],
-				(int)itemData[i]["rarity"],
-				itemData[i]["slug"].ToString()
+				(int)itemsInDatabase[i]["id"],
+                itemsInDatabase[i]["title"].ToString(), 
+				(int)itemsInDatabase[i]["val"],
+                (int)itemsInDatabase[i]["charSlot"],
+                itemsInDatabase[i]["itemType"].ToString(),
+				(int)itemsInDatabase[i]["stats"]["power"],
+				(int)itemsInDatabase[i]["stats"]["durability"],
+                itemsInDatabase[i]["description"].ToString(),
+				(bool)itemsInDatabase[i]["stackable"],
+				(int)itemsInDatabase[i]["rarity"],
+                itemsInDatabase[i]["slug"].ToString()
 				));
 		}
 	}

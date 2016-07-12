@@ -6,6 +6,8 @@ public class Item {
 	public int ID { get; set; }
 	public string Title { get; set; }
 	public int Value { get; set; }
+    public int CharSlot { get; set; }
+    public string ItemType { get; set; }
 	public int Power { get; set; }
 	public int Durability { get; set; }
 	public string Description { get; set; }
@@ -15,11 +17,13 @@ public class Item {
 	public Sprite Sprite { get; set; }
 
 	// Constructor
-	public Item (int id, string title, int val, int power, int durability, string description, bool stackable, int rarity, string slug) {
+	public Item (int id, string title, int val, int charSlot, string itemType, int power, int durability, string description, bool stackable, int rarity, string slug) {
 
 		this.ID = id;
 		this.Title = title;
 		this.Value = val;
+        this.CharSlot = charSlot;
+        this.ItemType = itemType;
 		this.Power = power;
 		this.Durability = durability;
 		this.Description = description;

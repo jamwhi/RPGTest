@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour {
 	public GameObject inventorySlot;
     public GameObject inventoryItem;
 	public List<GameObject> slots = new List<GameObject>();
+    public ItemData itemOnMouse;
 
 	void Start () {
 
@@ -34,16 +35,21 @@ public class Inventory : MonoBehaviour {
 		AddItem(1);
 		AddItem(0);
         AddItem(3);
-	}
+        AddItem(4);
+        AddItem(5);
+        AddItem(5);
+        AddItem(5);
+        AddItem(5);
+    }
 
 // Attempt to add an item to the inventory
-	public void AddItem(int id){
+	public void AddItem(int id) {
 
 		int ind;
-		Item itemToAdd = database.FetchItemByID(id);
+        Item itemToAdd = database.FetchItemByID(id);
 
         // If the item ID is invalid
-		if (itemToAdd.ID == -1){
+        if (itemToAdd.ID == -1){
 			return;
 		}
 
@@ -60,9 +66,9 @@ public class Inventory : MonoBehaviour {
             Slot currSlot = slots[i].GetComponent<Slot>();
 			if (currSlot.itemId < 0){
                 GameObject itemObj = Instantiate(inventoryItem);
-				ItemData itemData = itemObj.GetComponent<ItemData>();
-				itemData.item = itemToAdd;
-				itemData.slot = i;
+                ItemData data = itemObj.GetComponent<ItemData>();
+                data.item = itemToAdd;
+				data.slot = i;
 				itemObj.transform.SetParent(slots[i].transform);
 				itemObj.transform.position = Vector2.zero;
 				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
@@ -73,6 +79,36 @@ public class Inventory : MonoBehaviour {
 		}
         return;
 	}
+
+  /*  public GameObject CreateItem() {
+     
+        GameObject itemObj = Instantiate(inventoryItem);
+        ItemData itemData = itemObj.GetComponent<ItemData>();
+
+        return itemObj;
+    }
+    */
+
+    public void CreateItemFromStack(int id, int amount) {
+
+        GameObject itemObj = Instantiate(inventoryItem);
+        ItemData itemData = itemObj.GetComponent<ItemData>();
+        Item item = database.FetchItemByID(id);
+
+        itemData.amount = amount;
+        itemData.item = item;
+
+        itemObj.transform.SetParent(this.transform);
+        itemObj.GetComponent<Image>().sprite = item.Sprite;
+        itemObj.name = item.Title;
+        itemData.onMouse = true;
+        itemOnMouse = itemData;
+        itemObj.transform.GetChild(0).GetComponent<Text>().text = amount.ToString();
+        itemData.AttachToMouse();
+
+        return;
+
+    }
 
 // Search inventory for an item, return index.
 	public int SearchInventory(Item item){

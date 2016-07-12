@@ -1,0 +1,16 @@
+Item Notes:
+
+charSlot represents the slot on the character the item is used in:
+	1 - Head
+	2 - Chest
+	3 - Feet
+	4 - Mainhand
+	5 - Offhand (also Ammunition goes here)
+	6 - Useable item
+	- potentialy more slots here for useable items
+	
+Rarities:
+	1 - common
+	2 - uncommon
+	3 - rare
+	4 - epic

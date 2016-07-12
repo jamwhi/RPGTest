@@ -3,12 +3,14 @@
 		"id": 0,
 		"title": "Steel Sword",
 		"val": 10,
+		"charSlot": 4,
+		"itemType": "Weapon",
 		"stats": {
 			"power": 5,
 			"durability": 8
 		},
 		"description": "A well crafted steel sword.",
-		"stackable": true,
+		"stackable": false,
 		"rarity": 2,
 		"slug": "sword"
 	},
@@ -16,39 +18,75 @@
 		"id": 1,
 		"title": "Wooden Bow",
 		"val": 8,
+		"charSlot": 4,
+		"itemType": "Weapon",
 		"stats": {
 			"power": 3,
 			"durability": 5
 		},
 		"description": "A wooden bow, for shooting arrows.",
 		"stackable": false,
-		"rarity": 1,
+		"rarity": 3,
 		"slug": "bow"
 	},
 	{
 		"id": 2,
 		"title": "Magic Wand",
 		"val": 14,
+		"charSlot": 4,
+		"itemType": "Weapon",
 		"stats": {
 			"power": 8,
 			"durability": 2
 		},
 		"description": "A wand bursting with arcane energy.",
 		"stackable": false,
-		"rarity": 3,
+		"rarity": 4,
 		"slug": "wand"
 	},
 	{
 		"id": 3,
 		"title": "Iron Helmet",
 		"val": 12,
+		"charSlot": 1,
+		"itemType": "Armor",
 		"stats": {
-			"power": 2,
+			"power": 4,
 			"durability": 11
 		},
 		"description": "A helmet, useful for protecting your head.",
 		"stackable": false,
 		"rarity": 2,
 		"slug": "helmet"
+	},
+	{
+		"id": 4,
+		"title": "Iron Breastplate",
+		"val": 22,
+		"charSlot": 2,
+		"itemType": "Armor",
+		"stats": {
+			"power": 10,
+			"durability": 18
+		},
+		"description": "A breasplate. This covers the torso with solid iron. Useful.",
+		"stackable": false,
+		"rarity": 3,
+		"slug": "armor"
+	},
+	{
+		"id": 5,
+		"title": "Health Potion",
+		"val": 5,
+		"charSlot": 6,
+		"itemType": "Useable",
+		"stats": {
+			"power": 20,
+			"durability": 1
+		},
+		"description": "A health potion. Use before dying to not die for longer.",
+		"stackable": true,
+		"rarity": 1,
+		"slug": "bottle"
 	}
 ]
