@@ -39,6 +39,7 @@ public class ItemDatabase : MonoBehaviour {
 				(int)itemsInDatabase[i]["stats"]["durability"],
                 itemsInDatabase[i]["description"].ToString(),
 				(bool)itemsInDatabase[i]["stackable"],
+                (int)itemsInDatabase[i]["maxStack"],
 				(int)itemsInDatabase[i]["rarity"],
                 itemsInDatabase[i]["slug"].ToString()
 				));

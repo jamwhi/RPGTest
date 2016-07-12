@@ -21,6 +21,7 @@ public class Slot : MonoBehaviour,
 
     // Triggers when a drag ends over this slot
 	public void OnDrop(PointerEventData eventData){
+        Debug.Log("slot drop ID: " + slotId.ToString());
         mouseControl.DropItemToSlot(this);
     }
 

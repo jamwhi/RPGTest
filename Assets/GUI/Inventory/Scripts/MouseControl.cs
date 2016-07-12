@@ -76,6 +76,11 @@ public class MouseControl : MonoBehaviour {
             }
             // If the slot is not empty 
             else {
+                Debug.Log("ID on mouse: " + itemDataOnMouse.item.ID.ToString() + "ID in slot: " + intoSlot.slotItemData.item.ID);
+                if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == intoSlot.slotItemData.item.ID) ) {
+                    Debug.Log("got to here.");
+                    CombineItems(itemDataOnMouse, intoSlot.slotItemData);
+                }
                 GameObject tempItem = intoSlot.slotItemData.gameObject;
                 Slot prevSlot = itemDataOnMouse.slot;
                 itemDataOnMouse.slot = intoSlot;
@@ -84,6 +89,16 @@ public class MouseControl : MonoBehaviour {
                 AttachItemToSlot(tempItem, prevSlot);
             }
         }
+    }
+
+    public void CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
+
+        int totalAmount = itemFromMouse.amount + itemInSlot.amount;
+        if (totalAmount <= itemInSlot.item.MaxStack) {
+            Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
+            itemInSlot.amount = totalAmount;
+        }
+
     }
 
     public void ClickOnItem(ItemData clickedItem, Vector2 pos) {
