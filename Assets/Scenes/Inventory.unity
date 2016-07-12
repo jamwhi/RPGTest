@@ -602,7 +602,6 @@ MonoBehaviour:
   inventorySlot: {fileID: 140924, guid: 2014e150959b21d4ab922565148922a2, type: 2}
   inventoryItem: {fileID: 161532, guid: a94152349010e43408cbb3d3d8c9b1a6, type: 2}
   slots: []
-  itemOnMouse: {fileID: 0}
 --- !u!114 &632352030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +640,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventory: {fileID: 632352029}
+  mouseController: {fileID: 632352033}
   stack: {fileID: 1058490801}
   stackAmount: {fileID: 520937772}
   stackSlider: {fileID: 2144642169}
@@ -663,7 +663,6 @@ MonoBehaviour:
   stack: {fileID: 632352032}
   itemObjOnMouse: {fileID: 0}
   itemDataOnMouse: {fileID: 0}
-  dropSlot: {fileID: 0}
 --- !u!1 &776010837
 GameObject:
   m_ObjectHideFlags: 0
