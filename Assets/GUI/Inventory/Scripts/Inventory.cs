@@ -42,6 +42,10 @@ public class Inventory : MonoBehaviour {
         AddItem(5);
         AddItem(5);
         AddItem(5);
+        AddItem(5);
+        AddItem(5);
+        AddItem(5);
+        AddItem(5);
     }
 
 // Attempt to add an item to the inventory
@@ -114,7 +118,7 @@ public class Inventory : MonoBehaviour {
             ItemData slotDataToCheck = slots[i].GetComponent<Slot>().slotItemData;
 			if ( (slotDataToCheck != null) 
                 && (slotDataToCheck.item.ID == item.ID)
-                && (slotDataToCheck.amount < 20)) {
+                && (slotDataToCheck.amount < item.MaxStack)) {
                 return i;
 			}
 		}

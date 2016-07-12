@@ -61,10 +61,15 @@ public class MouseControl : MonoBehaviour {
 
     public void DropItemToSlot(Slot intoSlot) {
 
+        // IF no item on mouse during drop (shouldn't occur)
         if (!itemObjOnMouse) {
             Debug.Log("Attempted to drop item in slot, but no item on mouse");
         } 
-        // Drop item
+        // IF item is dropped into its own slot
+        else if (intoSlot.slotItemData == itemDataOnMouse) {
+            return;
+        }
+        // ELSE handle swap
         else {
             // If the slot is empty
             if (!intoSlot.slotItemData) {
@@ -76,45 +81,67 @@ public class MouseControl : MonoBehaviour {
             }
             // If the slot is not empty 
             else {
-                Debug.Log("ID on mouse: " + itemDataOnMouse.item.ID.ToString() + "ID in slot: " + intoSlot.slotItemData.item.ID);
+                bool combineTest = true;
                 if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == intoSlot.slotItemData.item.ID) ) {
-                    Debug.Log("got to here.");
-                    CombineItems(itemDataOnMouse, intoSlot.slotItemData);
+                    combineTest = CombineItems(itemDataOnMouse, intoSlot.slotItemData);
                 }
-                GameObject tempItem = intoSlot.slotItemData.gameObject;
-                Slot prevSlot = itemDataOnMouse.slot;
-                itemDataOnMouse.slot = intoSlot;
-                tempItem.GetComponent<ItemData>().slot = prevSlot;
-                AttachItemToSlot(itemObjOnMouse, intoSlot);
-                AttachItemToSlot(tempItem, prevSlot);
+                if (combineTest) {
+                    GameObject tempItem = intoSlot.slotItemData.gameObject;
+                    Slot prevSlot = itemDataOnMouse.slot;
+                    itemDataOnMouse.slot = intoSlot;
+                    tempItem.GetComponent<ItemData>().slot = prevSlot;
+                    AttachItemToSlot(itemObjOnMouse, intoSlot);
+                    AttachItemToSlot(tempItem, prevSlot);
+                }
             }
         }
     }
 
-    public void CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
+    public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
 
         int totalAmount = itemFromMouse.amount + itemInSlot.amount;
-        if (totalAmount <= itemInSlot.item.MaxStack) {
-            Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
-            itemInSlot.amount = totalAmount;
+        Debug.Log("Total Amount: " + totalAmount.ToString() + " Max Stack: " + itemInSlot.item.MaxStack.ToString());
+        if (itemInSlot.amount == itemInSlot.item.MaxStack) {
+            return true;
         }
+        else if (totalAmount <= itemInSlot.item.MaxStack) {
+            Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
+            itemInSlot.SetAmount(totalAmount);
+            Destroy(itemObjOnMouse);
+            itemObjOnMouse = null;
+            itemDataOnMouse = null;
+            return false;
+        }
+        else if (totalAmount > itemInSlot.item.MaxStack) {
+            itemInSlot.SetAmount(itemInSlot.item.MaxStack);
+            itemDataOnMouse.SetAmount(totalAmount - itemInSlot.amount);
+            return false;
+        }
+
+        Debug.Log("Error: End of CombineItems function reached");
+        return true;
 
     }
 
     public void ClickOnItem(ItemData clickedItem, Vector2 pos) {
 
-        if (Input.GetKey(KeyCode.LeftShift) && (clickedItem.amount > 1)) {
+        if (Input.GetKey(KeyCode.LeftShift)
+            && (clickedItem.amount > 1)
+            && !stack.isActive) {
             stack.Activate(clickedItem, pos);                 
         }
         else if(itemObjOnMouse == null) {
             AttachItemToMouse(clickedItem.gameObject);
         }
         else if(itemObjOnMouse != null) {
-            Slot tempSlot = itemDataOnMouse.slot;
-            itemDataOnMouse.slot = clickedItem.slot;
-            clickedItem.slot = tempSlot;
-            AttachItemToSlot(itemObjOnMouse, itemDataOnMouse.slot);
-            AttachItemToMouse(clickedItem.gameObject);
+            bool combineTest = CombineItems(itemDataOnMouse, clickedItem);
+            if (combineTest) {
+                Slot tempSlot = itemDataOnMouse.slot;
+                itemDataOnMouse.slot = clickedItem.slot;
+                clickedItem.slot = tempSlot;
+                AttachItemToSlot(itemObjOnMouse, itemDataOnMouse.slot);
+                AttachItemToMouse(clickedItem.gameObject);
+            }
         }
     }
 
