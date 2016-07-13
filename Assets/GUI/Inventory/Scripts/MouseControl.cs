@@ -25,6 +25,10 @@ public class MouseControl : MonoBehaviour {
     // Attach an item to the mouse
     public void AttachItemToMouse(GameObject item) {
 
+        if (item == null) {
+            itemObjOnMouse = null;
+            itemDataOnMouse = null;
+        }
         if(itemObjOnMouse != null) {
             ItemData newItemData = item.GetComponent<ItemData>();
             Slot tempSlot = newItemData.slot;
@@ -59,15 +63,16 @@ public class MouseControl : MonoBehaviour {
         }
     }
 
-    public void DropItemToSlot(Slot intoSlot) {
+    public GameObject DropItemToSlot(Slot intoSlot) {
 
         // IF no item on mouse during drop (shouldn't occur)
         if (!itemObjOnMouse) {
             Debug.Log("Attempted to drop item in slot, but no item on mouse");
+            return null;
         } 
         // IF item is dropped into its own slot
         else if (intoSlot.slotItemData == itemDataOnMouse) {
-            return;
+            return null;
         }
         // ELSE handle swap
         else {
@@ -78,12 +83,14 @@ public class MouseControl : MonoBehaviour {
                     itemDataOnMouse.slot.slotItemData = null;
                 }              
                 AttachItemToSlot(itemObjOnMouse, intoSlot);
+                return null;
             }
             // If the slot is not empty 
             else {
                 bool combineTest = true;
                 if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == intoSlot.slotItemData.item.ID) ) {
                     combineTest = CombineItems(itemDataOnMouse, intoSlot.slotItemData);
+                    return null;
                 }
                 if (combineTest) {
                     GameObject tempItem = intoSlot.slotItemData.gameObject;
@@ -92,15 +99,28 @@ public class MouseControl : MonoBehaviour {
                     tempItem.GetComponent<ItemData>().slot = prevSlot;
                     AttachItemToSlot(itemObjOnMouse, intoSlot);
                     AttachItemToSlot(tempItem, prevSlot);
+                    return tempItem;
                 }
             }
         }
+        return null;
     }
+
+    /*
+    public void SwapTwoItems(GameObject itemOne, GameObject itemTwo) {
+
+        ItemData itemOneData = itemOne.GetComponent<ItemData>();
+        ItemData itemTwoData = itemTwo.GetComponent<ItemData>();
+        ItemData tempData = itemOneData;
+        itemOneData = itemTwoData;
+        itemTwoData = tempData;
+    }
+    */
 
     public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
 
         int totalAmount = itemFromMouse.amount + itemInSlot.amount;
-        Debug.Log("Total Amount: " + totalAmount.ToString() + " Max Stack: " + itemInSlot.item.MaxStack.ToString());
+        
         if (itemInSlot.amount == itemInSlot.item.MaxStack) {
             return true;
         }
@@ -128,13 +148,16 @@ public class MouseControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftShift)
             && (clickedItem.amount > 1)
             && !stack.isActive) {
-            stack.Activate(clickedItem, pos);                 
-        }
-        else if(itemObjOnMouse == null) {
+            stack.Activate(clickedItem, pos);
+        } 
+        else if (itemObjOnMouse == null) {
             AttachItemToMouse(clickedItem.gameObject);
-        }
-        else if(itemObjOnMouse != null) {
-            bool combineTest = CombineItems(itemDataOnMouse, clickedItem);
+        } 
+        else if (itemObjOnMouse != null) {
+            bool combineTest = true;
+            if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == clickedItem.item.ID)) {
+                combineTest = CombineItems(itemDataOnMouse, clickedItem);
+            }
             if (combineTest) {
                 Slot tempSlot = itemDataOnMouse.slot;
                 itemDataOnMouse.slot = clickedItem.slot;

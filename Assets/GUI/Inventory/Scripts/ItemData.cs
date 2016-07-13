@@ -15,22 +15,27 @@ public class ItemData : MonoBehaviour,
 	
 	public int amount = 1;
     public Slot slot = null;
-    public bool onMouse = false;
 
     public Item item;
     public MouseControl mouseControl;
 
-    private GameObject inventory;
-	private Inventory inv;
+    private GameObject inv;
+	private Inventory inventory;
     private Stack stack;
+    private AudioSource invAudio;
+    private AudioClip itemUp;
+    private AudioClip itemDown;
 
 
-	void Awake() {
+    void Awake() {
 
-        inventory = GameObject.FindWithTag("InventoryPanel");
-		inv = inventory.GetComponent<Inventory>();
+        inv = GameObject.FindWithTag("InventoryPanel");
+        inventory = inv.GetComponent<Inventory>();
         mouseControl = inv.GetComponent<MouseControl>();
-        stack = inventory.GetComponent<Stack>();
+        stack = inv.GetComponent<Stack>();
+        invAudio = inv.GetComponent<AudioSource>();
+        itemUp = Resources.Load("Sound/ItemUp") as AudioClip;
+        itemDown = Resources.Load("Sound/ItemDown") as AudioClip;
     }
 
     void Update() {
@@ -47,7 +52,8 @@ public class ItemData : MonoBehaviour,
     // Begin
     public void OnBeginDrag(PointerEventData eventData) {
 
-            mouseControl.AttachItemToMouse(this.gameObject);
+        mouseControl.AttachItemToMouse(this.gameObject);
+        invAudio.PlayOneShot(itemUp);
 	}
 
     // During
@@ -61,14 +67,14 @@ public class ItemData : MonoBehaviour,
         // Maybe there is a better way.
         if (this.slot != null) {
             mouseControl.AttachItemToSlot(this.gameObject, slot);
+            invAudio.PlayOneShot(itemDown);
         } 
 	}
 
     // ----------------End Drag Handling-----------------------
 
-    // Tooltip on hover 
+    // ------------------Tooltip handing-----------------------
     public void OnPointerEnter(PointerEventData eventData) {
-
         if (!stack.isActive) {
             mouseControl.ActivateTooltip(item, eventData.position);
         }
@@ -77,15 +83,14 @@ public class ItemData : MonoBehaviour,
     public void OnPointerExit(PointerEventData eventData) {
         mouseControl.DeactivateTooltip();
     }
+    // ---------------End Tooltip handing----------------------
 
 
 
     // Single Click (left click to attach item to mouse, shift click to open stack)
     public void OnPointerClick(PointerEventData eventData) {
-
-        Debug.Log("Clicked On: " + this.item.Title);
         mouseControl.ClickOnItem(this, eventData.position);
-
+        invAudio.PlayOneShot(itemUp);
     }
 
 }

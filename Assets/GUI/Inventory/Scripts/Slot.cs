@@ -13,20 +13,24 @@ public class Slot : MonoBehaviour,
     public MouseControl mouseControl;
 
     private Inventory inventory;
+    private AudioSource invAudio;
+    private AudioClip itemDown;
 
-	void Awake(){
+    void Awake(){
 		inventory = GameObject.FindWithTag("InventoryPanel").GetComponent<Inventory>();
         mouseControl = inventory.GetComponent<MouseControl>();
+        invAudio = inventory.GetComponent<AudioSource>();
+        itemDown = Resources.Load("Sound/ItemDown") as AudioClip;
     }
 
     // Triggers when a drag ends over this slot
 	public void OnDrop(PointerEventData eventData){
-        Debug.Log("slot drop ID: " + slotId.ToString());
         mouseControl.DropItemToSlot(this);
     }
 
     public void OnPointerClick(PointerEventData eventData) {
         mouseControl.ClickOnSlot(this);
+        invAudio.PlayOneShot(itemDown);
     }
     /*
 public void OnPointerClick(PointerEventData eventData) {
