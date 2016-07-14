@@ -17,23 +17,22 @@ public class ItemData : MonoBehaviour,
     public Slot slot = null;
 
     public Item item;
-    public MouseControl mouseControl;
+    public MouseController mouseControl;
 
-    private GameObject inv;
-	private Inventory inventory;
+	//private Inventory inventory;
     private Stack stack;
-    private AudioSource invAudio;
+    private AudioSource audioControl;
     private AudioClip itemUp;
     private AudioClip itemDown;
 
-
     void Awake() {
 
-        inv = GameObject.FindWithTag("InventoryPanel");
-        inventory = inv.GetComponent<Inventory>();
-        mouseControl = inv.GetComponent<MouseControl>();
+        GameObject inv = GameObject.FindWithTag("InventoryPanel");
+        GameObject UI = GameObject.FindWithTag("UI");
+        //inventory = inv.GetComponent<Inventory>();
+        mouseControl = UI.GetComponent<MouseController>();
+        audioControl = UI.GetComponent<AudioSource>();
         stack = inv.GetComponent<Stack>();
-        invAudio = inv.GetComponent<AudioSource>();
         itemUp = Resources.Load("Sound/ItemUp") as AudioClip;
         itemDown = Resources.Load("Sound/ItemDown") as AudioClip;
     }
@@ -53,7 +52,7 @@ public class ItemData : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData) {
 
         mouseControl.AttachItemToMouse(this.gameObject);
-        invAudio.PlayOneShot(itemUp);
+        audioControl.PlayOneShot(itemUp);
 	}
 
     // During
@@ -67,7 +66,7 @@ public class ItemData : MonoBehaviour,
         // Maybe there is a better way.
         if (this.slot != null) {
             mouseControl.AttachItemToSlot(this.gameObject, slot);
-            invAudio.PlayOneShot(itemDown);
+            audioControl.PlayOneShot(itemDown);
         } 
 	}
 
@@ -90,7 +89,7 @@ public class ItemData : MonoBehaviour,
     // Single Click (left click to attach item to mouse, shift click to open stack)
     public void OnPointerClick(PointerEventData eventData) {
         mouseControl.ClickOnItem(this, eventData.position);
-        invAudio.PlayOneShot(itemUp);
+        audioControl.PlayOneShot(itemUp);
     }
 
 }

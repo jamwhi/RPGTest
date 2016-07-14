@@ -5,29 +5,24 @@ using System.Collections.Generic;
 
 public class Inventory : MonoBehaviour {
 
-	private ItemDatabase database;
-	private Transform slotPanel;
-	private int slotAmount;
-
-	public GameObject inventorySlot;
+    public ItemDatabase database;
+    public GameObject inventorySlot;
     public GameObject inventoryItem;
+    public Text goldDisplay;
+    public Transform slotPanel;
+    public int slotAmount;
+    public int goldAmount;
+
 	public List<GameObject> slots = new List<GameObject>();
-
-	void Start () {
-
-        // Load database, define total number of slots
-		database = GetComponent<ItemDatabase>();
-		slotAmount = 20;
-		slotPanel = transform.Find("SlotPanel"); // Returns a Transform
-
+    
+	protected virtual void Start () {
         // Add slots
 		for(int i = 0; i < slotAmount; i++){
             GameObject newSlot = Instantiate(inventorySlot);
-            Slot newSlotData = newSlot.GetComponent<Slot>();
+            Slot newSlotObject = newSlot.GetComponent<Slot>();
 			newSlot.transform.SetParent(slotPanel);
 			newSlot.name = "Slot " + i.ToString();
-            newSlotData.slotItemData = null;
-            newSlotData.slotId = i;
+            newSlotObject.slotID = i;
             slots.Add(newSlot);
         }
 
@@ -49,9 +44,9 @@ public class Inventory : MonoBehaviour {
     }
 
 // Attempt to add an item to the inventory
-	public void AddItem(int id) {
+	public virtual void AddItem(int id) {
 
-		int ind;
+        int ind;
         Item itemToAdd = database.FetchItemByID(id);
 
         // If the item ID is invalid
@@ -69,8 +64,8 @@ public class Inventory : MonoBehaviour {
 
         // Add new item to inventory
 		for(int i = 0; i < slotAmount; i++){
-            Slot currSlot = slots[i].GetComponent<Slot>();
-			if (!currSlot.slotItemData){
+            InventorySlot currSlot = slots[i].GetComponent<InventorySlot>();
+			if (currSlot.item == null){
                 GameObject itemObj = Instantiate(inventoryItem);
                 ItemData data = itemObj.GetComponent<ItemData>();
                 data.item = itemToAdd;
@@ -79,43 +74,33 @@ public class Inventory : MonoBehaviour {
 				itemObj.transform.position = Vector2.zero;
 				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
 				itemObj.name = itemToAdd.Title;
-                currSlot.slotItemData = data;
+                currSlot.item = data;
                 return;
 			}
 		}
         return;
 	}
-
-  /*  public GameObject CreateItem() {
-     
-        GameObject itemObj = Instantiate(inventoryItem);
-        ItemData itemData = itemObj.GetComponent<ItemData>();
-
-        return itemObj;
-    }
-    */
  
-    public GameObject CreateItemFromStack(int id, int amount) {
+    public virtual GameObject CreateItemFromStack(int id, int amount) {
 
         GameObject itemObj = Instantiate(inventoryItem);
         ItemData itemData = itemObj.GetComponent<ItemData>();
         Item item = database.FetchItemByID(id);
 
         itemData.item = item;
-        itemData.SetAmount(amount);    
+        itemData.SetAmount(amount);
         itemObj.GetComponent<Image>().sprite = item.Sprite;
         itemObj.name = item.Title;
 
         return itemObj;
-
     }
     
 
 // Search inventory for an item, return index.
-	public int SearchInventory(Item item){
+	public virtual int SearchInventory(Item item){
 
 		for( int i = 0; i < slotAmount; i++){
-            ItemData slotDataToCheck = slots[i].GetComponent<Slot>().slotItemData;
+            ItemData slotDataToCheck = slots[i].GetComponent<InventorySlot>().item;
 			if ( (slotDataToCheck != null) 
                 && (slotDataToCheck.item.ID == item.ID)
                 && (slotDataToCheck.amount < item.MaxStack)) {

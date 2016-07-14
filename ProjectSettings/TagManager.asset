@@ -7,6 +7,9 @@ TagManager:
   - InventorySlots
   - InventoryPanel
   - InventoryStack
+  - InventoryTooltip
+  - MenuPanel
+  - UI
   layers:
   - Default
   - TransparentFX

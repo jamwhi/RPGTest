@@ -2,17 +2,13 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class MouseControl : MonoBehaviour {
+public class MouseController : MonoBehaviour {
 
     public Inventory inventory;
     public Tooltip tooltip;
     public Stack stack;
     public GameObject itemObjOnMouse;
     public ItemData itemDataOnMouse;
-
-    void Awake() {
-
-    }
 
     void Update() {
 
@@ -30,12 +26,12 @@ public class MouseControl : MonoBehaviour {
             itemDataOnMouse = null;
         }
         if(itemObjOnMouse != null) {
-            ItemData newItemData = item.GetComponent<ItemData>();
-            Slot tempSlot = newItemData.slot;
-            newItemData.slot = itemDataOnMouse.slot;
+            ItemData tempItemData = item.GetComponent<ItemData>();
+            Slot tempSlot = tempItemData.slot;
+            tempItemData.slot = itemDataOnMouse.slot;
             AttachItemToSlot(itemObjOnMouse, tempSlot);
             itemObjOnMouse = item;
-            itemDataOnMouse = newItemData;
+            itemDataOnMouse = tempItemData;
         } 
         else {
             itemObjOnMouse = item;
@@ -43,7 +39,7 @@ public class MouseControl : MonoBehaviour {
         }
         // Set intial movement states
         itemObjOnMouse.GetComponent<CanvasGroup>().blocksRaycasts = false;
-        itemObjOnMouse.transform.SetParent(inventory.transform);
+        itemObjOnMouse.transform.SetParent(this.transform);
         itemObjOnMouse.transform.position = Input.mousePosition;
     }
 
@@ -54,7 +50,7 @@ public class MouseControl : MonoBehaviour {
         } 
         else {
             item.GetComponent<ItemData>().slot = intoSlot;
-            intoSlot.slotItemData = item.GetComponent<ItemData>();
+            intoSlot.item = item.GetComponent<ItemData>();
             item.transform.SetParent(intoSlot.transform);
             item.transform.localPosition = new Vector3(32, -32, 0);
             item.GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -63,59 +59,58 @@ public class MouseControl : MonoBehaviour {
         }
     }
 
-    public GameObject DropItemToSlot(Slot intoSlot) {
+    public void DropItemToSlot<T>(T intoSlot)
+        where T : Slot {
 
+        Debug.Log(intoSlot.GetType().Name);
         // IF no item on mouse during drop (shouldn't occur)
         if (!itemObjOnMouse) {
             Debug.Log("Attempted to drop item in slot, but no item on mouse");
-            return null;
         } 
         // IF item is dropped into its own slot
-        else if (intoSlot.slotItemData == itemDataOnMouse) {
-            return null;
+        else if (intoSlot.item == itemDataOnMouse) {
         }
         // ELSE handle swap
-        else {
-            // If the slot is empty
-            if (!intoSlot.slotItemData) {
-                // If the item had a previous slot
-                if (itemDataOnMouse.slot != null) {
-                    itemDataOnMouse.slot.slotItemData = null;
-                }              
-                AttachItemToSlot(itemObjOnMouse, intoSlot);
-                return null;
+        else if (intoSlot is InventorySlot){
+            DropOntoInventory(intoSlot as InventorySlot);
+        }
+        else if (intoSlot is ShopSlot) {
+            DropOntoShop(intoSlot as ShopSlot);
+        }
+    }
+
+    public void DropOntoInventory(InventorySlot intoSlot) {
+
+        // If the slot is empty
+        if (!intoSlot.item) {
+            // If the item had a previous slot
+            if (itemDataOnMouse.slot != null) {
+                itemDataOnMouse.slot.item = null;
             }
-            // If the slot is not empty 
-            else {
-                bool combineTest = true;
-                if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == intoSlot.slotItemData.item.ID) ) {
-                    combineTest = CombineItems(itemDataOnMouse, intoSlot.slotItemData);
-                    return null;
-                }
-                if (combineTest) {
-                    GameObject tempItem = intoSlot.slotItemData.gameObject;
-                    Slot prevSlot = itemDataOnMouse.slot;
-                    itemDataOnMouse.slot = intoSlot;
-                    tempItem.GetComponent<ItemData>().slot = prevSlot;
-                    AttachItemToSlot(itemObjOnMouse, intoSlot);
-                    AttachItemToSlot(tempItem, prevSlot);
-                    return tempItem;
-                }
+            AttachItemToSlot(itemObjOnMouse, intoSlot);
+        }
+        // If the slot is not empty 
+        else {
+            bool combineTest = true;
+            if (itemDataOnMouse.item.Stackable && (itemDataOnMouse.item.ID == intoSlot.item.item.ID)) {
+                combineTest = CombineItems(itemDataOnMouse, intoSlot.item);
+            }
+            if (combineTest) {
+                GameObject tempItem = intoSlot.item.gameObject;
+                Slot prevSlot = itemDataOnMouse.slot;
+                itemDataOnMouse.slot = intoSlot;
+                tempItem.GetComponent<ItemData>().slot = prevSlot;
+                AttachItemToSlot(itemObjOnMouse, intoSlot);
+                AttachItemToSlot(tempItem, prevSlot);
             }
         }
-        return null;
+
     }
 
-    /*
-    public void SwapTwoItems(GameObject itemOne, GameObject itemTwo) {
-
-        ItemData itemOneData = itemOne.GetComponent<ItemData>();
-        ItemData itemTwoData = itemTwo.GetComponent<ItemData>();
-        ItemData tempData = itemOneData;
-        itemOneData = itemTwoData;
-        itemTwoData = tempData;
+    public void DropOntoShop(ShopSlot intoSlot) {
+        inventory.goldAmount += itemDataOnMouse.item.Value;
+        inventory.goldDisplay.text = inventory.goldAmount.ToString();
     }
-    */
 
     public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
 
@@ -169,8 +164,12 @@ public class MouseControl : MonoBehaviour {
     }
 
     public void ClickOnSlot(Slot clickedSlot) {
+
         if (itemObjOnMouse != null) {
-            AttachItemToSlot(itemObjOnMouse, clickedSlot);
+            if (itemDataOnMouse.slot != null) {
+                itemDataOnMouse.slot.item = null;
+            }
+            AttachItemToSlot(itemObjOnMouse, clickedSlot);          
         }
     }
 

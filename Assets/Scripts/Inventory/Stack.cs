@@ -7,11 +7,13 @@ public class Stack : MonoBehaviour {
     //private InputField amountText;
 
     public Inventory inventory;
-    public MouseControl mouseController;
+    public MouseController mouseController;
     public GameObject stack;
     public InputField stackAmount;
     public Slider stackSlider;
     public ItemData itemToSeperate;
+    public AudioSource audioControl;
+    public AudioClip menuSound;
     public bool isActive = false;
     public int maxStack = 20;
 
@@ -34,6 +36,7 @@ public class Stack : MonoBehaviour {
 
     // Cancel button callback
     public void StackCancel() {
+        audioControl.PlayOneShot(menuSound);
         stack.SetActive(false);
         isActive = false;
     }
@@ -50,6 +53,7 @@ public class Stack : MonoBehaviour {
             mouseController.AttachItemToMouse(newItems); 
         }
 
+        audioControl.PlayOneShot(menuSound);
         stack.SetActive(false);
         isActive = false;
     }
