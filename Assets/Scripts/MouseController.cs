@@ -11,7 +11,6 @@ public class MouseController : MonoBehaviour {
     public ItemData itemDataOnMouse;
 
     void Update() {
-
         // If an item is on the mouse, move its position.
         if (itemObjOnMouse != null) {
             itemObjOnMouse.transform.position = Input.mousePosition;
@@ -59,8 +58,7 @@ public class MouseController : MonoBehaviour {
         }
     }
 
-    public void DropItemToSlot<T>(T intoSlot)
-        where T : Slot {
+    public void DropItemToSlot(Slot intoSlot) {
 
         Debug.Log(intoSlot.GetType().Name);
         // IF no item on mouse during drop (shouldn't occur)
@@ -71,16 +69,12 @@ public class MouseController : MonoBehaviour {
         else if (intoSlot.item == itemDataOnMouse) {
         }
         // ELSE handle swap
-        else if (intoSlot is InventorySlot){
-            DropOntoInventory(intoSlot as InventorySlot);
-        }
-        else if (intoSlot is ShopSlot) {
-            DropOntoShop(intoSlot as ShopSlot);
+        else {
+            DropOntoInventory(intoSlot);
         }
     }
 
-    public void DropOntoInventory(InventorySlot intoSlot) {
-
+    public void DropOntoInventory(Slot intoSlot) {
         // If the slot is empty
         if (!intoSlot.item) {
             // If the item had a previous slot
@@ -104,10 +98,9 @@ public class MouseController : MonoBehaviour {
                 AttachItemToSlot(tempItem, prevSlot);
             }
         }
-
     }
 
-    public void DropOntoShop(ShopSlot intoSlot) {
+    public void DropOntoShop(Slot intoSlot) {
         inventory.goldAmount += itemDataOnMouse.item.Value;
         inventory.goldDisplay.text = inventory.goldAmount.ToString();
     }
@@ -142,7 +135,8 @@ public class MouseController : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.LeftShift)
             && (clickedItem.amount > 1)
-            && !stack.isActive) {
+            && !stack.isActive
+            && itemObjOnMouse == null) {
             stack.Activate(clickedItem, pos);
         } 
         else if (itemObjOnMouse == null) {

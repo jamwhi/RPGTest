@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 
-public abstract class Slot : MonoBehaviour,
+public class Slot : MonoBehaviour,
     IDropHandler, 
     IPointerClickHandler {
 
@@ -14,21 +14,21 @@ public abstract class Slot : MonoBehaviour,
     public AudioClip itemDown;
 
 	// Use this for initialization
-	protected virtual void Awake () {
+	protected void Awake () {
         this.item = null;
         GameObject UI = GameObject.FindWithTag("UI");
         mouseController = UI.GetComponent<MouseController>();
         audioSource = UI.GetComponent<AudioSource>();
     }
 
-    public virtual void OnPointerClick(PointerEventData eventData) {
+    public void OnPointerClick(PointerEventData eventData) {
         mouseController.ClickOnSlot(this);
         audioSource.PlayOneShot(itemDown);
     }
 
-    public virtual void OnDrop(PointerEventData eventData) {
+    public void OnDrop(PointerEventData eventData) {
         if (mouseController.itemObjOnMouse != null) {
-            mouseController.DropItemToSlot<Slot>(this);
+            mouseController.DropItemToSlot(this);
         }
     }
 

@@ -85,7 +85,6 @@ public class ItemData : MonoBehaviour,
     // ---------------End Tooltip handing----------------------
 
 
-
     // Single Click (left click to attach item to mouse, shift click to open stack)
     public void OnPointerClick(PointerEventData eventData) {
         mouseControl.ClickOnItem(this, eventData.position);

@@ -12,6 +12,7 @@ public class Inventory : MonoBehaviour {
     public Transform slotPanel;
     public int slotAmount;
     public int goldAmount;
+    public string myType;
 
 	public List<GameObject> slots = new List<GameObject>();
     
@@ -64,7 +65,7 @@ public class Inventory : MonoBehaviour {
 
         // Add new item to inventory
 		for(int i = 0; i < slotAmount; i++){
-            InventorySlot currSlot = slots[i].GetComponent<InventorySlot>();
+            Slot currSlot = slots[i].GetComponent<Slot>();
 			if (currSlot.item == null){
                 GameObject itemObj = Instantiate(inventoryItem);
                 ItemData data = itemObj.GetComponent<ItemData>();
@@ -100,7 +101,7 @@ public class Inventory : MonoBehaviour {
 	public virtual int SearchInventory(Item item){
 
 		for( int i = 0; i < slotAmount; i++){
-            ItemData slotDataToCheck = slots[i].GetComponent<InventorySlot>().item;
+            ItemData slotDataToCheck = slots[i].GetComponent<Slot>().item;
 			if ( (slotDataToCheck != null) 
                 && (slotDataToCheck.item.ID == item.ID)
                 && (slotDataToCheck.amount < item.MaxStack)) {

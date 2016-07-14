@@ -1019,6 +1019,7 @@ MonoBehaviour:
   slotPanel: {fileID: 508726446}
   slotAmount: 20
   goldAmount: 0
+  myType: InventorySlot
   slots: []
 --- !u!114 &632352031
 MonoBehaviour:
@@ -1048,7 +1049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdc7597225e767944bb30f9aa47230d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 0}
+  inventory: {fileID: 632352029}
   mouseController: {fileID: 1340847989}
   stack: {fileID: 1058490801}
   stackAmount: {fileID: 520937772}
@@ -1591,6 +1592,7 @@ MonoBehaviour:
   slotPanel: {fileID: 12408517}
   slotAmount: 16
   goldAmount: 0
+  myType: ShopSlot
   slots: []
 --- !u!1 &994343356
 GameObject:
