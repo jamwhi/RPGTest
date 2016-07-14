@@ -19,7 +19,7 @@ public class ItemData : MonoBehaviour,
     public Item item;
     public MouseController mouseControl;
 
-	//private Inventory inventory;
+	private Inventory invOwner;
     private Stack stack;
     private AudioSource audioControl;
     private AudioClip itemUp;
