@@ -19,12 +19,13 @@ public class Inventory : MonoBehaviour {
 	protected virtual void Start () {
         // Add slots
 		for(int i = 0; i < slotAmount; i++){
-            GameObject newSlot = Instantiate(inventorySlot);
-            Slot newSlotObject = newSlot.GetComponent<Slot>();
-			newSlot.transform.SetParent(slotPanel);
+            GameObject newSlotObject = Instantiate(inventorySlot);
+            Slot newSlot = newSlotObject.GetComponent<Slot>();
+			newSlotObject.transform.SetParent(slotPanel);
+            newSlot.owner = this;
 			newSlot.name = "Slot " + i.ToString();
-            newSlotObject.slotID = i;
-            slots.Add(newSlot);
+            newSlot.slotID = i;
+            slots.Add(newSlotObject);
         }
 
 		AddItem(0);

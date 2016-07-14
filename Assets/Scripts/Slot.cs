@@ -8,6 +8,7 @@ public class Slot : MonoBehaviour,
     IPointerClickHandler {
 
     public int slotID;
+    public Inventory owner;
     public ItemData item;
     public MouseController mouseController;
     public AudioSource audioSource;

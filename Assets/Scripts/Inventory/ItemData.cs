@@ -18,8 +18,8 @@ public class ItemData : MonoBehaviour,
 
     public Item item;
     public MouseController mouseControl;
+	public Inventory owner;
 
-	private Inventory invOwner;
     private Stack stack;
     private AudioSource audioControl;
     private AudioClip itemUp;
@@ -29,7 +29,7 @@ public class ItemData : MonoBehaviour,
 
         GameObject inv = GameObject.FindWithTag("InventoryPanel");
         GameObject UI = GameObject.FindWithTag("UI");
-        //inventory = inv.GetComponent<Inventory>();
+        owner = inv.GetComponent<Inventory>();
         mouseControl = UI.GetComponent<MouseController>();
         audioControl = UI.GetComponent<AudioSource>();
         stack = inv.GetComponent<Stack>();
