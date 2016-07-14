@@ -11,6 +11,7 @@
 		},
 		"description": "A well crafted steel sword.",
 		"stackable": false,
+		"maxStack": 1,
 		"rarity": 2,
 		"slug": "sword"
 	},
@@ -26,6 +27,7 @@
 		},
 		"description": "A wooden bow, for shooting arrows.",
 		"stackable": false,
+		"maxStack": 1,
 		"rarity": 3,
 		"slug": "bow"
 	},
@@ -41,6 +43,7 @@
 		},
 		"description": "A wand bursting with arcane energy.",
 		"stackable": false,
+		"maxStack": 1,
 		"rarity": 4,
 		"slug": "wand"
 	},
@@ -56,6 +59,7 @@
 		},
 		"description": "A helmet, useful for protecting your head.",
 		"stackable": false,
+		"maxStack": 1,
 		"rarity": 2,
 		"slug": "helmet"
 	},
@@ -71,6 +75,7 @@
 		},
 		"description": "A breasplate. This covers the torso with solid iron. Useful.",
 		"stackable": false,
+		"maxStack": 1,
 		"rarity": 3,
 		"slug": "armor"
 	},
@@ -86,6 +91,7 @@
 		},
 		"description": "A health potion. Use before dying to not die for longer.",
 		"stackable": true,
+		"maxStack": 5,
 		"rarity": 1,
 		"slug": "bottle"
 	}

@@ -7,10 +7,13 @@ public class Stack : MonoBehaviour {
     //private InputField amountText;
 
     public Inventory inventory;
+    public MouseController mouseController;
     public GameObject stack;
     public InputField stackAmount;
     public Slider stackSlider;
     public ItemData itemToSeperate;
+    public AudioSource audioControl;
+    public AudioClip menuSound;
     public bool isActive = false;
     public int maxStack = 20;
 
@@ -33,25 +36,28 @@ public class Stack : MonoBehaviour {
 
     // Cancel button callback
     public void StackCancel() {
+        audioControl.PlayOneShot(menuSound);
         stack.SetActive(false);
         isActive = false;
     }
-
+    
     // Confirm button callback
     public void StackConfirm() {
 
         if (stackSlider.value == maxStack) {
-            itemToSeperate.AttachToMouse();
+            mouseController.AttachItemToMouse(itemToSeperate.gameObject);
         }
         else {
-            itemToSeperate.amount -= (int) stackSlider.value;
-            itemToSeperate.transform.GetChild(0).GetComponent<Text>().text = itemToSeperate.amount.ToString();
-            inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            itemToSeperate.SetAmount(itemToSeperate.amount - (int) stackSlider.value);
+            GameObject newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            mouseController.AttachItemToMouse(newItems); 
         }
 
+        audioControl.PlayOneShot(menuSound);
         stack.SetActive(false);
         isActive = false;
     }
+    
 
     // Update the input field text
     public void ChangeStackText(float fromSlider) {
