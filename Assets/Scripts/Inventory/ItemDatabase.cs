@@ -26,6 +26,7 @@ public class ItemDatabase : MonoBehaviour {
 		return new Item();
 	}
 
+
 	private void ConstructItemDatabase() {
 
 		for(int i = 0; i < itemsInDatabase.Count; i++) {

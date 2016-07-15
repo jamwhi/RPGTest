@@ -16,6 +16,12 @@ public class MenuController : MonoBehaviour {
 
     public void InventoryToMenu() {
         DoButtonPress(inventory, menu);
+        shop.SetActive(false);
+    }
+
+    public void ShopButton() {
+        shop.SetActive(!shop.activeSelf);
+        guiAudio.PlayOneShot(menuSound);
     }
 
     public void DoButtonPress(GameObject closed, GameObject opened) {

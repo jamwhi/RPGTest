@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
-public class Inventory : MonoBehaviour {
+public class Inventory : MonoBehaviour, IPointerClickHandler {
 
     public ItemDatabase database;
     public GameObject inventorySlot;
@@ -12,7 +14,7 @@ public class Inventory : MonoBehaviour {
     public Transform slotPanel;
     public int slotAmount;
     public int goldAmount;
-    public string myType;
+    public int invType; // 0 is character, 1 is shop
 
 	public List<GameObject> slots = new List<GameObject>();
     
@@ -28,28 +30,27 @@ public class Inventory : MonoBehaviour {
             slots.Add(newSlotObject);
         }
 
-		AddItem(0);
-		AddItem(1);
-		AddItem(2);
-		AddItem(1);
-		AddItem(0);
-        AddItem(3);
-        AddItem(4);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
-        AddItem(5);
+		AddItem(database.FetchItemByID(0));
+        AddItem(database.FetchItemByID(1));
+        AddItem(database.FetchItemByID(2));
+        AddItem(database.FetchItemByID(1));
+        AddItem(database.FetchItemByID(0));
+        AddItem(database.FetchItemByID(3));
+        AddItem(database.FetchItemByID(4));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
+        AddItem(database.FetchItemByID(5));
     }
 
 // Attempt to add an item to the inventory
-	public virtual void AddItem(int id) {
+	public virtual void AddItem(Item itemToAdd) {
 
         int ind;
-        Item itemToAdd = database.FetchItemByID(id);
 
         // If the item ID is invalid
         if (itemToAdd.ID == -1){
@@ -72,6 +73,7 @@ public class Inventory : MonoBehaviour {
                 ItemData data = itemObj.GetComponent<ItemData>();
                 data.item = itemToAdd;
 				data.slot = currSlot;
+                data.owner = this;
 				itemObj.transform.SetParent(slots[i].transform);
 				itemObj.transform.position = Vector2.zero;
 				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
@@ -110,6 +112,9 @@ public class Inventory : MonoBehaviour {
 			}
 		}
 		return -1;
-
 	}
+
+    public void OnPointerClick(PointerEventData eventData) {
+        this.transform.SetSiblingIndex(2);
+    }
 }

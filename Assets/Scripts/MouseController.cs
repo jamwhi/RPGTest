@@ -7,8 +7,8 @@ public class MouseController : MonoBehaviour {
     public Inventory inventory;
     public Tooltip tooltip;
     public Stack stack;
-    public GameObject itemObjOnMouse;
-    public ItemData itemDataOnMouse;
+    public GameObject itemObjOnMouse = null;
+    public ItemData itemDataOnMouse = null;
 
     void Update() {
         // If an item is on the mouse, move its position.
@@ -17,47 +17,40 @@ public class MouseController : MonoBehaviour {
         }
     }
 
+    // Clear item references from mouse
+    public void RemoveItem() {
+        this.itemObjOnMouse = null;
+        this.itemDataOnMouse = null;
+    }
+
     // Attach an item to the mouse
     public void AttachItemToMouse(GameObject item) {
-
-        if (item == null) {
-            itemObjOnMouse = null;
-            itemDataOnMouse = null;
-        }
-        if(itemObjOnMouse != null) {
-            ItemData tempItemData = item.GetComponent<ItemData>();
-            Slot tempSlot = tempItemData.slot;
-            tempItemData.slot = itemDataOnMouse.slot;
-            AttachItemToSlot(itemObjOnMouse, tempSlot);
-            itemObjOnMouse = item;
-            itemDataOnMouse = tempItemData;
-        } 
-        else {
-            itemObjOnMouse = item;
-            itemDataOnMouse = itemObjOnMouse.GetComponent<ItemData>();
-        }
-        // Set intial movement states
-        itemObjOnMouse.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        itemObjOnMouse = item;
+        itemDataOnMouse = itemObjOnMouse.GetComponent<ItemData>();
         itemObjOnMouse.transform.SetParent(this.transform);
         itemObjOnMouse.transform.position = Input.mousePosition;
     }
 
-    public void AttachItemToSlot(GameObject item, Slot intoSlot) {
+    public void SwapItems(ItemData itemOne, ItemData itemTwo) {
+        Slot tempSlot = itemOne.slot;
+        itemOne.slot = itemTwo.slot;
+        itemTwo.slot = tempSlot;
 
-        if (intoSlot == null) {
-            Debug.Log("Don't have a valid target slot");
-        } 
-        else {
-            item.GetComponent<ItemData>().slot = intoSlot;
-            intoSlot.item = item.GetComponent<ItemData>();
-            item.transform.SetParent(intoSlot.transform);
-            item.transform.localPosition = new Vector3(32, -32, 0);
-            item.GetComponent<CanvasGroup>().blocksRaycasts = true;
-            itemObjOnMouse = null;
-            itemDataOnMouse = null;
+    }
+
+    public void ActivateTooltip(Item item, Vector2 pos) {
+
+        if (!itemObjOnMouse) {
+            tooltip.Activate(item, pos);
         }
     }
 
+    public void DeactivateTooltip() {
+        tooltip.Deactivate();
+    }
+}
+
+    /*
     public void DropItemToSlot(Slot intoSlot) {
 
         if(intoSlot.owner != itemDataOnMouse.owner) {
@@ -78,7 +71,7 @@ public class MouseController : MonoBehaviour {
             DropOntoInventory(intoSlot);
         }
     }
-
+  
     public void DropOntoInventory(Slot intoSlot) {
         // If the slot is empty
         if (!intoSlot.item) {
@@ -121,52 +114,20 @@ public class MouseController : MonoBehaviour {
             }
         }
     }
+ 
+    public void AttachItemToSlot(GameObject item, Slot intoSlot) {
 
-
-    public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
-
-        if (itemFromMouse.item.Stackable && (itemFromMouse.item.ID == itemInSlot.item.ID)) {
-            int totalAmount = itemFromMouse.amount + itemInSlot.amount;
-            if (itemInSlot.amount == itemInSlot.item.MaxStack) {
-                return true;
-            } 
-            else if (totalAmount <= itemInSlot.item.MaxStack) {
-                Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
-                itemInSlot.SetAmount(totalAmount);
-                Destroy(itemObjOnMouse);
-                itemObjOnMouse = null;
-                itemDataOnMouse = null;
-                return false;
-            } 
-            else if (totalAmount > itemInSlot.item.MaxStack) {
-                itemInSlot.SetAmount(itemInSlot.item.MaxStack);
-                itemDataOnMouse.SetAmount(totalAmount - itemInSlot.amount);
-                return false;
-            }
-
-        Debug.Log("Should not be here. (CombineItems function)");
-        }
-        return true;
-    }
-
-    public void ClickOnSlot(Slot clickedSlot) {
-
-        if (itemObjOnMouse != null) {
-            if (itemDataOnMouse.slot != null) {
-                itemDataOnMouse.slot.item = null;
-            }
-            AttachItemToSlot(itemObjOnMouse, clickedSlot);          
+        if (intoSlot == null) {
+            Debug.Log("Don't have a valid target slot");
+        } 
+        else {
+            item.GetComponent<ItemData>().slot = intoSlot;
+            intoSlot.item = item.GetComponent<ItemData>();
+            item.transform.SetParent(intoSlot.transform);
+            item.transform.localPosition = new Vector3(32, -32, 0);
+            itemObjOnMouse = null;
+            itemDataOnMouse = null;
         }
     }
+    */
 
-    public void ActivateTooltip(Item item, Vector2 pos) {
-
-        if (!itemObjOnMouse) {
-            tooltip.Activate(item, pos);
-        }
-    }
-
-    public void DeactivateTooltip() {
-        tooltip.Deactivate();
-    }
-}

@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class Stack : MonoBehaviour {
 
-    //private InputField amountText;
-
     public Inventory inventory;
     public MouseController mouseController;
     public GameObject stack;
@@ -60,14 +58,14 @@ public class Stack : MonoBehaviour {
     
 
     // Update the input field text
-    public void ChangeStackText(float fromSlider) {
+    public void SliderChanged(float fromSlider) {
 
-        stackAmount.text = fromSlider.ToString("##");
+        stackAmount.text = ((int)fromSlider).ToString("##");
         return;
     }
 
     // Update the slider value
-    public void ChangeSliderValue(string fromInput) {
+    public void TextInputChanged(string fromInput) {
 
         int inputVal;
 
