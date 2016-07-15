@@ -114,7 +114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 969874203}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 10}
@@ -1012,13 +1012,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   database: {fileID: 375627035}
-  inventorySlot: {fileID: 170880, guid: 2014e150959b21d4ab922565148922a2, type: 2}
+  inventorySlot: {fileID: 186338, guid: 2014e150959b21d4ab922565148922a2, type: 2}
   inventoryItem: {fileID: 161532, guid: a94152349010e43408cbb3d3d8c9b1a6, type: 2}
   goldDisplay: {fileID: 231371888}
   slotPanel: {fileID: 508726446}
   slotAmount: 20
   goldAmount: 0
-  myType: InventorySlot
+  invType: 0
   slots: []
 --- !u!114 &632352031
 MonoBehaviour:
@@ -1490,8 +1490,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 423600832}
-  - {fileID: 1470390276}
   - {fileID: 12408517}
+  - {fileID: 1470390276}
   - {fileID: 1534385887}
   m_Father: {fileID: 1340847986}
   m_RootOrder: 1
@@ -1563,13 +1563,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   database: {fileID: 375627035}
-  inventorySlot: {fileID: 170880, guid: 2014e150959b21d4ab922565148922a2, type: 2}
+  inventorySlot: {fileID: 186338, guid: 2014e150959b21d4ab922565148922a2, type: 2}
   inventoryItem: {fileID: 161532, guid: a94152349010e43408cbb3d3d8c9b1a6, type: 2}
   goldDisplay: {fileID: 1782763418}
   slotPanel: {fileID: 12408517}
   slotAmount: 16
   goldAmount: 0
-  myType: ShopSlot
+  invType: 1
   slots: []
 --- !u!1 &994343356
 GameObject:
@@ -2303,6 +2303,7 @@ GameObject:
   - 114: {fileID: 1340847987}
   - 114: {fileID: 1340847989}
   - 114: {fileID: 1340847990}
+  - 114: {fileID: 1340847991}
   m_Layer: 5
   m_Name: MenuGUI
   m_TagString: UI
@@ -2523,6 +2524,19 @@ MonoBehaviour:
   menuSound: {fileID: 8300000, guid: 4f13633ea56974e6dbf63eb99fa6c851, type: 3}
   isActive: 0
   maxStack: 20
+--- !u!114 &1340847991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1340847982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c625c78d6ef1d9e498a8ed2fe38e70d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioController: {fileID: 1340847988}
+  sellItem: {fileID: 8300000, guid: 0f579092c76764d8e8df04853e9a2c13, type: 3}
 --- !u!1 &1378997101
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,7 +2645,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 969874203}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 10, y: 10}
@@ -2683,6 +2697,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1340847988}
+        m_MethodName: PlayOneShot
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 4f13633ea56974e6dbf63eb99fa6c851,
+            type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -3739,7 +3765,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1340847987}
-        m_MethodName: OpenShop
+        m_MethodName: ShopButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -65,7 +65,6 @@ MonoBehaviour:
   audioController: {fileID: 0}
   itemDown: {fileID: 8300000, guid: d73b73743ea434d9b98c5c0b04b51e3a, type: 3}
   itemUp: {fileID: 8300000, guid: a476e34385a8f43f5a7cd7280badc54f, type: 3}
-  sellItem: {fileID: 8300000, guid: a3260b6f2f81b443c9a50a4222b21f64, type: 3}
 --- !u!222 &22256970
 CanvasRenderer:
   m_ObjectHideFlags: 1
