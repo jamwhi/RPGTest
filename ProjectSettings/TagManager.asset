@@ -10,6 +10,7 @@ TagManager:
   - InventoryTooltip
   - MenuPanel
   - UI
+  - Shop
   layers:
   - Default
   - TransparentFX
