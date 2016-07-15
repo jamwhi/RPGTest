@@ -57,10 +57,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slotID: 0
+  isSelected: 0
+  myColor: {fileID: 11413044}
+  selectedColor: {r: 1, g: 1, b: 1, a: 0.54}
+  unselectedColor: {r: 1, g: 1, b: 1, a: 1}
   owner: {fileID: 0}
   item: {fileID: 0}
   stack: {fileID: 0}
   transController: {fileID: 0}
+  menuController: {fileID: 0}
   mouseController: {fileID: 0}
   audioController: {fileID: 0}
   itemDown: {fileID: 8300000, guid: d73b73743ea434d9b98c5c0b04b51e3a, type: 3}

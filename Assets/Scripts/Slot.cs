@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using System.Collections;
 using System;
 
@@ -13,14 +14,21 @@ public class Slot : MonoBehaviour,
     IPointerExitHandler {
 
     public int slotID;
+    public Image myColor;
+    public Color selectedColor;
+    public Color unselectedColor;
+
     public Inventory owner;
     public ItemData item;
     public Stack stack;
     public Transaction transController;
+    public MenuController menuController;
     public MouseController mouseController;
     public AudioSource audioController;
     public AudioClip itemDown;
     public AudioClip itemUp;
+
+    public bool isSelected = false;
 
     // Use this for initialization
     protected void Awake () {
@@ -30,6 +38,19 @@ public class Slot : MonoBehaviour,
         audioController = UI.GetComponent<AudioSource>();
         stack = UI.GetComponent<Stack>();
         transController = UI.GetComponent<Transaction>();
+        menuController = UI.GetComponent<MenuController>();
+        //myColor = gameObject.GetComponent<Image>().color;
+    }
+
+    public void SelectSlot() {
+        if (isSelected) {
+            myColor.color = unselectedColor;
+            this.isSelected = false;
+        } 
+        else {
+            myColor.color = selectedColor;
+            this.isSelected = true;
+        }
     }
 
     public void Attach(ItemData itemIn) {
@@ -76,6 +97,11 @@ public class Slot : MonoBehaviour,
                 }
                 // ELSE slot is full
                 else {
+                    // IF shop is open, select slot
+                    if (menuController.shop.activeSelf) {
+                        this.SelectSlot();
+                        return;
+                    }
                     // IF shift is down, open stack
                     if (Input.GetKey(KeyCode.LeftShift) && item.item.Stackable) {
                         stack.Activate(this.item, (Vector2)eventData.position);
@@ -101,9 +127,10 @@ public class Slot : MonoBehaviour,
                     // ELSE slot is full, combine or switch items
                     else if (CombineItems(mouseController.itemDataOnMouse, this.item)) {
                         ItemData temp = this.item;
+                        temp.slot = mouseController.itemDataOnMouse.slot;
                         Attach(mouseController.itemDataOnMouse);
                         mouseController.AttachItemToMouse(temp.gameObject);
-                        mouseController.SwapItems(this.item, mouseController.itemDataOnMouse);
+                        //mouseController.SwapItems(this.item, mouseController.itemDataOnMouse);
                         audioController.PlayOneShot(itemUp);
                     }
                 }
@@ -121,9 +148,13 @@ public class Slot : MonoBehaviour,
     public void OnBeginDrag(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Left) {
             if (this.item != null) {
+                if (this.isSelected) {
+                    SelectSlot();
+                }
                 // IF item on mouse
                 if (mouseController.itemObjOnMouse != null) {
                     ItemData temp = this.item;
+                    temp.slot = mouseController.itemDataOnMouse.slot;
                     this.Attach(mouseController.itemDataOnMouse);
                     mouseController.AttachItemToMouse(temp.gameObject);
                     return;
@@ -155,6 +186,9 @@ public class Slot : MonoBehaviour,
 
     public void OnDrop(PointerEventData eventData) {
         if (mouseController.itemObjOnMouse != null) {
+            if (this.isSelected) {
+                SelectSlot();
+            }
 
             //IF this slot is full, swap item slots
             if (this.item != null) {

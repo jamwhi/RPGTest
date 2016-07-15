@@ -3,8 +3,9 @@ using System.Collections;
 
 public class MenuController : MonoBehaviour {
 
-    public GameObject inventory;
     public GameObject menu;
+
+    public GameObject inventory;
     public GameObject shop;
 
     public AudioSource guiAudio;
@@ -22,11 +23,14 @@ public class MenuController : MonoBehaviour {
     public void ShopButton() {
         shop.SetActive(!shop.activeSelf);
         guiAudio.PlayOneShot(menuSound);
+        inventory.GetComponent<Inventory>().DeselectAll();
+        shop.GetComponent<Inventory>().DeselectAll();
     }
 
     public void DoButtonPress(GameObject closed, GameObject opened) {
         opened.SetActive(true);
         closed.SetActive(false);
         guiAudio.PlayOneShot(menuSound);
+
     }
 }

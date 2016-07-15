@@ -16,9 +16,9 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     public int goldAmount;
     public int invType; // 0 is character, 1 is shop
 
-	public List<GameObject> slots = new List<GameObject>();
+	public List<Slot> slots = new List<Slot>();
     
-	protected virtual void Start () {
+	protected void Start () {
         // Add slots
 		for(int i = 0; i < slotAmount; i++){
             GameObject newSlotObject = Instantiate(inventorySlot);
@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
             newSlot.owner = this;
 			newSlot.name = "Slot " + i.ToString();
             newSlot.slotID = i;
-            slots.Add(newSlotObject);
+            slots.Add(newSlot);
         }
 
 		AddItem(database.FetchItemByID(0));
@@ -48,7 +48,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     }
 
 // Attempt to add an item to the inventory
-	public virtual void AddItem(Item itemToAdd) {
+	public void AddItem(Item itemToAdd) {
 
         int ind;
 
@@ -59,7 +59,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 
         // If the item is stackable and exists in inventory
 		if (itemToAdd.Stackable && (ind = SearchInventory(itemToAdd)) > -1){
-			ItemData data = slots[ind].transform.GetChild(0).GetComponent<ItemData>();
+			ItemData data = slots[ind].item;
 			data.amount++;
 			data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
 			return;
@@ -67,7 +67,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 
         // Add new item to inventory
 		for(int i = 0; i < slotAmount; i++){
-            Slot currSlot = slots[i].GetComponent<Slot>();
+            Slot currSlot = slots[i];
 			if (currSlot.item == null){
                 GameObject itemObj = Instantiate(inventoryItem);
                 ItemData data = itemObj.GetComponent<ItemData>();
@@ -84,8 +84,25 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 		}
         return;
 	}
+
+    public void AddExistingItem(ItemData itemDataToAdd) {
+
+        Item itemToAdd = itemDataToAdd.item;
+        GameObject itemObj = itemDataToAdd.gameObject;
+
+        for (int i = 0; i < slotAmount; i++) {
+            Slot currSlot = slots[i];
+            if (currSlot.item == null) {
+                itemDataToAdd.slot.item = null;
+                itemDataToAdd.slot = currSlot;
+                itemDataToAdd.owner = this;
+                currSlot.Attach(itemDataToAdd);
+                return;
+            }
+        }
+    }
  
-    public virtual GameObject CreateItemFromStack(int id, int amount) {
+    public GameObject CreateItemFromStack(int id, int amount) {
 
         GameObject itemObj = Instantiate(inventoryItem);
         ItemData itemData = itemObj.GetComponent<ItemData>();
@@ -101,10 +118,10 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     
 
 // Search inventory for an item, return index.
-	public virtual int SearchInventory(Item item){
+	public int SearchInventory(Item item){
 
 		for( int i = 0; i < slotAmount; i++){
-            ItemData slotDataToCheck = slots[i].GetComponent<Slot>().item;
+            ItemData slotDataToCheck = slots[i].item;
 			if ( (slotDataToCheck != null) 
                 && (slotDataToCheck.item.ID == item.ID)
                 && (slotDataToCheck.amount < item.MaxStack)) {
@@ -113,6 +130,14 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 		}
 		return -1;
 	}
+
+    public void DeselectAll() {
+        foreach (Slot currSlot in slots) {
+            if (currSlot.isSelected) {
+                currSlot.SelectSlot();
+            }
+        }
+    }
 
     public void OnPointerClick(PointerEventData eventData) {
         this.transform.SetSiblingIndex(2);
