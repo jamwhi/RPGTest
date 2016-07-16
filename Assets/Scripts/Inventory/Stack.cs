@@ -43,11 +43,12 @@ public class Stack : MonoBehaviour {
     public void StackConfirm() {
 
         if (stackSlider.value == maxStack) {
-            mouseController.AttachItemToMouse(itemToSeperate.gameObject);
+			itemToSeperate.slot.item = null;
+            mouseController.AttachItemToMouse(itemToSeperate);
         }
         else {
             itemToSeperate.SetAmount(itemToSeperate.amount - (int) stackSlider.value);
-            GameObject newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value).GetComponent<ItemData>();
             mouseController.AttachItemToMouse(newItems); 
         }
 

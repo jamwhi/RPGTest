@@ -22,7 +22,6 @@ public class Slot : MonoBehaviour,
     public ItemData item;
     public Stack stack;
     public Transaction transController;
-    public MenuController menuController;
     public MouseController mouseController;
     public AudioSource audioController;
     public AudioClip itemDown;
@@ -38,7 +37,6 @@ public class Slot : MonoBehaviour,
         audioController = UI.GetComponent<AudioSource>();
         stack = UI.GetComponent<Stack>();
         transController = UI.GetComponent<Transaction>();
-        menuController = UI.GetComponent<MenuController>();
         //myColor = gameObject.GetComponent<Image>().color;
     }
 
@@ -60,82 +58,63 @@ public class Slot : MonoBehaviour,
         itemIn.owner = this.owner;
         this.item = itemIn;
         item.transform.localPosition = Vector2.zero;
-    }
+		audioController.PlayOneShot(itemDown);
+	}
 
-    public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
+	public ItemData PickupItem() {
+		ItemData it = this.item;
+		this.item = null;
+		audioController.PlayOneShot(itemUp);
+		return it;
+	}
+
+    public ItemData TryCombineItems(ItemData itemToStack) {
         // Check if items are the same type, and stackable
-        if (itemFromMouse.item.Stackable && (itemFromMouse.item.ID == itemInSlot.item.ID)) {
-            int totalAmount = itemFromMouse.amount + itemInSlot.amount;
-            if (itemInSlot.amount == itemInSlot.item.MaxStack) {
-                return true;
-            } else if (totalAmount <= itemInSlot.item.MaxStack) {
-                Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
-                itemInSlot.SetAmount(totalAmount);
-                Destroy(mouseController.itemObjOnMouse);
-                mouseController.RemoveItem();
-                return false;
-            } else if (totalAmount > itemInSlot.item.MaxStack) {
-                itemInSlot.SetAmount(itemInSlot.item.MaxStack);
-                mouseController.itemDataOnMouse.SetAmount(totalAmount - itemInSlot.amount);
-                return false;
-            }
+        if (itemToStack.item.Stackable && itemToStack.item.ID == item.item.ID) {
 
-            Debug.Log("Should not be here. (CombineItems function)");
-        }
-        return true;
+			if (item.amount == item.item.MaxStack) {
+				return Swap(itemToStack);
+			}
+
+            int totalAmount = itemToStack.amount + item.amount;
+
+			if (totalAmount > item.item.MaxStack) {
+				int leftOver = totalAmount - item.item.MaxStack;
+				Debug.Log("Stack full, returning " + leftOver + " leftover items.");
+
+				item.SetAmount(item.item.MaxStack);
+				itemToStack.SetAmount(leftOver);
+				audioController.PlayOneShot(itemDown);
+
+				return itemToStack;
+			}
+
+			else {
+				Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
+
+				item.SetAmount(totalAmount);
+				Destroy(itemToStack.gameObject);
+
+				return null;
+			}
+        } else {
+			Debug.Log("Swapping items.");
+			return Swap(itemToStack);
+		}
     }
+
+	public ItemData Swap(ItemData itemToSwap) {
+		ItemData it = PickupItem();
+		Attach(itemToSwap);
+		return it;
+	}
 
     // Determine on click behaviour
     public void OnPointerClick(PointerEventData eventData) {
         this.owner.transform.SetSiblingIndex(2);
         // On Left click
         if (eventData.button == PointerEventData.InputButton.Left) {
-            // IF mouse is empty
-            if (mouseController.itemObjOnMouse == null) {
-                // IF slot is empty
-                if (item == null) {
-                    return;
-                }
-                // ELSE slot is full
-                else {
-                    // IF shop is open, select slot
-                    if (menuController.shop.activeSelf && this.owner.invType != 2) {
-                        this.SelectSlot();
-                        return;
-                    }
-                    // IF shift is down, open stack
-                    if (Input.GetKey(KeyCode.LeftShift) && item.item.Stackable) {
-                        stack.Activate(this.item, (Vector2)eventData.position);
-                    }
-                    // ELSE shift is not down, attach to mouse
-                    else {
-                        mouseController.AttachItemToMouse(this.item.gameObject);
-                        this.item = null;
-                        audioController.PlayOneShot(itemUp);
-                    }
-                }
-            }
-            // ELSE mouse is full
-            else {
-                // IF no transaction occurs
-                if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
-                    // IF slot is empty, drop item into slot
-                    if (item == null) {
-                        this.Attach(mouseController.itemDataOnMouse);
-                        mouseController.RemoveItem();
-                        audioController.PlayOneShot(itemDown);
-                    }
-                    // ELSE slot is full, combine or switch items
-                    else if (CombineItems(mouseController.itemDataOnMouse, this.item)) {
-                        ItemData temp = this.item;
-                        temp.slot = mouseController.itemDataOnMouse.slot;
-                        Attach(mouseController.itemDataOnMouse);
-                        mouseController.AttachItemToMouse(temp.gameObject);
-                        //mouseController.SwapItems(this.item, mouseController.itemDataOnMouse);
-                        audioController.PlayOneShot(itemUp);
-                    }
-                }
-            }
+			mouseController.HandleClick(this, eventData.position);
         }
         // On right click 
         else {
@@ -143,10 +122,14 @@ public class Slot : MonoBehaviour,
         }
     }
 
-    // ----------------Drag and Drop items---------------------
-
-    // Begin
-    public void OnBeginDrag(PointerEventData eventData) {
+	// ----------------Drag and Drop items---------------------
+	public void OnBeginDrag (PointerEventData eventData) { }
+	public void OnDrag (PointerEventData eventData) {}
+	public void OnEndDrag (PointerEventData eventData) { }
+	public void OnDrop (PointerEventData eventData) { }
+	/*
+	// Begin
+	public void OnBeginDrag(PointerEventData eventData) {
         if (eventData.button == PointerEventData.InputButton.Left) {
             if (this.item != null) {
                 if (this.isSelected) {
@@ -183,7 +166,7 @@ public class Slot : MonoBehaviour,
         // Maybe there is a better way.
         if (this.mouseController.itemObjOnMouse != null) {
             mouseController.itemDataOnMouse.slot.Attach(mouseController.itemDataOnMouse);
-            mouseController.RemoveItem();
+            mouseController.RetrieveItem();
         }
     }
 
@@ -200,7 +183,7 @@ public class Slot : MonoBehaviour,
                         Slot tempSlot = mouseController.itemDataOnMouse.slot;
                         Attach(mouseController.itemDataOnMouse);
                         tempSlot.Attach(tempData);
-                        mouseController.RemoveItem();
+                        mouseController.RetrieveItem();
                     }
                     audioController.PlayOneShot(itemDown);
                 }
@@ -211,11 +194,12 @@ public class Slot : MonoBehaviour,
                             this.Attach(mouseController.itemDataOnMouse);
                             audioController.PlayOneShot(itemDown);
                         }
-                        mouseController.RemoveItem();
+                        mouseController.RetrieveItem();
                 }
             }
         }
     }
+	*/
     // ----------------End Drag Handling-----------------------
 
     // ------------------Tooltip handing-----------------------
