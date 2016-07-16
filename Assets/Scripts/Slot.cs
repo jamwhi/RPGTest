@@ -99,7 +99,7 @@ public class Slot : MonoBehaviour,
                 // ELSE slot is full
                 else {
                     // IF shop is open, select slot
-                    if (menuController.shop.activeSelf) {
+                    if (menuController.shop.activeSelf && this.owner.invType != 2) {
                         this.SelectSlot();
                         return;
                     }

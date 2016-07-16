@@ -24,10 +24,10 @@ public class Transaction : MonoBehaviour {
     void Update() {
     }
     private void updateGold(Inventory toAdd, Inventory toSub, int amount) {
-        toAdd.goldAmount += amount;
-        toAdd.goldDisplay.text = toAdd.goldAmount.ToString();
-        toSub.goldAmount -= amount;
-        toSub.goldDisplay.text = toSub.goldAmount.ToString();
+        toAdd.gold.goldAmount += amount;
+        toAdd.gold.goldDisplay.text = toAdd.gold.goldAmount.ToString();
+        toSub.gold.goldAmount -= amount;
+        toSub.gold.goldDisplay.text = toSub.gold.goldAmount.ToString();
 
     }
     public bool ItemTransaction(ItemData itemIn, Inventory invIn, int slotIndex, float valueMod = 1.0f) {
@@ -63,7 +63,6 @@ public class Transaction : MonoBehaviour {
     }
 
     public void OpenSaleWindw() {
-        Debug.Log("Begin Confirm");
 
         int goldExchanged = 0;
         int sellTotal = 0;

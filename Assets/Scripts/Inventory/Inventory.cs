@@ -10,10 +10,9 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     public ItemDatabase database;
     public GameObject inventorySlot;
     public GameObject inventoryItem;
-    public Text goldDisplay;
     public Transform slotPanel;
+    public Gold gold;
     public int slotAmount;
-    public int goldAmount;
     public int invType; // 0 is character, 1 is shop, 2 is equipment
 
 	public List<Slot> slots = new List<Slot>();
