@@ -43,13 +43,14 @@ public class Slot : MonoBehaviour,
     }
 
     public void SelectSlot() {
-        if (isSelected) {
-            myColor.color = unselectedColor;
-            this.isSelected = false;
-        } 
-        else {
-            myColor.color = selectedColor;
-            this.isSelected = true;
+        if (this.owner.invType != 2) {
+            if (isSelected) {
+                myColor.color = unselectedColor;
+                this.isSelected = false;
+            } else {
+                myColor.color = selectedColor;
+                this.isSelected = true;
+            }
         }
     }
 
@@ -58,7 +59,7 @@ public class Slot : MonoBehaviour,
         itemIn.slot = this;
         itemIn.owner = this.owner;
         this.item = itemIn;
-        item.transform.localPosition = new Vector3(32,-32, 0);
+        item.transform.localPosition = Vector2.zero;
     }
 
     public bool CombineItems(ItemData itemFromMouse, ItemData itemInSlot) {
@@ -117,7 +118,7 @@ public class Slot : MonoBehaviour,
             // ELSE mouse is full
             else {
                 // IF no transaction occurs
-                if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner)) {
+                if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
                     // IF slot is empty, drop item into slot
                     if (item == null) {
                         this.Attach(mouseController.itemDataOnMouse);
@@ -180,7 +181,9 @@ public class Slot : MonoBehaviour,
         // not over a slot. If the item is dropped over a slot,
         // this function essentially fires twice (once in OnDrop)
         // Maybe there is a better way.
-        if (this.item == null) {
+        if (this.mouseController.itemObjOnMouse != null) {
+            mouseController.itemDataOnMouse.slot.Attach(mouseController.itemDataOnMouse);
+            mouseController.RemoveItem();
         }
     }
 
@@ -189,27 +192,27 @@ public class Slot : MonoBehaviour,
             if (this.isSelected) {
                 SelectSlot();
             }
-
-            //IF this slot is full, swap item slots
-            if (this.item != null) {
-                if (CombineItems(mouseController.itemDataOnMouse, this.item)) {
-                    ItemData tempData = this.item;
-                    Slot tempSlot = mouseController.itemDataOnMouse.slot;
-                    Attach(mouseController.itemDataOnMouse);
-                    tempSlot.Attach(tempData);
-                    mouseController.RemoveItem();
-                }
-                audioController.PlayOneShot(itemDown);
-
-            }
-            // ELSE this slot is empty
-            else {
-                // IF no transaction occurs
-                if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner)) {
-                    this.Attach(mouseController.itemDataOnMouse);
+            if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
+                //IF this slot is full, swap item slots
+                if (this.item != null) {
+                    if (CombineItems(mouseController.itemDataOnMouse, this.item)) {
+                        ItemData tempData = this.item;
+                        Slot tempSlot = mouseController.itemDataOnMouse.slot;
+                        Attach(mouseController.itemDataOnMouse);
+                        tempSlot.Attach(tempData);
+                        mouseController.RemoveItem();
+                    }
                     audioController.PlayOneShot(itemDown);
                 }
-                mouseController.RemoveItem();
+            // ELSE this slot is empty
+                else {
+                        // IF no transaction occurs
+                        if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
+                            this.Attach(mouseController.itemDataOnMouse);
+                            audioController.PlayOneShot(itemDown);
+                        }
+                        mouseController.RemoveItem();
+                }
             }
         }
     }

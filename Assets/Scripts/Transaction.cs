@@ -30,27 +30,34 @@ public class Transaction : MonoBehaviour {
         toSub.goldDisplay.text = toSub.goldAmount.ToString();
 
     }
-    public bool ItemTransaction(ItemData itemIn, Inventory invIn, float valueMod = 1.0f) {
+    public bool ItemTransaction(ItemData itemIn, Inventory invIn, int slotIndex, float valueMod = 1.0f) {
         // IF same owner, do nothing
-        if (itemIn.owner == invIn) {
+        
+        if ((itemIn.owner == invIn) && (invIn.invType != 2)) {
             Debug.Log("Same item owner as inventory in Transaction");
             return true;
         }
-        // ELSE IF itemIn from character(0), into shop(1)
-        else if ((itemIn.owner.invType == 0) && (invIn.invType == 1)) {
+        // ELSE IF itemIn from character(0 or 2), into shop(1)
+        else if ( ((itemIn.owner.invType == 0)|| (itemIn.owner.invType == 2)) && (invIn.invType == 1)) {
             this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
             Destroy(itemIn.gameObject);
             audioController.PlayOneShot(sellItem);
             Debug.Log("Item sold to shop");
             return false;
         }
-        // ELSE IF itemIn from shop(1), into character(0)
-        else if ((itemIn.owner.invType == 1) && (invIn.invType == 0)) {
+        // ELSE IF itemIn from shop(1), into character(0 or 2)
+        else if ((itemIn.owner.invType == 1) && ((invIn.invType == 2) || (invIn.invType == 0)) ) {
             this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
             //audioController.PlayOneShot(sellItem);
             Debug.Log("Item bought by character");
             return true;
 
+        }
+        else if( ((itemIn.owner.invType == 0) || (itemIn.owner.invType == 2)) && (invIn.invType == 2) ) {
+            if (itemIn.item.CharSlot != slotIndex) {
+                Debug.Log("Invalid slot");
+                return false;
+            }
         }
         return true;
     }
@@ -104,7 +111,7 @@ public class Transaction : MonoBehaviour {
         for (int i = 0; i < player.slots.Count; i++) {
             Slot currSlot = player.slots[i];
             if (currSlot.isSelected) {
-                ItemTransaction(currSlot.item, shop);
+                ItemTransaction(currSlot.item, shop, i);
                 currSlot.item = null;
                 currSlot.SelectSlot();
             }
@@ -113,7 +120,7 @@ public class Transaction : MonoBehaviour {
         for (int i = 0; i < shop.slots.Count; i++) {
             Slot currSlot = shop.slots[i];
             if (currSlot.isSelected) {           
-                ItemTransaction(currSlot.item, player);
+                ItemTransaction(currSlot.item, player, i);
                 player.AddExistingItem(currSlot.item);
                 currSlot.SelectSlot();
             }

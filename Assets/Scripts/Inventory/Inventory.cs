@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     public Transform slotPanel;
     public int slotAmount;
     public int goldAmount;
-    public int invType; // 0 is character, 1 is shop
+    public int invType; // 0 is character, 1 is shop, 2 is equipment
 
 	public List<Slot> slots = new List<Slot>();
     
@@ -29,22 +29,6 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
             newSlot.slotID = i;
             slots.Add(newSlot);
         }
-
-		AddItem(database.FetchItemByID(0));
-        AddItem(database.FetchItemByID(1));
-        AddItem(database.FetchItemByID(2));
-        AddItem(database.FetchItemByID(1));
-        AddItem(database.FetchItemByID(0));
-        AddItem(database.FetchItemByID(3));
-        AddItem(database.FetchItemByID(4));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
-        AddItem(database.FetchItemByID(5));
     }
 
 // Attempt to add an item to the inventory
@@ -75,7 +59,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 				data.slot = currSlot;
                 data.owner = this;
 				itemObj.transform.SetParent(slots[i].transform);
-				itemObj.transform.position = Vector2.zero;
+                itemObj.transform.localPosition = Vector2.zero;
 				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
 				itemObj.name = itemToAdd.Title;
                 currSlot.item = data;
@@ -84,6 +68,11 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 		}
         return;
 	}
+
+    public void AddItemButton(string ind) {
+
+        AddItem(database.FetchItemByID(int.Parse(ind)) );
+    }
 
     public void AddExistingItem(ItemData itemDataToAdd) {
 

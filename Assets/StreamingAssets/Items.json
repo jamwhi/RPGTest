@@ -3,7 +3,7 @@
 		"id": 0,
 		"title": "Steel Sword",
 		"val": 10,
-		"charSlot": 4,
+		"charSlot": 3,
 		"itemType": "Weapon",
 		"stats": {
 			"power": 5,
@@ -19,7 +19,7 @@
 		"id": 1,
 		"title": "Wooden Bow",
 		"val": 8,
-		"charSlot": 4,
+		"charSlot": 3,
 		"itemType": "Weapon",
 		"stats": {
 			"power": 3,
@@ -35,7 +35,7 @@
 		"id": 2,
 		"title": "Magic Wand",
 		"val": 14,
-		"charSlot": 4,
+		"charSlot": 3,
 		"itemType": "Weapon",
 		"stats": {
 			"power": 8,
@@ -51,8 +51,8 @@
 		"id": 3,
 		"title": "Iron Helmet",
 		"val": 12,
-		"charSlot": 1,
-		"itemType": "Armor",
+		"charSlot": 0,
+		"itemType": "Helmet",
 		"stats": {
 			"power": 4,
 			"durability": 11
@@ -67,7 +67,7 @@
 		"id": 4,
 		"title": "Iron Breastplate",
 		"val": 22,
-		"charSlot": 2,
+		"charSlot": 1,
 		"itemType": "Armor",
 		"stats": {
 			"power": 10,
@@ -83,8 +83,8 @@
 		"id": 5,
 		"title": "Health Potion",
 		"val": 5,
-		"charSlot": 6,
-		"itemType": "Useable",
+		"charSlot": 5,
+		"itemType": "Consumable",
 		"stats": {
 			"power": 20,
 			"durability": 1
@@ -94,5 +94,69 @@
 		"maxStack": 5,
 		"rarity": 1,
 		"slug": "bottle"
+	},
+		{
+		"id": 6,
+		"title": "Arrow",
+		"val": 1,
+		"charSlot": 4,
+		"itemType": "Ammo",
+		"stats": {
+			"power": 3,
+			"durability": 1
+		},
+		"description": "An arrow. You'll need these if you want to shoot a bow.",
+		"stackable": true,
+		"maxStack": 99,
+		"rarity": 1,
+		"slug": "arrow"
+	},
+	{
+		"id": 7,
+		"title": "Kite Shield",
+		"val": 14,
+		"charSlot": 4,
+		"itemType": "Shield",
+		"stats": {
+			"power": 35,
+			"durability": 20
+		},
+		"description": "A metal kite shield. Use it to protect yourself from the enemies.",
+		"stackable": false,
+		"maxStack": 1,
+		"rarity": 4,
+		"slug": "kiteshield"
+	},
+	{
+		"id": 8,
+		"title": "Buckler",
+		"val": 7,
+		"charSlot": 4,
+		"itemType": "Shield",
+		"stats": {
+			"power": 23,
+			"durability": 12
+		},
+		"description": "A small buckler. You can stop enemies attacks before they hit you in the body.",
+		"stackable": false,
+		"maxStack": 1,
+		"rarity": 2,
+		"slug": "buckler"
+	},
+	{
+		"id": 9,
+		"title": "Iron Boots",
+		"val": 5,
+		"charSlot": 2,
+		"itemType": "Boots",
+		"stats": {
+			"power": 8,
+			"durability": 12
+		},
+		"description": "Regular metal boots. Stops your feet from getting wet. Not used for kicking.",
+		"stackable": false,
+		"maxStack": 1,
+		"rarity": 2,
+		"slug": "boots"
 	}
 ]

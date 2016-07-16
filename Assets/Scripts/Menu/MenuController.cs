@@ -7,6 +7,7 @@ public class MenuController : MonoBehaviour {
 
     public GameObject inventory;
     public GameObject shop;
+    public GameObject character;
 
     public AudioSource guiAudio;
     public AudioClip menuSound;
@@ -16,8 +17,9 @@ public class MenuController : MonoBehaviour {
     }
 
     public void InventoryToMenu() {
-        DoButtonPress(inventory, menu);
         shop.SetActive(false);
+        character.SetActive(false);
+        DoButtonPress(inventory, menu);
     }
 
     public void ShopButton() {
@@ -25,6 +27,11 @@ public class MenuController : MonoBehaviour {
         guiAudio.PlayOneShot(menuSound);
         inventory.GetComponent<Inventory>().DeselectAll();
         shop.GetComponent<Inventory>().DeselectAll();
+    }
+
+    public void CharButton() {
+        character.SetActive(!character.activeSelf);
+        guiAudio.PlayOneShot(menuSound);
     }
 
     public void DoButtonPress(GameObject closed, GameObject opened) {
