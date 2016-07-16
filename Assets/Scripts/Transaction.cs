@@ -32,7 +32,9 @@ public class Transaction : MonoBehaviour {
     }
     public bool ItemTransaction(ItemData itemIn, Inventory invIn, int slotIndex, float valueMod = 1.0f) {
         // IF same owner, do nothing
-        
+        if (itemIn == null) {
+			return false;
+		}
         if ((itemIn.owner == invIn) && (invIn.invType != 2)) {
             Debug.Log("Same item owner as inventory in Transaction");
             return true;

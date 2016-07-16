@@ -11,6 +11,8 @@ public class MouseController : MonoBehaviour {
 	public MenuController menuController;
 	public Transaction transController;
 
+	private Slot draggingFrom = null;
+
 	void Start() {
 		GameObject UI = GameObject.FindWithTag("UI");
 		menuController = UI.GetComponent<MenuController>();
@@ -26,47 +28,79 @@ public class MouseController : MonoBehaviour {
 
 
 	public void HandleClick(Slot slot, Vector2 pos) {
-		// IF mouse is empty
+		// IF mouse is empty (drag equivilnt of startDrag)
 		if (itemOnMouse == null) {
-			// IF slot is empty
-			if (slot.item == null) {
+			PickUpFrom(slot, pos);
+		}
+		// ELSE mouse is full (this must be a clickUP)
+		else {
+			PutInto(slot);
+		}
+	}
+
+	public void StartDrag(Slot slot, Vector2 pos) {
+		// Check if mouse contains item (this happens if you place an item and begin dragging immediately)
+		if (itemOnMouse != null) {
+
+		} else {
+			draggingFrom = slot;
+			PickUpFrom(slot, pos);
+		}
+	}
+
+	public void EndDrag(Slot slot) {
+		if (draggingFrom != null) {
+			PutInto(slot);
+			draggingFrom = null;
+		}
+	}
+
+	public void PickUpFrom(Slot slot, Vector2 pos) {
+		// IF slot is empty
+		if (slot.item == null) {
+			return;
+		}
+		// ELSE slot is full
+		else {
+			// IF shop is open, select slot
+			if (menuController.shop.activeSelf && slot.owner.invType != 2) {
+				slot.SelectSlot();
 				return;
 			}
-			// ELSE slot is full
+			// IF shift is down, open stack
+			if (Input.GetKey(KeyCode.LeftShift) && slot.item.item.Stackable) {
+				stack.Activate(slot.item, pos);
+			}
+			// ELSE shift is not down, attach to mouse
 			else {
-				// IF shop is open, select slot
-				if (menuController.shop.activeSelf && slot.owner.invType != 2) {
-					slot.SelectSlot();
-					return;
-				}
-				// IF shift is down, open stack
-				if (Input.GetKey(KeyCode.LeftShift) && slot.item.item.Stackable) {
-					stack.Activate(slot.item, pos);
-				}
-				// ELSE shift is not down, attach to mouse
-				else {
-					AttachItemToMouse(slot.PickupItem());
-				}
+				AttachItemToMouse(slot.PickupItem());
 			}
 		}
-		// ELSE mouse is full
-		else {
-			// IF no transaction occurs
-			if (transController.ItemTransaction(itemOnMouse, slot.owner, slot.slotID)) {
-				// IF slot is empty, drop item into slot
-				if (slot.item == null) {
-					slot.Attach(RetrieveItem());
-				}
-				// ELSE slot is full, combine or switch items
-				else {
-					ItemData it = slot.CombineOrSwap(itemOnMouse);
-					if (it != null) {
-						AttachItemToMouse(it);
+	}
+
+	public void PutInto(Slot slot) {
+		// IF no transaction occurs
+		if (transController.ItemTransaction(itemOnMouse, slot.owner, slot.slotID)) {
+			// IF slot is empty, drop item into slot
+			if (slot.item == null) {
+				slot.Attach(RetrieveItem());
+			}
+			// ELSE slot is full, combine or switch items
+			else {
+				ItemData it = slot.CombineOrSwap(itemOnMouse);
+				if (it != null) {
+					if (draggingFrom != null) {
+						draggingFrom.Attach(it);
+						RetrieveItem();
 					} else {
-						RetrieveItem().Destroy();
+						AttachItemToMouse(it);
 					}
-					
 				}
+				else {
+					// Stacks must have combined entirely, since nothing was returned
+					RetrieveItem().Destroy();
+				}
+
 			}
 		}
 	}
@@ -85,12 +119,12 @@ public class MouseController : MonoBehaviour {
 		itemOnMouse.transform.position = Input.mousePosition;
 	}
 
-    public void SwapItems(ItemData itemOne, ItemData itemTwo) {
-        Slot tempSlot = itemOne.slot;
-        itemOne.slot = itemTwo.slot;
-        itemTwo.slot = tempSlot;
+    //public void SwapItems(ItemData itemOne, ItemData itemTwo) {
+    //    Slot tempSlot = itemOne.slot;
+    //    itemOne.slot = itemTwo.slot;
+    //    itemTwo.slot = tempSlot;
 
-    }
+    //}
 
     public void ActivateTooltip(Item item, Vector2 pos) {
 

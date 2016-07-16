@@ -115,83 +115,20 @@ public class Slot : MonoBehaviour,
     }
 
 	// ----------------Drag and Drop items---------------------
-	public void OnBeginDrag (PointerEventData eventData) { }
+	public void OnBeginDrag (PointerEventData eventData) {
+		mouseController.StartDrag(this, eventData.position);
+	}
+
 	public void OnDrag (PointerEventData eventData) {}
-	public void OnEndDrag (PointerEventData eventData) { }
-	public void OnDrop (PointerEventData eventData) { }
-	/*
-	// Begin
-	public void OnBeginDrag(PointerEventData eventData) {
-        if (eventData.button == PointerEventData.InputButton.Left) {
-            if (this.item != null) {
-                if (this.isSelected) {
-                    SelectSlot();
-                }
-                // IF item on mouse
-                if (mouseController.itemObjOnMouse != null) {
-                    ItemData temp = this.item;
-                    temp.slot = mouseController.itemDataOnMouse.slot;
-                    this.Attach(mouseController.itemDataOnMouse);
-                    mouseController.AttachItemToMouse(temp.gameObject);
-                    return;
-                }
-                // ELSE mouse is empty
-                else {
-                    mouseController.AttachItemToMouse(this.item.gameObject);
-                    this.item = null;
-                    audioController.PlayOneShot(itemUp);
-                }
-            }
-        }
-    }
 
-    // Updating item position occurs in MouseController
-    // This function still needs to be here because reasons
-    public void OnDrag(PointerEventData eventData) {
-    }
+	public void OnEndDrag (PointerEventData eventData) {
+		mouseController.EndDrag(this); 
+	}
 
-    // End
-    public void OnEndDrag(PointerEventData eventData) {
-        // This ensures the item locks to a slot if it is released 
-        // not over a slot. If the item is dropped over a slot,
-        // this function essentially fires twice (once in OnDrop)
-        // Maybe there is a better way.
-        if (this.mouseController.itemObjOnMouse != null) {
-            mouseController.itemDataOnMouse.slot.Attach(mouseController.itemDataOnMouse);
-            mouseController.RetrieveItem();
-        }
-    }
+	public void OnDrop (PointerEventData eventData) {
+		mouseController.EndDrag(this);
+	}
 
-    public void OnDrop(PointerEventData eventData) {
-        if (mouseController.itemObjOnMouse != null) {
-            if (this.isSelected) {
-                SelectSlot();
-            }
-            if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
-                //IF this slot is full, swap item slots
-                if (this.item != null) {
-                    if (CombineItems(mouseController.itemDataOnMouse, this.item)) {
-                        ItemData tempData = this.item;
-                        Slot tempSlot = mouseController.itemDataOnMouse.slot;
-                        Attach(mouseController.itemDataOnMouse);
-                        tempSlot.Attach(tempData);
-                        mouseController.RetrieveItem();
-                    }
-                    audioController.PlayOneShot(itemDown);
-                }
-            // ELSE this slot is empty
-                else {
-                        // IF no transaction occurs
-                        if (transController.ItemTransaction(mouseController.itemDataOnMouse, this.owner, this.slotID)) {
-                            this.Attach(mouseController.itemDataOnMouse);
-                            audioController.PlayOneShot(itemDown);
-                        }
-                        mouseController.RetrieveItem();
-                }
-            }
-        }
-    }
-	*/
     // ----------------End Drag Handling-----------------------
 
     // ------------------Tooltip handing-----------------------

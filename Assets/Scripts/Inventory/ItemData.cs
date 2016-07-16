@@ -15,7 +15,6 @@ public class ItemData : MonoBehaviour {
     void Awake() {
 
         GameObject inv = GameObject.FindWithTag("InventoryPanel");
-        GameObject UI = GameObject.FindWithTag("UI");
         owner = inv.GetComponent<Inventory>();
     }
 

@@ -75,9 +75,6 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 
     public void AddExistingItem(ItemData itemDataToAdd) {
 
-        Item itemToAdd = itemDataToAdd.item;
-        GameObject itemObj = itemDataToAdd.gameObject;
-
         for (int i = 0; i < slotAmount; i++) {
             Slot currSlot = slots[i];
             if (currSlot.item == null) {
