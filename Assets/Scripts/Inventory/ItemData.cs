@@ -6,7 +6,7 @@ using System;
 
 public class ItemData : MonoBehaviour {
 	
-	public int amount = 1;
+	private int Amount = 1;
     public Slot slot = null;
 
     public Item item;
@@ -19,8 +19,36 @@ public class ItemData : MonoBehaviour {
         owner = inv.GetComponent<Inventory>();
     }
 
-    public void SetAmount(int newAmount) {
-        this.amount = newAmount;
-        this.gameObject.transform.GetComponentInChildren<Text>().text = this.amount.ToString();
-    }
+	public int amount {
+		get { return Amount; }
+		set {
+			this.Amount = value;
+			this.gameObject.transform.GetComponentInChildren<Text>().text = this.amount.ToString();
+		}
+	}
+
+	public int AddToStack(int n) {
+
+		if (amount >= item.MaxStack) {
+			// Swap amounts
+			Debug.Log("Swapping amounts");
+			amount = n;
+			return item.MaxStack;
+		} else {
+			// Fill current stack and return leftover
+			amount += n;
+			if (amount > item.MaxStack) {
+				Debug.Log("Stack full, returning leftover");
+				int overflow = amount - item.MaxStack;
+				amount = item.MaxStack;
+				return overflow;
+			} else {
+				return 0;
+			}
+		}
+	}
+
+	public void Destroy() {
+		Destroy(gameObject);
+	}
 }

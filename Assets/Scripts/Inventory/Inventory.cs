@@ -97,7 +97,7 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
         Item item = database.FetchItemByID(id);
 
         itemData.item = item;
-        itemData.SetAmount(amount);
+        itemData.amount = amount;
         itemObj.GetComponent<Image>().sprite = item.Sprite;
         itemObj.name = item.Title;
 

@@ -59,18 +59,17 @@ public class MouseController : MonoBehaviour {
 				}
 				// ELSE slot is full, combine or switch items
 				else {
-					ItemData it = slot.TryCombineItems(itemOnMouse);
+					ItemData it = slot.CombineOrSwap(itemOnMouse);
 					if (it != null) {
 						AttachItemToMouse(it);
+					} else {
+						RetrieveItem().Destroy();
 					}
 					
 				}
 			}
 		}
 	}
-
-
-
 
     // Clear item references from mouse
     public ItemData RetrieveItem() {

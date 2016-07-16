@@ -68,40 +68,32 @@ public class Slot : MonoBehaviour,
 		return it;
 	}
 
-    public ItemData TryCombineItems(ItemData itemToStack) {
+    public ItemData CombineOrSwap(ItemData i) {
         // Check if items are the same type, and stackable
-        if (itemToStack.item.Stackable && itemToStack.item.ID == item.item.ID) {
-
-			if (item.amount == item.item.MaxStack) {
-				return Swap(itemToStack);
+        if (i.item.Stackable && i.item.ID == item.item.ID) {
+			ItemData n = Combine(i);
+			if (n != null) {
+				return n;
 			}
-
-            int totalAmount = itemToStack.amount + item.amount;
-
-			if (totalAmount > item.item.MaxStack) {
-				int leftOver = totalAmount - item.item.MaxStack;
-				Debug.Log("Stack full, returning " + leftOver + " leftover items.");
-
-				item.SetAmount(item.item.MaxStack);
-				itemToStack.SetAmount(leftOver);
-				audioController.PlayOneShot(itemDown);
-
-				return itemToStack;
-			}
-
-			else {
-				Debug.Log("Adding stacks together, total: " + totalAmount.ToString());
-
-				item.SetAmount(totalAmount);
-				Destroy(itemToStack.gameObject);
-
-				return null;
-			}
+			return null;
         } else {
 			Debug.Log("Swapping items.");
-			return Swap(itemToStack);
+			return Swap(i);
 		}
     }
+
+	private ItemData Combine(ItemData i) {
+		audioController.PlayOneShot(itemDown);
+		int leftover = item.AddToStack(i.amount);
+
+		if (leftover > 0) {
+			Debug.Log("Stack full, returning " + leftover + " leftover items.");
+			i.amount = leftover;
+			return i;
+		}
+
+		return null;
+	}
 
 	public ItemData Swap(ItemData itemToSwap) {
 		ItemData it = PickupItem();
