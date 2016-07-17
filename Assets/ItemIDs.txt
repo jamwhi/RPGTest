@@ -1,0 +1,14 @@
+Item				ID
+Steel Sword			0
+Wooden Bow			1
+Magic Wand			2
+Iron Helmet			3
+Iron Breastplate	4
+Health Potion		5
+Arrow				6
+Kite Shield			7
+Buckler				8
+Iron Boots			9
+Hammer				10
+Pickaxe				11
+Saw					12

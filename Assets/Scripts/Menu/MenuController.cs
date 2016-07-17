@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class MenuController : MonoBehaviour {
 
@@ -47,6 +48,6 @@ public class MenuController : MonoBehaviour {
         opened.SetActive(true);
         closed.SetActive(false);
         audioController.PlaySfx(menuSound);
-
     }
+
 }

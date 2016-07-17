@@ -95,7 +95,7 @@ public class Stack : MonoBehaviour {
         int inputVal;
 
         try {
-            inputVal = int.Parse(fromInput);
+            inputVal = (int)stackSlider.value;
         }
         catch {
             inputVal = 1;

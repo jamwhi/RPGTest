@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
-public class MouseController : MonoBehaviour {
+public class MouseController : MonoBehaviour, IPointerClickHandler {
 
     public Inventory inventory;
     public Tooltip tooltip;
     public Stack stack;
+    public GameObject dropItem;
     public ItemData itemOnMouse = null;
 	public MenuController menuController;
 	public Transaction transController;
@@ -28,6 +31,7 @@ public class MouseController : MonoBehaviour {
 
 
 	public void HandleClick(Slot slot, Vector2 pos) {
+        if (stack.gameObject.activeSelf || transController.gameObject.activeSelf) DisableAllFrontLayer();
 		// IF mouse is empty
 		if (itemOnMouse == null) {
 			PickUpFrom(slot, pos);
@@ -59,7 +63,11 @@ public class MouseController : MonoBehaviour {
             slot.SelectSlot();
             return;
         }
+        else if (!menuController.shop.activeSelf && !menuController.character.activeSelf) {
+            slot.item.Consume();
+        }
     }
+
 
     public void PickUpFrom(Slot slot, Vector2 pos) {
 		// IF slot is empty
@@ -108,6 +116,20 @@ public class MouseController : MonoBehaviour {
 		}
 	}
 
+    public void DropItemConfirm(Vector2 pos) {
+        if (itemOnMouse != null) {
+            dropItem.SetActive(true);
+            dropItem.transform.position = pos;
+            
+        }
+    }
+
+    // Drop item from mouse
+    public void DropItem() {
+        Destroy(RetrieveItem().gameObject);
+        dropItem.SetActive(false);
+    }
+
     // Clear item references from mouse
     public ItemData RetrieveItem() {
 		ItemData it = this.itemOnMouse;
@@ -131,5 +153,25 @@ public class MouseController : MonoBehaviour {
 
     public void DeactivateTooltip() {
         tooltip.Deactivate();
+    }
+
+    public void OnPointerClick(PointerEventData eventData) {
+        if (eventData.pointerEnter.CompareTag("UI")) {
+            if (itemOnMouse != null) { 
+            DropItemConfirm(eventData.position);
+            } 
+            else {
+                DisableAllFrontLayer();
+            }  
+        }       
+    }
+
+    public void DisableAllFrontLayer() {
+        for(int i = 0; i < transform.childCount; i++) {
+            GameObject currChild = transform.GetChild(i).gameObject;
+            if(currChild.layer == 8) {
+                currChild.SetActive(false);
+            }
+        }
     }
 }

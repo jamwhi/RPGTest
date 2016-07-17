@@ -58,13 +58,17 @@ public class Tooltip : MonoBehaviour {
             statText.text = "<color=#2F6502>Block: " + item.Power.ToString() + "</color>\n";
             statText.text += "<color=#003397>Durability: " + item.Durability.ToString() + "</color>";
         }
-        else if (item.ItemType == "Useable") {
+        else if (item.ItemType == "Consumable") {
             statText.text = "<color=#2F6502>Strength: " + item.Power.ToString() + "</color>\n";
             statText.text += "<color=#003397>Uses: " + item.Durability.ToString() + "</color>";
         }
         else if (item.ItemType == "Ammo") {
             statText.text = "<color=#2F6502>Attack: " + item.Power.ToString() + "</color>\n";
             statText.text += "<color=#003397>Range: " + item.Durability.ToString() + "</color>";
+        }
+        else if (item.ItemType == "Tool") {
+            statText.text = "<color=#2F6502>Hardness: " + item.Power.ToString() + "</color>\n";
+            statText.text += "<color=#003397>Uses: " + item.Durability.ToString() + "</color>";
         }
 
         // Set Description text 

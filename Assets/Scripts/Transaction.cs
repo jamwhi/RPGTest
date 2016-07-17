@@ -136,4 +136,8 @@ public class Transaction : MonoBehaviour {
         }
         confirmPanel.SetActive(false);
     }
+
+    public void StackCancel() {
+        confirmPanel.SetActive(false);
+    }
 }

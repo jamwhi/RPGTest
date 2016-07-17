@@ -105,7 +105,7 @@ public class Slot : MonoBehaviour,
         this.owner.transform.SetSiblingIndex(2);
         // On Left click
         if (eventData.button == PointerEventData.InputButton.Left) {
-			mouseController.HandleClick(this, eventData.position);
+            mouseController.HandleClick(this, eventData.position);    
         }
         // On right click 
         else if (eventData.button == PointerEventData.InputButton.Right) {
@@ -115,15 +115,19 @@ public class Slot : MonoBehaviour,
 
 	// ----------------Drag and Drop items---------------------
 	public void OnBeginDrag (PointerEventData eventData) {
-        if(item == null) return;
-		mouseController.StartDrag(this, eventData.position);
+        if (item == null) return;
+        if (eventData.button == PointerEventData.InputButton.Right) return;
+        mouseController.StartDrag(this, eventData.position);
 	}
 
 	public void OnDrag (PointerEventData eventData) {}
 
 	public void OnEndDrag (PointerEventData eventData) {
+        if (eventData.pointerEnter.CompareTag("UI")) {
+            mouseController.DropItemConfirm(eventData.position);
+        }
         if (item == null) return;
-        mouseController.EndDrag(this); 
+        mouseController.EndDrag(this);
 	}
 
 	public void OnDrop (PointerEventData eventData) {

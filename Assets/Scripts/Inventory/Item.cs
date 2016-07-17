@@ -13,12 +13,13 @@ public class Item {
 	public string Description { get; set; }
 	public bool Stackable { get; set; }
     public int MaxStack { get; set; }
+    public bool Useable { get; set; }
 	public int Rarity { get; set; }
 	public string Slug { get; set; }
 	public Sprite Sprite { get; set; }
 
 	// Constructor
-	public Item (int id, string title, int val, int charSlot, string itemType, int power, int durability, string description, bool stackable, int maxStack, int rarity, string slug) {
+	public Item (int id, string title, int val, int charSlot, string itemType, int power, int durability, string description, bool stackable, int maxStack, bool useable, int rarity, string slug) {
 
 		this.ID = id;
 		this.Title = title;
@@ -30,6 +31,7 @@ public class Item {
 		this.Description = description;
 		this.Stackable = stackable;
         this.MaxStack = maxStack;
+        this.Useable = useable;
 		this.Rarity = rarity;
 		this.Slug = slug;
 		this.Sprite = Resources.Load<Sprite>("Sprites/Items/" + slug);

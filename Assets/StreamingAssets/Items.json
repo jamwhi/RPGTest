@@ -12,6 +12,7 @@
 		"description": "A well crafted steel sword.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 2,
 		"slug": "sword"
 	},
@@ -28,6 +29,7 @@
 		"description": "A wooden bow, for shooting arrows.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 3,
 		"slug": "bow"
 	},
@@ -44,6 +46,7 @@
 		"description": "A wand bursting with arcane energy.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 4,
 		"slug": "wand"
 	},
@@ -60,6 +63,7 @@
 		"description": "A helmet, useful for protecting your head.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 2,
 		"slug": "helmet"
 	},
@@ -76,6 +80,7 @@
 		"description": "A breasplate. This covers the torso with solid iron. Useful.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 3,
 		"slug": "armor"
 	},
@@ -92,6 +97,7 @@
 		"description": "A health potion. Use before dying to not die for longer.",
 		"stackable": true,
 		"maxStack": 5,
+		"useable": true,
 		"rarity": 1,
 		"slug": "bottle"
 	},
@@ -108,6 +114,7 @@
 		"description": "An arrow. You'll need these if you want to shoot a bow.",
 		"stackable": true,
 		"maxStack": 99,
+		"useable": false,
 		"rarity": 1,
 		"slug": "arrow"
 	},
@@ -124,6 +131,7 @@
 		"description": "A metal kite shield. Use it to protect yourself from the enemies.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 4,
 		"slug": "kiteshield"
 	},
@@ -140,6 +148,7 @@
 		"description": "A small buckler. You can stop enemies attacks before they hit you in the body.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 2,
 		"slug": "buckler"
 	},
@@ -156,7 +165,59 @@
 		"description": "Regular metal boots. Stops your feet from getting wet. Not used for kicking.",
 		"stackable": false,
 		"maxStack": 1,
+		"useable": false,
 		"rarity": 2,
 		"slug": "boots"
+	},
+	{
+		"id": 10,
+		"title": "Hammer",
+		"val": 3,
+		"charSlot": -1,
+		"itemType": "Tool",
+		"stats": {
+			"power": 5,
+			"durability": 20
+		},
+		"description": "A hammer. Used to craft armour, or weapons, or perhaps both.",
+		"stackable": false,
+		"maxStack": 1,
+		"useable": false,
+		"rarity": 1,
+		"slug": "hammer"
+	},
+	{
+		"id": 11,
+		"title": "Pickaxe",
+		"val": 3,
+		"charSlot": -1,
+		"itemType": "Tool",
+		"stats": {
+			"power": 5,
+			"durability": 20
+		},
+		"description": "A pickaxe. Used to mine for metal ore, and occasionally fish (don't ask me how).",
+		"stackable": false,
+		"maxStack": 1,
+		"useable": false,
+		"rarity": 1,
+		"slug": "pick-axe"
+	},
+	{
+		"id": 12,
+		"title": "Saw",
+		"val": 3,
+		"charSlot": -1,
+		"itemType": "Tool",
+		"stats": {
+			"power": 5,
+			"durability": 20
+		},
+		"description": "A saw. Fashion wood into a specific shape, such as the infamous 2x4.",
+		"stackable": false,
+		"maxStack": 1,
+		"useable": false,
+		"rarity": 1,
+		"slug": "saw"
 	}
 ]

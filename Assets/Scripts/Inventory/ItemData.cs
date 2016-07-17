@@ -47,6 +47,14 @@ public class ItemData : MonoBehaviour {
 		}
 	}
 
+    public void Consume() {
+        if (item.Useable) {
+            amount--;
+            if (amount == 0) Destroy();
+        }
+
+    }
+
 	public void Destroy() {
 		Destroy(gameObject);
 	}
