@@ -8,6 +8,7 @@ public class Transaction : MonoBehaviour {
 
     public Inventory shop;
     public Inventory player;
+    public Inventory equipment;
 
     public AudioSource audioController;
     public AudioClip sellItem;

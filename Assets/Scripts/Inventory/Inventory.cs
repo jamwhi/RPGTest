@@ -7,6 +7,7 @@ using System;
 
 public class Inventory : MonoBehaviour, IPointerClickHandler {
 
+    public Equipment equipment;
     public ItemDatabase database;
     public Slot inventorySlot;
     public ItemData inventoryItem;
@@ -27,6 +28,12 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
             newSlot.slotID = i;
             slots.Add(newSlot);
         }
+    }
+
+    public void AddSlot(Slot slot) {
+        slot.owner = this;
+        slot.slotID = slots.Count;
+        slots.Add(slot);
     }
 
 // Attempt to add an item to the inventory
@@ -67,7 +74,6 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 	}
 
     public void AddItemButton(string ind) {
-
         AddItem(database.FetchItemByID(int.Parse(ind)) );
     }
 
@@ -86,21 +92,18 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     }
  
     public ItemData CreateItemFromStack(int id, int amount) {
-
         ItemData itemData = Instantiate(inventoryItem) as ItemData;
         Item item = database.FetchItemByID(id);
         itemData.item = item;
         itemData.amount = amount;
         itemData.GetComponent<Image>().sprite = item.Sprite;
         itemData.name = item.Title;
-
         return itemData;
     }
     
 
 // Search inventory for an item, return index.
 	public int SearchInventory(Item item){
-
 		for( int i = 0; i < slotAmount; i++){
             ItemData slotDataToCheck = slots[i].item;
 			if ( (slotDataToCheck != null) 
@@ -122,5 +125,11 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 
     public void OnPointerClick(PointerEventData eventData) {
         this.transform.SetSiblingIndex(2);
+    }
+
+    public void ItemIntoSlot(Slot slot) {
+        if(invType == 2) {
+            equipment.UpdateEquipment();
+        }
     }
 }

@@ -57,6 +57,7 @@ public class Slot : MonoBehaviour,
         itemIn.owner = this.owner;
         this.item = itemIn;
         item.transform.localPosition = Vector2.zero;
+        owner.ItemIntoSlot(this);
 		audioController.PlaySfx(itemDown);
 	}
 
