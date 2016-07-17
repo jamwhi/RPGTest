@@ -31,30 +31,38 @@ public class Transaction : MonoBehaviour {
 
     }
     public bool ItemTransaction(ItemData itemIn, Inventory invIn, int slotIndex, float valueMod = 1.0f) {
-        // IF same owner, do nothing
+        // Return if no itemIn (bad call to function)
         if (itemIn == null) {
 			return false;
 		}
+        // IF same owner, do nothing
         if ((itemIn.owner == invIn) && (invIn.invType != 2)) {
             Debug.Log("Same item owner as inventory in Transaction");
             return true;
         }
-        // ELSE IF itemIn from character(0 or 2), into shop(1)
-        else if ( ((itemIn.owner.invType == 0)|| (itemIn.owner.invType == 2)) && (invIn.invType == 1)) {
-            this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
-            Destroy(itemIn.gameObject);
-            audioController.PlayOneShot(sellItem);
-            Debug.Log("Item sold to shop");
+        // ELSE IF Moving an item from inventory or equipment to shop
+        else if (((itemIn.owner.invType == 0) || (itemIn.owner.invType == 2)) && (invIn.invType == 1)) {
+            //Chcek if sufficient gold
+            if (invIn.gold.goldAmount >= itemIn.item.Value) {
+                this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
+                Destroy(itemIn.gameObject);
+                audioController.PlayOneShot(sellItem);
+                Debug.Log("Item sold to shop");             
+            }
             return false;
         }
-        // ELSE IF itemIn from shop(1), into character(0 or 2)
+        // ELSE IF: Moving an item from shop to inventory or equipment
         else if ((itemIn.owner.invType == 1) && ((invIn.invType == 2) || (invIn.invType == 0)) ) {
-            this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
-            //audioController.PlayOneShot(sellItem);
-            Debug.Log("Item bought by character");
-            return true;
+            //Chcek if sufficient gold
+            if (invIn.gold.goldAmount >= itemIn.item.Value) {
+                this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
+                //audioController.PlayOneShot(sellItem); Buy item sound?
+                Debug.Log("Item bought by character");
+                return true;
+            } else return false;
 
         }
+        // ELSE IF: Attempting to equip item to wrong equipment slot
         else if( ((itemIn.owner.invType == 0) || (itemIn.owner.invType == 2)) && (invIn.invType == 2) ) {
             if (itemIn.item.CharSlot != slotIndex) {
                 Debug.Log("Invalid slot");

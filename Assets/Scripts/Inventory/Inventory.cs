@@ -8,8 +8,8 @@ using System;
 public class Inventory : MonoBehaviour, IPointerClickHandler {
 
     public ItemDatabase database;
-    public GameObject inventorySlot;
-    public GameObject inventoryItem;
+    public Slot inventorySlot;
+    public ItemData inventoryItem;
     public Transform slotPanel;
     public Gold gold;
     public int slotAmount;
@@ -20,9 +20,8 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 	protected void Start () {
         // Add slots
 		for(int i = 0; i < slotAmount; i++){
-            GameObject newSlotObject = Instantiate(inventorySlot);
-            Slot newSlot = newSlotObject.GetComponent<Slot>();
-			newSlotObject.transform.SetParent(slotPanel);
+            Slot newSlot = Instantiate(inventorySlot) as Slot;
+			newSlot.transform.SetParent(slotPanel);
             newSlot.owner = this;
 			newSlot.name = "Slot " + i.ToString();
             newSlot.slotID = i;
@@ -52,16 +51,15 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 		for(int i = 0; i < slotAmount; i++){
             Slot currSlot = slots[i];
 			if (currSlot.item == null){
-                GameObject itemObj = Instantiate(inventoryItem);
-                ItemData data = itemObj.GetComponent<ItemData>();
-                data.item = itemToAdd;
-				data.slot = currSlot;
-                data.owner = this;
-				itemObj.transform.SetParent(slots[i].transform);
-                itemObj.transform.localPosition = Vector2.zero;
-				itemObj.GetComponent<Image>().sprite = itemToAdd.Sprite;
-				itemObj.name = itemToAdd.Title;
-                currSlot.item = data;
+                ItemData newItem = Instantiate(inventoryItem) as ItemData;
+                newItem.item = itemToAdd;
+                newItem.slot = currSlot;
+                newItem.owner = this;
+                newItem.transform.SetParent(slots[i].transform);
+                newItem.transform.localPosition = Vector2.zero;
+                newItem.GetComponent<Image>().sprite = itemToAdd.Sprite;
+                newItem.name = itemToAdd.Title;
+                currSlot.item = newItem;
                 return;
 			}
 		}
@@ -87,18 +85,16 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
         }
     }
  
-    public GameObject CreateItemFromStack(int id, int amount) {
+    public ItemData CreateItemFromStack(int id, int amount) {
 
-        GameObject itemObj = Instantiate(inventoryItem);
-        ItemData itemData = itemObj.GetComponent<ItemData>();
+        ItemData itemData = Instantiate(inventoryItem) as ItemData;
         Item item = database.FetchItemByID(id);
-
         itemData.item = item;
         itemData.amount = amount;
-        itemObj.GetComponent<Image>().sprite = item.Sprite;
-        itemObj.name = item.Title;
+        itemData.GetComponent<Image>().sprite = item.Sprite;
+        itemData.name = item.Title;
 
-        return itemObj;
+        return itemData;
     }
     
 

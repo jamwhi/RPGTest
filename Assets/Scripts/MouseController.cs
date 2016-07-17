@@ -28,7 +28,7 @@ public class MouseController : MonoBehaviour {
 
 
 	public void HandleClick(Slot slot, Vector2 pos) {
-		// IF mouse is empty (drag equivilnt of startDrag)
+		// IF mouse is empty
 		if (itemOnMouse == null) {
 			PickUpFrom(slot, pos);
 		}
@@ -47,15 +47,21 @@ public class MouseController : MonoBehaviour {
 			PickUpFrom(slot, pos);
 		}
 	}
-
+        
 	public void EndDrag(Slot slot) {
 		if (draggingFrom != null) {
 			PutInto(slot);
 			draggingFrom = null;
 		}
 	}
+    public void HandleRightClick(Slot slot) {
+        if (menuController.shop.activeSelf && slot.owner.invType != 2) {
+            slot.SelectSlot();
+            return;
+        }
+    }
 
-	public void PickUpFrom(Slot slot, Vector2 pos) {
+    public void PickUpFrom(Slot slot, Vector2 pos) {
 		// IF slot is empty
 		if (slot.item == null) {
 			return;
@@ -63,10 +69,7 @@ public class MouseController : MonoBehaviour {
 		// ELSE slot is full
 		else {
 			// IF shop is open, select slot
-			if (menuController.shop.activeSelf && slot.owner.invType != 2) {
-				slot.SelectSlot();
-				return;
-			}
+
 			// IF shift is down, open stack
 			if (Input.GetKey(KeyCode.LeftShift) && slot.item.item.Stackable) {
 				stack.Activate(slot.item, pos);
@@ -118,13 +121,6 @@ public class MouseController : MonoBehaviour {
 		itemOnMouse.transform.SetParent(this.transform);
 		itemOnMouse.transform.position = Input.mousePosition;
 	}
-
-    //public void SwapItems(ItemData itemOne, ItemData itemTwo) {
-    //    Slot tempSlot = itemOne.slot;
-    //    itemOne.slot = itemTwo.slot;
-    //    itemTwo.slot = tempSlot;
-
-    //}
 
     public void ActivateTooltip(Item item, Vector2 pos) {
 

@@ -10,7 +10,7 @@ public class Stack : MonoBehaviour {
     public InputField stackAmount;
     public Slider stackSlider;
     public ItemData itemToSeperate;
-    public AudioSource audioControl;
+    public AudioController audioController;
     public AudioClip menuSound;
     public bool isActive = false;
     public int maxStack = 20;
@@ -34,7 +34,7 @@ public class Stack : MonoBehaviour {
 
     // Cancel button callback
     public void StackCancel() {
-        audioControl.PlayOneShot(menuSound);
+        audioController.PlaySfx(menuSound);
         stack.SetActive(false);
         isActive = false;
     }
@@ -48,11 +48,11 @@ public class Stack : MonoBehaviour {
         }
         else {
             itemToSeperate.amount = itemToSeperate.amount - (int) stackSlider.value;
-            ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value).GetComponent<ItemData>();
+            ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
             mouseController.AttachItemToMouse(newItems); 
         }
 
-        audioControl.PlayOneShot(menuSound);
+        audioController.PlaySfx(menuSound);
         stack.SetActive(false);
         isActive = false;
     }

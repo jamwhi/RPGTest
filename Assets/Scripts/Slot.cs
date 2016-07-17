@@ -23,7 +23,7 @@ public class Slot : MonoBehaviour,
     public Stack stack;
     public Transaction transController;
     public MouseController mouseController;
-    public AudioSource audioController;
+    public AudioController audioController;
     public AudioClip itemDown;
     public AudioClip itemUp;
 
@@ -34,10 +34,9 @@ public class Slot : MonoBehaviour,
         this.item = null;
         GameObject UI = GameObject.FindWithTag("UI");
         mouseController = UI.GetComponent<MouseController>();
-        audioController = UI.GetComponent<AudioSource>();
+        audioController = GameObject.FindWithTag("AudioControl").GetComponent<AudioController>();
         stack = UI.GetComponent<Stack>();
         transController = UI.GetComponent<Transaction>();
-        //myColor = gameObject.GetComponent<Image>().color;
     }
 
     public void SelectSlot() {
@@ -58,13 +57,13 @@ public class Slot : MonoBehaviour,
         itemIn.owner = this.owner;
         this.item = itemIn;
         item.transform.localPosition = Vector2.zero;
-		audioController.PlayOneShot(itemDown);
+		audioController.PlaySfx(itemDown);
 	}
 
 	public ItemData PickupItem() {
 		ItemData it = this.item;
 		this.item = null;
-		audioController.PlayOneShot(itemUp);
+		audioController.PlaySfx(itemUp);
 		return it;
 	}
 
@@ -83,7 +82,7 @@ public class Slot : MonoBehaviour,
     }
 
 	private ItemData Combine(ItemData i) {
-		audioController.PlayOneShot(itemDown);
+		audioController.PlaySfx(itemDown);
 		int leftover = item.AddToStack(i.amount);
 
 		if (leftover > 0) {
@@ -109,20 +108,22 @@ public class Slot : MonoBehaviour,
 			mouseController.HandleClick(this, eventData.position);
         }
         // On right click 
-        else {
-            // do nothing :)
+        else if (eventData.button == PointerEventData.InputButton.Right) {
+            mouseController.HandleRightClick(this);
         }
     }
 
 	// ----------------Drag and Drop items---------------------
 	public void OnBeginDrag (PointerEventData eventData) {
+        if(item == null) return;
 		mouseController.StartDrag(this, eventData.position);
 	}
 
 	public void OnDrag (PointerEventData eventData) {}
 
 	public void OnEndDrag (PointerEventData eventData) {
-		mouseController.EndDrag(this); 
+        if (item == null) return;
+        mouseController.EndDrag(this); 
 	}
 
 	public void OnDrop (PointerEventData eventData) {
