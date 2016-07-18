@@ -35,9 +35,4 @@ public class Item  {
 	public void SetSprite () {
 		this.sprite = Resources.Load<Sprite>("Sprites/Items/" + this.slug);
 	}
-
-	// Create emtpy item
-	public Item () {
-		this.id = -1;
-	}
 }

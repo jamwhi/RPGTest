@@ -14,6 +14,7 @@ public class ItemDatabase : MonoBehaviour {
 
 		JString = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")).ToJson();
 		Item[] items = JsonMapper.ToObject<Item[]>(JString);
+
 		for (int i = 0; i < items.Length; i++) {
 			items[i].SetSprite();
 			database.Add(items[i]);
