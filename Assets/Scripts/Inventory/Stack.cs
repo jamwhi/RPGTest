@@ -48,7 +48,7 @@ public class Stack : MonoBehaviour {
         }
         else {
             itemToSeperate.amount = itemToSeperate.amount - (int) stackSlider.value;
-            ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.ID, (int)stackSlider.value);
+            ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.id, (int)stackSlider.value);
             mouseController.AttachItemToMouse(newItems); 
         }
 

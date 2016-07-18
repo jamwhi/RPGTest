@@ -1,30 +1,43 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 // Individual items
-public class Item {
+public class Item  {
 
-	public int ID { get; set; }
-	public string Title { get; set; }
-	public int Value { get; set; }
-    public int CharSlot { get; set; }
-    public string ItemType { get; set; }
-	public int Power { get; set; }
-	public int Durability { get; set; }
-	public string Description { get; set; }
-	public bool Stackable { get; set; }
-    public int MaxStack { get; set; }
-    public bool Useable { get; set; }
-	public int Rarity { get; set; }
-	public string Slug { get; set; }
-	public Sprite Sprite { get; set; }
+    // Universal components
+    public int id = -1;
+    public string title = "";
+    public int value = -1;
+    public int charSlot = -1;
+    public string itemType = "";
+	public string description = "";
+    public bool stackable = false;
+    public int maxStack = -1;
+    public bool useable = false;
+	public int rarity = -1;
+    public string slug = "";
+    public Sprite sprite { get; set; }
 
-	// Constructor
+    // Specific components
+    public int power = -1;
+    public int durability = -1;
+    public int strength = -1;
+    public int dexterity = -1;
+    public int magic = -1;
+    public int vitality = -1;
+    public int uses = -1;
+    public int healthRestore = -1;
+    public int manaRestore = -1;
+    public int hardness = -1;
+    public int quality = 1;
+    public string matType = "";
+
 	public void SetSprite () {
-		this.Sprite = Resources.Load<Sprite>("Sprites/Items/" + this.Slug);
+		this.sprite = Resources.Load<Sprite>("Sprites/Items/" + this.slug);
 	}
 
 	// Create emtpy item
 	public Item () {
-		this.ID = -1;
+		this.id = -1;
 	}
 }

@@ -23,7 +23,7 @@ public class ItemDatabase : MonoBehaviour {
 	public Item FetchItemByID(int id) {
 
 		for(int i = 0; i < database.Count; i++) {
-			if(database[i].ID == id) {
+			if(database[i].id == id) {
 				return database[i];
 			}
 		}
