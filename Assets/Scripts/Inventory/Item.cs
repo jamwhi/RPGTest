@@ -35,4 +35,26 @@ public class Item  {
 	public void SetSprite () {
 		this.sprite = Resources.Load<Sprite>("Sprites/Items/" + this.slug);
 	}
+
+	public Item (int id, string title, int val, int charSlot, string itemType, string description, bool stackable, int maxStack, bool useable, int rarity, string slug) {
+		
+		this.id = id;
+		this.title = title;
+		this.value = val;
+		this.charSlot = charSlot;
+		this.itemType = itemType;
+		this.power = power;
+		this.durability = durability;
+		this.description = description;
+		this.stackable = stackable;
+		this.maxStack = maxStack;
+		this.useable = useable;
+		this.rarity = rarity;
+		this.slug = slug;
+		this.sprite = Resources.Load<Sprite>("Sprites/Items/" + slug);
+	}
+
+	public Item() {
+		id = -1;
+	}
 }
