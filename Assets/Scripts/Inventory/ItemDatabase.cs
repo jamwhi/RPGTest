@@ -15,21 +15,11 @@ public class ItemDatabase : MonoBehaviour {
 
 	void Start () {
 		List<Item> db = new List<Item>();
-		for (int n = 0; n < 500; n++) {
-
-
-			/*JString = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")).ToJson();
-			Item[] items = JsonMapper.ToObject<Item[]>(JString);
-
-			for (int i = 0; i < items.Length; i++) {
-				items[i].SetSprite();
-				db.Add(items[i]);
-			}*/
+		for (int n = 0; n < 2000; n++) {
 
 			itemsInDatabase = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
 			ConstructItemDatabaseFake();
-
-
+			databaseFake.Clear();
 		}
 
 		for (int i = 0; i < db.Count; i++) {

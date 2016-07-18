@@ -43,8 +43,6 @@ public class Item  {
 		this.value = val;
 		this.charSlot = charSlot;
 		this.itemType = itemType;
-		this.power = power;
-		this.durability = durability;
 		this.description = description;
 		this.stackable = stackable;
 		this.maxStack = maxStack;
