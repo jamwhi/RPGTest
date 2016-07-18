@@ -8,12 +8,16 @@ public class ItemDatabase : MonoBehaviour {
 
     // Database of items
 	private List<Item> database = new List<Item>();
-	private JsonData itemsInDatabase;
+	private string JString;
 
 	void Start(){
 
-		itemsInDatabase = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json"));
-		ConstructItemDatabase();
+		JString = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")).ToJson();
+		Item[] items = JsonMapper.ToObject<Item[]>(JString);
+		for (int i = 0; i < items.Length; i++) {
+			items[i].SetSprite();
+			database.Add(items[i]);
+		}
 	}
 
 	public Item FetchItemByID(int id) {
@@ -24,27 +28,5 @@ public class ItemDatabase : MonoBehaviour {
 			}
 		}
 		return new Item();
-	}
-
-
-	private void ConstructItemDatabase() {
-
-		for(int i = 0; i < itemsInDatabase.Count; i++) {
-            database.Add(new Item(
-                (int)itemsInDatabase[i]["id"],
-                itemsInDatabase[i]["title"].ToString(),
-                (int)itemsInDatabase[i]["val"],
-                (int)itemsInDatabase[i]["charSlot"],
-                itemsInDatabase[i]["itemType"].ToString(),
-                (int)itemsInDatabase[i]["stats"]["power"],
-                (int)itemsInDatabase[i]["stats"]["durability"],
-                itemsInDatabase[i]["description"].ToString(),
-                (bool)itemsInDatabase[i]["stackable"],
-                (int)itemsInDatabase[i]["maxStack"],
-                (bool)itemsInDatabase[i]["useable"],
-				(int)itemsInDatabase[i]["rarity"],
-                itemsInDatabase[i]["slug"].ToString()
-				));
-		}
 	}
 }

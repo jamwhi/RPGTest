@@ -19,22 +19,8 @@ public class Item {
 	public Sprite Sprite { get; set; }
 
 	// Constructor
-	public Item (int id, string title, int val, int charSlot, string itemType, int power, int durability, string description, bool stackable, int maxStack, bool useable, int rarity, string slug) {
-
-		this.ID = id;
-		this.Title = title;
-		this.Value = val;
-        this.CharSlot = charSlot;
-        this.ItemType = itemType;
-		this.Power = power;
-		this.Durability = durability;
-		this.Description = description;
-		this.Stackable = stackable;
-        this.MaxStack = maxStack;
-        this.Useable = useable;
-		this.Rarity = rarity;
-		this.Slug = slug;
-		this.Sprite = Resources.Load<Sprite>("Sprites/Items/" + slug);
+	public void SetSprite () {
+		this.Sprite = Resources.Load<Sprite>("Sprites/Items/" + this.Slug);
 	}
 
 	// Create emtpy item
