@@ -12,7 +12,7 @@ public class ItemDatabase : MonoBehaviour {
 
 	void Start () {
 		List<Item> db = new List<Item>();
-		for (int n = 0; n < 500; n++) {
+		for (int n = 0; n < 2000; n++) {
 
 
 			JString = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")).ToJson();
@@ -22,14 +22,13 @@ public class ItemDatabase : MonoBehaviour {
 				items[i].SetSprite();
 				db.Add(items[i]);
 			}
-
+			db.Clear();
 
 		}
 
 		for (int i = 0; i < db.Count; i++) {
 			database.Add(db[i]);
 		}
-		
 	}
 
 	public Item FetchItemByID(int id) {
