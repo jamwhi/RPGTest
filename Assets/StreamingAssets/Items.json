@@ -2,7 +2,7 @@
 	{
 		"id": 0,
 		"title": "Steel Sword",
-		"val": 10,
+		"value": 10,
 		"charSlot": 3,
 		"itemType": "Weapon",
 		"power": 5,	
@@ -21,7 +21,7 @@
 	{
 		"id": 1,
 		"title": "Wooden Bow",
-		"val": 8,
+		"value": 8,
 		"charSlot": 3,
 		"itemType": "Weapon",
 		"power": 3,	
@@ -40,7 +40,7 @@
 	{
 		"id": 2,
 		"title": "Magic Wand",
-		"val": 14,
+		"value": 14,
 		"charSlot": 3,
 		"itemType": "Weapon",
 		"power": 8,
@@ -59,7 +59,7 @@
 	{
 		"id": 3,
 		"title": "Iron Helmet",
-		"val": 12,
+		"value": 12,
 		"charSlot": 0,
 		"itemType": "Armor",
 		"power": 15,
@@ -78,7 +78,7 @@
 	{
 		"id": 4,
 		"title": "Iron Breastplate",
-		"val": 22,
+		"value": 22,
 		"charSlot": 1,
 		"itemType": "Armor",
 		"power": 28,
@@ -97,7 +97,7 @@
 	{
 		"id": 5,
 		"title": "Health Potion",
-		"val": 5,
+		"value": 5,
 		"charSlot": 5,
 		"itemType": "Consumable",
 		"uses":1,
@@ -113,7 +113,7 @@
 		{
 		"id": 6,
 		"title": "Arrow",
-		"val": 1,
+		"value": 1,
 		"charSlot": 4,
 		"itemType": "Ammo",
 		"power":3,
@@ -127,7 +127,7 @@
 	{
 		"id": 7,
 		"title": "Kite Shield",
-		"val": 14,
+		"value": 14,
 		"charSlot": 4,
 		"itemType": "Shield",
 		"power": 40,
@@ -146,7 +146,7 @@
 	{
 		"id": 8,
 		"title": "Buckler",
-		"val": 7,
+		"value": 7,
 		"charSlot": 4,
 		"itemType": "Shield",
 		"power": 32,
@@ -165,7 +165,7 @@
 	{
 		"id": 9,
 		"title": "Iron Boots",
-		"val": 5,
+		"value": 5,
 		"charSlot": 2,
 		"itemType": "Armor",
 		"power": 12,
@@ -184,7 +184,7 @@
 	{
 		"id": 10,
 		"title": "Hammer",
-		"val": 3,
+		"value": 3,
 		"charSlot": -1,
 		"itemType": "Tool",
 		"hardness": 5,
@@ -199,7 +199,7 @@
 	{
 		"id": 11,
 		"title": "Pickaxe",
-		"val": 3,
+		"value": 3,
 		"charSlot": -1,
 		"itemType": "Tool",
 		"hardness": 5,
@@ -214,7 +214,7 @@
 	{
 		"id": 12,
 		"title": "Saw",
-		"val": 3,
+		"value": 3,
 		"charSlot": -1,
 		"itemType": "Tool",
 		"hardness": 5,
@@ -229,7 +229,7 @@
 	{
 		"id": 13,
 		"title": "Steel",
-		"val": 2,
+		"value": 2,
 		"charSlot": -1,
 		"itemType": "Material",
 		"matType": "Metal",
@@ -244,7 +244,7 @@
 	{
 		"id": 14,
 		"title": "Pine",
-		"val": 2,
+		"value": 2,
 		"charSlot": -1,
 		"itemType": "Material",
 		"matType": "Wood",
@@ -259,7 +259,7 @@
 	{
 		"id": 15,
 		"title": "Leather",
-		"val": 1,
+		"value": 1,
 		"charSlot": -1,
 		"itemType": "Material",
 		"matType": "Leather",
@@ -274,7 +274,7 @@
 	{
 		"id": 16,
 		"title": "Diamond",
-		"val": 8,
+		"value": 8,
 		"charSlot": -1,
 		"itemType": "Material",
 		"matType": "Gem",

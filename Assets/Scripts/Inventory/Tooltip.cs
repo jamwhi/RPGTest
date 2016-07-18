@@ -46,7 +46,7 @@ public class Tooltip : MonoBehaviour {
         statText.text = "";
         string powerType = "";
 
-        switch (item.ItemType) {
+        switch (item.itemType) {
             case "Weapon":
                 powerType = " Damage";
                 break;
@@ -58,24 +58,24 @@ public class Tooltip : MonoBehaviour {
                 break;
         }
 
-        switch (item.ItemType) {
+        switch (item.itemType) {
 
             case "Weapon":
             case "Armor":
             case "Shield":
-                powerText.text = item.Power.ToString() + powerType;
-                duraText.text = item.Durability.ToString() + " Durability";
-                if(item.Strength > 0) statText.text += "+" + item.Strength.ToString() + " Strength\n";
-                if(item.Dexterity > 0) statText.text += "+" + item.Dexterity.ToString() + " Dexterity\n";
-                if(item.Magic > 0) statText.text += "+" + item.Magic.ToString() + " Magic\n";
-                if(item.Vitality > 0) statText.text += "+" + item.Vitality.ToString() + " Vitality\n";
+                powerText.text = item.power.ToString() + powerType;
+                duraText.text = item.durability.ToString() + " Durability";
+                if(item.strength > 0) statText.text += "+" + item.strength.ToString() + " Strength\n";
+                if(item.dexterity > 0) statText.text += "+" + item.dexterity.ToString() + " Dexterity\n";
+                if(item.magic > 0) statText.text += "+" + item.magic.ToString() + " Magic\n";
+                if(item.vitality > 0) statText.text += "+" + item.vitality.ToString() + " Vitality\n";
                 statText.text = statText.text.Remove(statText.text.Length - 1);
                 break;
 
             case "Consumable":
-                if(item.HealthRestore > 0) statText.text += item.HealthRestore.ToString() + " Health Restoration\n";
-                if (item.ManaRestore > 0) statText.text += item.ManaRestore.ToString() + " Mana Restoration\n";
-                statText.text += item.Uses.ToString() + "Uses";
+                if(item.healthRestore > 0) statText.text += item.healthRestore.ToString() + " Health Restoration\n";
+                if (item.manaRestore > 0) statText.text += item.manaRestore.ToString() + " Mana Restoration\n";
+                statText.text += item.uses.ToString() + "Uses";
                 powerText.gameObject.SetActive(false);
                 duraText.gameObject.SetActive(false);
                 break;
@@ -86,13 +86,13 @@ public class Tooltip : MonoBehaviour {
                 break;
 
             case "Tool":
-                statText.text += item.Hardness.ToString() + " Hardness";
-                duraText.text = item.Durability.ToString() + " Durability";
+                statText.text += item.hardness.ToString() + " Hardness";
+                duraText.text = item.durability.ToString() + " Durability";
                 powerText.gameObject.SetActive(false);
                 break;
 
             case "Material":
-                statText.text += item.Quality.ToString() + " Quality";
+                statText.text += item.quality.ToString() + " Quality";
                 powerText.gameObject.SetActive(false);
                 duraText.gameObject.SetActive(false);
                 break;
@@ -108,12 +108,12 @@ public class Tooltip : MonoBehaviour {
     void ConstructDataString(){
 
         // Set title text
-        titleText.text = "<b>" + item.Title + "</b>\n";
-        titleText.color = rarityColors[item.Rarity - 1];
-        if (item.ItemType == "Material") {
-            titleText.text += "<color=#595959FF>" + item.MatType + "</color>";
+        titleText.text = "<b>" + item.title + "</b>\n";
+        titleText.color = rarityColors[item.rarity - 1];
+        if (item.itemType == "Material") {
+            titleText.text += "<color=#595959FF>" + item.matType + "</color>";
         } else {
-            titleText.text += "<color=#595959FF>" + item.ItemType + "</color>";
+            titleText.text += "<color=#595959FF>" + item.itemType + "</color>";
         }
 
         // Set stat text
@@ -123,10 +123,10 @@ public class Tooltip : MonoBehaviour {
         ConstructStatString();
 
         // Set Description text 
-        descText.text = "<color=#000000>" + item.Description + "</color>";
+        descText.text = "<color=#000000>" + item.description + "</color>";
 
         // Set Value text
-        valText.text = item.Value.ToString() + " Gold";
+        valText.text = item.value.ToString() + " Gold";
     }
 
     

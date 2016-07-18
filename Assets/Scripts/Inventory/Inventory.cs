@@ -42,12 +42,12 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
         int ind;
 
         // If the item ID is invalid
-        if (itemToAdd.ID == -1){
+        if (itemToAdd.id == -1){
 			return;
 		}
 
         // If the item is stackable and exists in inventory
-		if (itemToAdd.Stackable && (ind = SearchInventory(itemToAdd)) > -1){
+		if (itemToAdd.stackable && (ind = SearchInventory(itemToAdd)) > -1){
 			ItemData data = slots[ind].item;
 			data.amount++;
 			data.transform.GetChild(0).GetComponent<Text>().text = data.amount.ToString();
@@ -64,8 +64,8 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
                 newItem.owner = this;
                 newItem.transform.SetParent(slots[i].transform);
                 newItem.transform.localPosition = Vector2.zero;
-                newItem.GetComponent<Image>().sprite = itemToAdd.Sprite;
-                newItem.name = itemToAdd.Title;
+                newItem.GetComponent<Image>().sprite = itemToAdd.sprite;
+                newItem.name = itemToAdd.title;
                 currSlot.item = newItem;
                 return;
 			}
@@ -96,8 +96,8 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
         Item item = database.FetchItemByID(id);
         itemData.item = item;
         itemData.amount = amount;
-        itemData.GetComponent<Image>().sprite = item.Sprite;
-        itemData.name = item.Title;
+        itemData.GetComponent<Image>().sprite = item.sprite;
+        itemData.name = item.title;
         return itemData;
     }
     
@@ -107,8 +107,8 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 		for( int i = 0; i < slotAmount; i++){
             ItemData slotDataToCheck = slots[i].item;
 			if ( (slotDataToCheck != null) 
-                && (slotDataToCheck.item.ID == item.ID)
-                && (slotDataToCheck.amount < item.MaxStack)) {
+                && (slotDataToCheck.item.id == item.id)
+                && (slotDataToCheck.amount < item.maxStack)) {
                 return i;
 			}
 		}

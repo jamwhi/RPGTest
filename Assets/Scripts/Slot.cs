@@ -78,7 +78,7 @@ public class Slot : MonoBehaviour,
 
     public ItemData CombineOrSwap(ItemData i) {
         // Check if items are the same type, and stackable
-        if (i.item.Stackable && i.item.ID == item.item.ID) {
+        if (i.item.stackable && i.item.id == item.item.id) {
 			ItemData n = Combine(i);
 			if (n != null) {
 				return n;

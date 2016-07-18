@@ -44,8 +44,8 @@ public class Transaction : MonoBehaviour {
         // ELSE IF Moving an item from inventory or equipment to shop
         else if (((itemIn.owner.invType == 0) || (itemIn.owner.invType == 2)) && (invIn.invType == 1)) {
             //Chcek if sufficient gold
-            if (invIn.gold.goldAmount >= itemIn.item.Value) {
-                this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
+            if (invIn.gold.goldAmount >= itemIn.item.value) {
+                this.updateGold(itemIn.owner, invIn, itemIn.item.value);
                 Destroy(itemIn.gameObject);
                 audioController.PlayOneShot(sellItem);
                 Debug.Log("Item sold to shop");             
@@ -55,8 +55,8 @@ public class Transaction : MonoBehaviour {
         // ELSE IF: Moving an item from shop to inventory or equipment
         else if ((itemIn.owner.invType == 1) && ((invIn.invType == 2) || (invIn.invType == 0)) ) {
             //Chcek if sufficient gold
-            if (invIn.gold.goldAmount >= itemIn.item.Value) {
-                this.updateGold(itemIn.owner, invIn, itemIn.item.Value);
+            if (invIn.gold.goldAmount >= itemIn.item.value) {
+                this.updateGold(itemIn.owner, invIn, itemIn.item.value);
                 //audioController.PlayOneShot(sellItem); Buy item sound?
                 Debug.Log("Item bought by character");
                 return true;
@@ -65,7 +65,7 @@ public class Transaction : MonoBehaviour {
         }
         // ELSE IF: Attempting to equip item to wrong equipment slot
         else if( ((itemIn.owner.invType == 0) || (itemIn.owner.invType == 2)) && (invIn.invType == 2) ) {
-            if (itemIn.item.CharSlot != slotIndex) {
+            if (itemIn.item.charSlot != slotIndex) {
                 Debug.Log("Invalid slot");
                 return false;
             }
@@ -87,10 +87,10 @@ public class Transaction : MonoBehaviour {
             Slot currSlot = player.slots[i];
             if (currSlot.isSelected) {
                 Item currItem = currSlot.item.item;
-                Debug.Log(currSlot.item.item.Title + "   " + currItem.Value.ToString());
-                sellString += "<color=" + rarityColors[currItem.Rarity - 1] + ">" + currItem.Title + "</color>\n";
-                sellValString += currItem.Value.ToString() + "\n";
-                sellTotal += currItem.Value;
+                Debug.Log(currSlot.item.item.title + "   " + currItem.value.ToString());
+                sellString += "<color=" + rarityColors[currItem.rarity - 1] + ">" + currItem.title + "</color>\n";
+                sellValString += currItem.value.ToString() + "\n";
+                sellTotal += currItem.value;
             }
         }
 
@@ -99,9 +99,9 @@ public class Transaction : MonoBehaviour {
             if (currSlot.isSelected) {
                 Item currItem = currSlot.item.item;
                 Debug.Log("Shop Slot: " + i.ToString());
-                buyString += "<color=" + rarityColors[currItem.Rarity - 1] + ">" + currItem.Title + "</color>\n";
-                buyValString += currItem.Value.ToString() + "\n";
-                buyTotal -= currItem.Value;
+                buyString += "<color=" + rarityColors[currItem.rarity - 1] + ">" + currItem.title + "</color>\n";
+                buyValString += currItem.value.ToString() + "\n";
+                buyTotal -= currItem.value;
             }
         }
 

@@ -79,7 +79,7 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
 			// IF shop is open, select slot
 
 			// IF shift is down, open stack
-			if (Input.GetKey(KeyCode.LeftShift) && slot.item.item.Stackable) {
+			if (Input.GetKey(KeyCode.LeftShift) && slot.item.item.stackable) {
 				stack.Activate(slot.item, pos);
 			}
 			// ELSE shift is not down, attach to mouse

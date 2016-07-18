@@ -28,18 +28,18 @@ public class ItemData : MonoBehaviour {
 
 	public int AddToStack(int n) {
 
-		if (amount >= item.MaxStack) {
+		if (amount >= item.maxStack) {
 			// Swap amounts
 			Debug.Log("Swapping amounts");
 			amount = n;
-			return item.MaxStack;
+			return item.maxStack;
 		} else {
 			// Fill current stack and return leftover
 			amount += n;
-			if (amount > item.MaxStack) {
+			if (amount > item.maxStack) {
 				Debug.Log("Stack full, returning leftover");
-				int overflow = amount - item.MaxStack;
-				amount = item.MaxStack;
+				int overflow = amount - item.maxStack;
+				amount = item.maxStack;
 				return overflow;
 			} else {
 				return 0;
@@ -48,7 +48,7 @@ public class ItemData : MonoBehaviour {
 	}
 
     public void Consume() {
-        if (item.Useable) {
+        if (item.useable) {
             amount--;
             if (amount == 0) Destroy();
         }

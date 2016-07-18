@@ -1731,6 +1731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725db545b926fc34d8b7b31d923fc451, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  db: []
+  JString: 
 --- !u!4 &375627036
 Transform:
   m_ObjectHideFlags: 0
@@ -1802,6 +1804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window: {fileID: 969874203}
+  offset: {x: 0, y: 0}
 --- !u!225 &423600834
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -2234,6 +2237,7 @@ MonoBehaviour:
   musicVolume: 0.1
   menuSound: {fileID: 1340847988}
   backgroundMusic: {fileID: 527708918}
+  startTime: 0
 --- !u!82 &527708918
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2691,6 +2695,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window: {fileID: 1756630220}
+  offset: {x: 0, y: 0}
 --- !u!225 &607838766
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3062,6 +3067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window: {fileID: 94528727}
+  offset: {x: 0, y: 0}
 --- !u!225 &657717348
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -3444,6 +3450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window: {fileID: 632352026}
+  offset: {x: 0, y: 0}
 --- !u!1 &776576749
 GameObject:
   m_ObjectHideFlags: 0
@@ -5873,6 +5880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   window: {fileID: 1155221229}
+  offset: {x: 0, y: 0}
 --- !u!1 &1308106798
 GameObject:
   m_ObjectHideFlags: 0
@@ -6223,6 +6231,7 @@ MonoBehaviour:
   itemOnMouse: {fileID: 0}
   menuController: {fileID: 1340847987}
   transController: {fileID: 1340847991}
+  draggingFrom: {fileID: 0}
 --- !u!114 &1340847990
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6266,6 +6275,11 @@ MonoBehaviour:
   buyItemText: {fileID: 776722486}
   buyValText: {fileID: 1075375341}
   goldText: {fileID: 1021302560}
+  rarityColors:
+  - 23364136413641
+  - 23303242443042
+  - 23303030304646
+  - 23433230304345
 --- !u!114 &1340847992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6277,6 +6291,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 561c00f1c5e693046b027ebca005d6a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rarityColors:
+  - r: 0.3
+    g: 0.3
+    b: 0.3
+    a: 1
+  - r: 0
+    g: 0.65
+    b: 0
+    a: 1
+  - r: 0
+    g: 0
+    b: 1
+    a: 1
+  - r: 0.8
+    g: 0
+    b: 0.8
+    a: 1
   tooltip: {fileID: 1513253600}
   titleText: {fileID: 776576751}
   powerText: {fileID: 1088997823}

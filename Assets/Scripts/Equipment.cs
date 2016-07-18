@@ -34,10 +34,10 @@ public class Equipment : MonoBehaviour {
         foreach(Slot currSlot in equipSlots){
             if (currSlot.item != null) {
                 Item currItem = currSlot.item.item;           
-                itemStats[0] += currItem.Strength;
-                itemStats[1] += currItem.Dexterity;
-                itemStats[2] += currItem.Magic;
-                itemStats[3] += currItem.Vitality;
+                itemStats[0] += currItem.strength;
+                itemStats[1] += currItem.dexterity;
+                itemStats[2] += currItem.magic;
+                itemStats[3] += currItem.vitality;
             }
         }
         // Write to stats
