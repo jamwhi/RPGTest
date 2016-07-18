@@ -1,0 +1,111 @@
+[
+	{
+		"id": 0,
+		"title": "Hammer",
+		"itemType": "Tool",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"wood": 1
+		},
+		"slug": "hammer"
+	},
+	{
+		"id": 1,
+		"title": "Axe",
+		"itemType": "Tool",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"wood": 1
+		},
+		"slug": "axe"
+	},
+	{
+		"id": 2,
+		"title": "Pickaxe",
+		"itemType": "Tool",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"wood": 1
+		},
+		"slug": "pick-axe"
+	},
+	{
+		"id": 3,
+		"title": "Saw",
+		"itemType": "Tool",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"wood": 1
+		},
+		"slug": "saw"
+	},
+	{
+		"id": 4,
+		"title": "Shovel",
+		"itemType": "Tool",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"wood": 1
+		},
+		"slug": "shovel"
+	},
+	{
+		"id": 5,
+		"title": "Sword",
+		"itemType": "Weapon",
+		"tool": "Hammer",
+		"components": {
+			"steel": 2,
+			"wood": 1,
+			"diamond": 0
+		},
+		"slug": "sword"
+	},
+	{
+		"id": 6,
+		"title": "Helmet",
+		"itemType": "Helmet",
+		"tool": "Hammer",
+		"components": {
+			"steel": 2
+		},
+		"slug": "helmet"
+	},
+	{
+		"id": 7,
+		"title": "Armor",
+		"itemType": "Armor",
+		"tool": "Hammer",
+		"components": {
+			"steel": 2,
+			"leather": 1
+		},
+		"slug": "armor"
+	},
+	{
+		"id": 8,
+		"title": "Boots",
+		"itemType": "Armor",
+		"tool": "Hammer",
+		"components": {
+			"steel": 1,
+			"leather": 1
+		},
+		"slug": "boots"
+	},
+	{
+		"id": 9,
+		"title": "Kite Shield",
+		"itemType": "Shield",
+		"tool": "Hammer",
+		"components": {
+			"steel": 3
+		},
+		"slug": "kiteshield"
+	}
+]

@@ -12,3 +12,7 @@ Iron Boots			9
 Hammer				10
 Pickaxe				11
 Saw					12
+Steel				13
+Pine				14
+Leather				15
+Diamond				16

@@ -55,16 +55,24 @@ public class Slot : MonoBehaviour,
         itemIn.transform.SetParent(this.transform);
         itemIn.slot = this;
         itemIn.owner = this.owner;
-        this.item = itemIn;
+        item = itemIn;
         item.transform.localPosition = Vector2.zero;
         owner.ItemIntoSlot(this);
+        if(owner.invType == 2) {
+            Debug.Log("Trying to update character");
+            owner.equipment.UpdateEquipment();
+        }
 		audioController.PlaySfx(itemDown);
 	}
 
 	public ItemData PickupItem() {
 		ItemData it = this.item;
 		this.item = null;
-		audioController.PlaySfx(itemUp);
+        if (owner.invType == 2) {
+            Debug.Log("Trying to update character");
+            owner.equipment.UpdateEquipment();
+        }
+        audioController.PlaySfx(itemUp);
 		return it;
 	}
 
