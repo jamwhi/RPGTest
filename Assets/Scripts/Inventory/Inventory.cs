@@ -23,7 +23,6 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 	}
 
     void Awake() {
-        equipment = GameObject.FindGameObjectWithTag("UI").GetComponent<Equipment>();
         database = GameObject.FindGameObjectWithTag("Database").GetComponent<ItemDatabase>();
     }
 
