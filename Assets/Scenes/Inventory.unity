@@ -10130,6 +10130,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c908a24e76caac64b82c6d88754edd39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  recipeAmount: 0
+  tool: Hammer
+  recipeContent: {fileID: 910525508}
+  recipes:
+  - {fileID: 11423924, guid: ba556d9868af8654baf749b483b6084a, type: 2}
+  recipePrefab: {fileID: 11423924, guid: ba556d9868af8654baf749b483b6084a, type: 2}
+  selectedSlot: {fileID: 0}
+  database: {fileID: 375627037}
 --- !u!1 &1657643231
 GameObject:
   m_ObjectHideFlags: 0

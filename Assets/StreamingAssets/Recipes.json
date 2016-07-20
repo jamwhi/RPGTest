@@ -55,7 +55,7 @@
 		"itemType": "Weapon",
 		"tool": "Hammer",
 		"blade": 1,
-		"hilt:": 1,
+		"hilt": 1,
 		"diamond": 1,
 		"description": "Craft a sword. Used for slicing, and also dicing (mostly of enemies, not food).",
 		"slug": "sword"
