@@ -5,7 +5,8 @@ using System.Collections.Generic;
 
 public class Tooltip : MonoBehaviour {
 
-    private Item item;    
+    private Item item;
+    private Recipe recipe;
     private Color[] rarityColors = new Color[4] { new Color(0.3f, 0.3f, 0.3f), new Color(0f, 0.65f, 0f), new Color(0f, 0f, 1f), new Color(0.8f, 0f, 0.8f) };
 
     // Color hex values: { "#6A6A6A", "#02BD0B", "#0000FF", "#C200CE" };
@@ -28,16 +29,24 @@ public class Tooltip : MonoBehaviour {
     }
 
     // Enable the tooltip
-    public void Activate(Item item, Vector2 pos){
+    public void ActivateItem(Item item, Vector2 pos){
 
         this.item = item;
         tooltip.SetActive(true);
         ConstructDataString();       
     }
+
+    public void ActivateRecipe(Recipe recipe, Vector2 pos) {
+        this.recipe = recipe;
+        tooltip.SetActive(true);
+        ConstructRecipeString();
+    }
     
     // Disable the tooltip
     public void Deactivate(){
 
+        this.item = null;
+        this.recipe = null;
         tooltip.SetActive(false);
     }
 
@@ -101,8 +110,6 @@ public class Tooltip : MonoBehaviour {
                 Debug.Log("Unrecognized item in database.");
                 break;
         }
-
-
     }
 
     void ConstructDataString(){
@@ -126,8 +133,26 @@ public class Tooltip : MonoBehaviour {
         descText.text = "<color=#000000>" + item.description + "</color>";
 
         // Set Value text
+        valText.gameObject.SetActive(true);
         valText.text = item.value.ToString() + " Gold";
     }
 
+    void ConstructRecipeString() {
+        titleText.text = "<b>" + recipe.title + "</b>\n<color=#595959FF>" + recipe.itemType + "</color>";
+        powerText.text = "Tool required: " + recipe.tool;
+
+        statText.text = "";
+        if (recipe.metal > 0) statText.text += recipe.metal.ToString() + " Metal\n";
+        if (recipe.plating > 0) statText.text += recipe.plating.ToString() + " Plating\n";
+        if (recipe.blade > 0) statText.text += recipe.blade.ToString() + " Blade\n";
+        if (recipe.wood > 0) statText.text += recipe.wood.ToString() + " Wood\n";
+        if (recipe.leather > 0) statText.text +=  recipe.leather.ToString() + " Leather\n";    
+        if (recipe.hilt > 0) statText.text += recipe.hilt.ToString() + " Hilt\n";
+        statText.text = statText.text.Remove(statText.text.Length - 1);
+        descText.text = recipe.description;
+
+        valText.gameObject.SetActive(false);
+        duraText.gameObject.SetActive(false);
+    }
     
 }

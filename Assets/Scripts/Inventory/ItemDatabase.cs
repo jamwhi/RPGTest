@@ -10,7 +10,7 @@ public class ItemDatabase : MonoBehaviour {
 	private List<Item> database = new List<Item>();
 	private string JString;
 
-	void Start(){
+	void Awake(){
 
 		JString = JsonMapper.ToObject(File.ReadAllText(Application.dataPath + "/StreamingAssets/Items.json")).ToJson();
 		Item[] items = JsonMapper.ToObject<Item[]>(JString);

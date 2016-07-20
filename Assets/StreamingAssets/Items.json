@@ -285,5 +285,35 @@
 		"useable": false,
 		"rarity": 1,
 		"slug": "diamond"
+	},
+		{
+		"id": 17,
+		"title": "Steel Blade",
+		"value": 3,
+		"charSlot": -1,
+		"itemType": "Material",
+		"matType": "Blade",
+		"quality": 2,
+		"description": "A sword blade made of steel. Might want to attach this to a hilt before trying to use it.",
+		"stackable": true,
+		"maxStack": 5,
+		"useable": false,
+		"rarity": 2,
+		"slug": "steelblade"
+	},
+		{
+		"id": 18,
+		"title": "Pine Hilt",
+		"value": 2,
+		"charSlot": -1,
+		"itemType": "Material",
+		"matType": "Hilt",
+		"quality": 2,
+		"description": "A pine sworld hilt. Very ineffective as a weapon at the moment. Could definitely be improved.",
+		"stackable": true,
+		"maxStack": 5,
+		"useable": false,
+		"rarity": 2,
+		"slug": "pinehilt"
 	}
 ]

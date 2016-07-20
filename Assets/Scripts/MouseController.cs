@@ -144,10 +144,17 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
 		itemOnMouse.transform.position = Input.mousePosition;
 	}
 
-    public void ActivateTooltip(Item item, Vector2 pos) {
+    public void ActivateTooltipItem(Item item, Vector2 pos) {
 
         if (!itemOnMouse) {
-            tooltip.Activate(item, pos);
+            tooltip.ActivateItem(item, pos);
+        }
+    }
+
+    public void ActivateTooltipRecipe(Recipe recipe, Vector2 pos) {
+
+        if (!itemOnMouse) {
+            tooltip.ActivateRecipe(recipe, pos);
         }
     }
 

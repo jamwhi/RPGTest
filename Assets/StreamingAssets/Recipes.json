@@ -4,10 +4,9 @@
 		"title": "Hammer",
 		"itemType": "Tool",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"wood": 1
-		},
+		"metal": 1,
+		"wood": 1,
+		"description": "Craft a hammer. Used to craft other things.",
 		"slug": "hammer"
 	},
 	{
@@ -15,10 +14,9 @@
 		"title": "Axe",
 		"itemType": "Tool",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"wood": 1
-		},
+		"metal": 1,
+		"wood": 1,
+		"description": "Craft an axe. Cut trees. This type of axe is not for combat",
 		"slug": "axe"
 	},
 	{
@@ -26,10 +24,9 @@
 		"title": "Pickaxe",
 		"itemType": "Tool",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"wood": 1
-		},
+		"metal": 1,
+		"wood": 1,
+		"description": "Craft a pickaxe. Many rare metals await you.",
 		"slug": "pick-axe"
 	},
 	{
@@ -37,10 +34,9 @@
 		"title": "Saw",
 		"itemType": "Tool",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"wood": 1
-		},
+		"metal": 1,
+		"wood": 1,
+		"description": "Craft a saw. Used to cut wood, or magician's assistants.",
 		"slug": "saw"
 	},
 	{
@@ -48,10 +44,9 @@
 		"title": "Shovel",
 		"itemType": "Tool",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"wood": 1
-		},
+		"metal": 1,
+		"wood": 1,
+		"description": "Craft a shovel. Dig a grave for your enemies, or a hole for a nice plant.",
 		"slug": "shovel"
 	},
 	{
@@ -59,21 +54,19 @@
 		"title": "Sword",
 		"itemType": "Weapon",
 		"tool": "Hammer",
-		"components": {
-			"steel": 2,
-			"wood": 1,
-			"diamond": 0
-		},
+		"blade": 1,
+		"hilt:": 1,
+		"diamond": 1,
+		"description": "Craft a sword. Used for slicing, and also dicing (mostly of enemies, not food).",
 		"slug": "sword"
 	},
 	{
 		"id": 6,
 		"title": "Helmet",
-		"itemType": "Helmet",
+		"itemType": "Armor",
 		"tool": "Hammer",
-		"components": {
-			"steel": 2
-		},
+		"plating": 2,
+		"description": "Craft a helmet. Remember to protect your head.",
 		"slug": "helmet"
 	},
 	{
@@ -81,10 +74,9 @@
 		"title": "Armor",
 		"itemType": "Armor",
 		"tool": "Hammer",
-		"components": {
-			"steel": 2,
-			"leather": 1
-		},
+		"plating": 2,
+		"leather":1,
+		"description": "Craft some armor. Using armor increases your armor class.",
 		"slug": "armor"
 	},
 	{
@@ -92,10 +84,9 @@
 		"title": "Boots",
 		"itemType": "Armor",
 		"tool": "Hammer",
-		"components": {
-			"steel": 1,
-			"leather": 1
-		},
+		"plating": 1,
+		"leather":1,
+		"description": "Craft some boots. These boots will be made for walking.",
 		"slug": "boots"
 	},
 	{
@@ -103,9 +94,47 @@
 		"title": "Kite Shield",
 		"itemType": "Shield",
 		"tool": "Hammer",
-		"components": {
-			"steel": 3
-		},
+		"plating": 3,
+		"leather":1,
+		"description": "Craft a kite shield. Far to heavy to fly. Can, however, block enemy attacks",
 		"slug": "kiteshield"
+	},
+	{
+		"id": 10,
+		"title": "Blade",
+		"itemType": "Material",
+		"tool": "Hammer",
+		"metal": 2,
+		"description": "Craft a blade. Sharp, but lacks a handle. Ideally used with a hilt",
+		"slug": "steelblade"
+	},
+	{
+		"id": 11,
+		"title": "Hilt",
+		"itemType": "Material",
+		"tool": "Saw",
+		"wood": 2,
+		"description": "Craft a hilt. Helpful for holding sharp things.",
+		"slug": "pinehilt"
+	},
+	{
+		"id": 12,
+		"title": "Bow",
+		"itemType": "Weapon",
+		"tool": "Saw",
+		"wood": 3,
+		"leather":1,
+		"description": "Craft a bow. Fire at your enemies from afar.",
+		"slug": "bow"
+	},
+	{
+		"id": 12,
+		"title": "Wand",
+		"itemType": "Weapon",
+		"tool": "Saw",
+		"wood": 3,
+		"diamond":1,
+		"description": "Craft a wand. Magical power not garunteed.",
+		"slug": "wand"
 	}
 ]

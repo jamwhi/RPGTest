@@ -149,7 +149,7 @@ public class Slot : MonoBehaviour,
     public void OnPointerEnter(PointerEventData eventData) {
         if (!stack.isActive) {
             if (this.item != null) {
-                mouseController.ActivateTooltip(this.item.item, eventData.position);
+                mouseController.ActivateTooltipItem(this.item.item, eventData.position);
             }
         }
     }

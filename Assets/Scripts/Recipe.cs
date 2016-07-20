@@ -4,25 +4,23 @@ using System.Collections;
 
 public class Recipe {
 
-    public int ID { get; set; }
-    public string Title { get; set; }
-    public string ItemType { get; set; }
-    public Dictionary<string, int> Components;
-    public string Description { get; set; }
-    public string Slug { get; set; }
-    public Sprite Sprite { get; set; }
+    public int id = -1;
+    public string title = "";
+    public string itemType = "";
+    public string tool = "";
+    public int metal = -1;
+    public int wood = -1;
+    public int leather = -1;
+    public int diamond = -1;
+    public int plating = -1;
+    public int blade = -1;
+    public int hilt = -1;
+    public string description = "";
+    public string slug = "";
+    public Sprite sprite;
 
-    public Recipe(int id, string title, string itemType, Dictionary<string, int> components, string slug) {
-
-        this.ID = id;
-        this.Title = title;
-        this.ItemType = itemType;
-        this.Components = components;
-        this.Slug = slug;
-        this.Sprite = Resources.Load<Sprite>("Sprites/Items/" + slug);
+    public void SetSprite() {
+        this.sprite = Resources.Load<Sprite>("Sprites/Recipes/" + this.slug);
     }
 
-    public Recipe() {
-        this.ID = -1;
-    }
 }

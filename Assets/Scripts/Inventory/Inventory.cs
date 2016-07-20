@@ -17,6 +17,15 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
     public int invType; // 0 is character, 1 is shop, 2 is equipment
 
 	public List<Slot> slots = new List<Slot>();
+
+    public Inventory(int numSlots) {
+        this.slotAmount = numSlots;
+    }
+
+    void Awake() {
+        equipment = GameObject.FindGameObjectWithTag("UI").GetComponent<Equipment>();
+        database = GameObject.FindGameObjectWithTag("Database").GetComponent<ItemDatabase>();
+    }
     
 	protected void Start () {
         // Add slots
