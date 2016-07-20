@@ -19,8 +19,10 @@ public class RecipeDatabase : MonoBehaviour {
         for (int i = 0; i < recipes.Length; i++) {
             recipes[i].SetSprite();
             database.Add(recipes[i]);
+            Debug.Log(database[i].hilt);
         }
-    }
+        
+    }    
 
     public Recipe FetchRecipeByID(int id) {
 

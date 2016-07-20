@@ -148,6 +148,7 @@ public class Tooltip : MonoBehaviour {
         if (recipe.wood > 0) statText.text += recipe.wood.ToString() + " Wood\n";
         if (recipe.leather > 0) statText.text +=  recipe.leather.ToString() + " Leather\n";    
         if (recipe.hilt > 0) statText.text += recipe.hilt.ToString() + " Hilt\n";
+        if (recipe.diamond > 0) statText.text += recipe.diamond.ToString() + " Diamond\n";
         statText.text = statText.text.Remove(statText.text.Length - 1);
         descText.text = recipe.description;
 

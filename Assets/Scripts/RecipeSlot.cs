@@ -20,12 +20,14 @@ public class RecipeSlot : MonoBehaviour,
     public MouseController mouseController;
     public Stack stack;
     public Transaction transController;
+    public CraftingControl craftController;
 
     void Awake() {
-        GameObject UI = GameObject.FindWithTag("UI");
-        mouseController = UI.GetComponent<MouseController>();
-        stack = UI.GetComponent<Stack>();
-        transController = UI.GetComponent<Transaction>();
+        AssetManager manager = GameObject.FindWithTag("Manager").GetComponent<AssetManager>();
+        mouseController = manager.mouseController;
+        stack = manager.stack;
+        transController = manager.transaction;
+        craftController = manager.crafting;
     }
 
     void Start() {
@@ -36,6 +38,7 @@ public class RecipeSlot : MonoBehaviour,
         isSelected = true;
         myColor.color = selectedColor;
         owner.selectedSlot = this;
+        craftController.RecipeSelected(this.recipe);
     }
 
     public void Deselect() {

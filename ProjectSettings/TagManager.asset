@@ -12,6 +12,8 @@ TagManager:
   - UI
   - Shop
   - AudioControl
+  - Database
+  - Manager
   layers:
   - Default
   - TransparentFX
