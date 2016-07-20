@@ -20,24 +20,24 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 
     public Inventory(int numSlots) {
         this.slotAmount = numSlots;
-    }
+	}
 
     void Awake() {
         equipment = GameObject.FindGameObjectWithTag("UI").GetComponent<Equipment>();
         database = GameObject.FindGameObjectWithTag("Database").GetComponent<ItemDatabase>();
     }
-    
-	protected void Start () {
-        // Add slots
-		for(int i = 0; i < slotAmount; i++){
-            Slot newSlot = Instantiate(inventorySlot) as Slot;
+
+	void Start() {
+		// Add slots
+		for (int i = 0; i < slotAmount; i++) {
+			Slot newSlot = Instantiate(inventorySlot) as Slot;
 			newSlot.transform.SetParent(slotPanel);
-            newSlot.owner = this;
+			newSlot.owner = this;
 			newSlot.name = "Slot " + i.ToString();
-            newSlot.slotID = i;
-            slots.Add(newSlot);
-        }
-    }
+			newSlot.slotID = i;
+			slots.Add(newSlot);
+		}
+	}
 
     public void AddSlot(Slot slot) {
         slot.owner = this;
@@ -83,7 +83,10 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 	}
 
     public void AddItemButton(string ind) {
-        AddItem(database.FetchItemByID(int.Parse(ind)) );
+		if (!gameObject.activeSelf || ind == "") {
+			return;
+		}
+		AddItem(database.FetchItemByID(int.Parse(ind)));
     }
 
     public void AddExistingItem(ItemData itemDataToAdd) {
