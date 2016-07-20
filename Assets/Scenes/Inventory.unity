@@ -3548,7 +3548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24db3ddab53429409d3dc7772d23fef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipment: {fileID: 0}
+  equipment: {fileID: 94528729}
   database: {fileID: 375627035}
   inventorySlot: {fileID: 11435078, guid: 2014e150959b21d4ab922565148922a2, type: 2}
   inventoryItem: {fileID: 11483144, guid: a94152349010e43408cbb3d3d8c9b1a6, type: 2}
