@@ -12,7 +12,7 @@ public class MoveWindow : MonoBehaviour,
     private Vector2 offset;
 
     public void OnPointerDown(PointerEventData eventData) {
-        this.transform.parent.SetSiblingIndex(2);
+        this.transform.parent.SetAsLastSibling();
         offset = eventData.position - (Vector2) window.position;
     }
 

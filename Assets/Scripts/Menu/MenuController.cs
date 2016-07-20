@@ -15,16 +15,55 @@ public class MenuController : MonoBehaviour {
     public AudioController audioController;
     public AudioClip menuSound;
 
-    public void MenutoInventory() {
+
+	void Update () {
+
+		// Open menu
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			ToggleMenu(menu);
+		}
+
+		// Open inventory
+		if (Input.GetKeyDown(KeyCode.I)) {
+			ToggleMenu(inventory);
+		}
+
+		// Open character panel (equipment)
+		if (Input.GetKeyDown(KeyCode.C)) {
+			ToggleMenu(character);
+		}
+	}
+
+
+	public void ToggleMenu (GameObject toggled) {
+		toggled.SetActive(!toggled.activeSelf);
+		audioController.PlaySfx(menuSound);
+	}
+
+	public void OpenShop() {
+		shop.SetActive(true);
+		inventory.SetActive(true);
+		audioController.PlaySfx(menuSound);
+	}
+
+	public void CloseShop () {
+		shop.SetActive(false);
+		inventory.SetActive(false);
+		audioController.PlaySfx(menuSound);
+	}
+
+	public void MenutoInventory() {
         DoButtonPress(menu, inventory);
     }
 
     public void InventoryToMenu() {
-        shop.SetActive(false);
-        character.SetActive(false);
-        crafting.SetActive(false);
-        DoButtonPress(inventory, menu);
-    }
+		//shop.SetActive(false);
+		//character.SetActive(false);
+		//crafting.SetActive(false);
+		//DoButtonPress(inventory, menu);
+		inventory.SetActive(false);
+		audioController.PlaySfx(menuSound);
+	}
 
     public void SettingsToMenu() {
         DoButtonPress(settings, menu);

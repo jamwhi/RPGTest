@@ -7,7 +7,7 @@ public class RecipeSelector : MonoBehaviour {
     public int recipeAmount;
     public string tool;
     public Transform recipeContent;
-    public List<RecipeSlot> recipes;
+    public List<RecipeSlot> recipes = new List<RecipeSlot>();
     public RecipeSlot recipePrefab;
     public RecipeSlot selectedSlot = null;
     public RecipeDatabase database;
@@ -29,7 +29,8 @@ public class RecipeSelector : MonoBehaviour {
             }
         }
         recipeAmount = i;
-    }
+		recipes[0].Select();
+	}
     
     public void MoveLeft() {
         if(selectedSlot.recpNum == 0) {

@@ -25,8 +25,6 @@ public class CraftingControl : MonoBehaviour {
 
     void SetComponentText() {
         componentText.text = "Requires:\n";
-        Debug.Log(selectedRecipe.hilt);
-        Debug.Log(selectedRecipe.diamond);
         if (selectedRecipe.metal > 0) componentText.text += selectedRecipe.metal.ToString() + " Metal\n";
         if (selectedRecipe.plating > 0) componentText.text += selectedRecipe.plating.ToString() + " Plating\n";
         if (selectedRecipe.blade > 0) componentText.text += selectedRecipe.blade.ToString() + " Blade\n";
