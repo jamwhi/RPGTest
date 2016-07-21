@@ -7,7 +7,8 @@ public class Tooltip : MonoBehaviour {
 
     private Item item;
     private Recipe recipe;
-    private Color[] rarityColors = new Color[4] { new Color(0.3f, 0.3f, 0.3f), new Color(0f, 0.65f, 0f), new Color(0f, 0f, 1f), new Color(0.8f, 0f, 0.8f) };
+    //private Color[] rarityColors = new Color[4] { new Color(0.3f, 0.3f, 0.3f), new Color(0f, 0.65f, 0f), new Color(0f, 0f, 1f), new Color(0.8f, 0f, 0.8f) };
+    private string[] rarityColors = { "<color=#6A6A6A>", "<color=#02BD0B>", "<color=#0000FF>", "<color=#C200CE>" };
 
     // Color hex values: { "#6A6A6A", "#02BD0B", "#0000FF", "#C200CE" };
     public GameObject tooltip;
@@ -115,8 +116,7 @@ public class Tooltip : MonoBehaviour {
     void ConstructDataString(){
 
         // Set title text
-        titleText.text = "<b>" + item.title + "</b>\n";
-        titleText.color = rarityColors[item.rarity - 1];
+        titleText.text = "<b>" + rarityColors[item.rarity - 1] + item.title + "</color></b>\n";
         if (item.itemType == "Material") {
             titleText.text += "<color=#595959FF>" + item.matType + "</color>";
         } else {
