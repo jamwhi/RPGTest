@@ -79,6 +79,11 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void OpenShop() {
+
+		if (shop.activeSelf) {
+			return;
+		}
+
         DeselectInventory();
         shop.SetActive(true);
 		inventory.SetActive(true);

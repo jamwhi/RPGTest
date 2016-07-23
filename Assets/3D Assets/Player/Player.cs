@@ -9,11 +9,9 @@ public class Player : MonoBehaviour {
 	private bool alive = true;
 	private Rigidbody rb;
 	private Vector3 startPos;
-	private MenuController menuController;
 
 	void Start() {
 		rb = GetComponent<Rigidbody>();
-		menuController = GameObject.FindWithTag("UI").GetComponent<MenuController>();
 		startPos = transform.position;
 	}
 
@@ -27,11 +25,11 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerEnter() {
-		menuController.OpenShop();
+		// placeholder
 	}
 
 	void OnTriggerExit () {
-		menuController.CloseShop();
+		// placeholder
 	}
 
 	void OnCollisionEnter (Collision col) {
