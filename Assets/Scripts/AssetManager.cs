@@ -3,6 +3,8 @@ using System.Collections;
 
 public class AssetManager : MonoBehaviour {
 
+    public ItemDatabase itemDatabase;
+    public RecipeDatabase recipeDatabase;
     public Equipment equipment;
     public CraftingControl crafting;
     public MouseController mouseController;
@@ -12,5 +14,4 @@ public class AssetManager : MonoBehaviour {
     public AudioController audioController;  
     public Stack stack;
     public Tooltip tooltip;
-
 }

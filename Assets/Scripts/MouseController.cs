@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityEngine.Events;
 using System.Collections;
 using System;
 
@@ -10,25 +10,28 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
     public Tooltip tooltip;
     public Stack stack;
     public GameObject dropItem;
+    public Transform frontUI;
     public ItemData itemOnMouse = null;
 	public MenuController menuController;
 	public Transaction transController;
+    public Blocking blockPrefab;
+    public Blocking frontBlock;
+    public Blocking backBlock;
 
-	private Slot draggingFrom = null;
+    private Slot draggingFrom = null;
 
-	void Start() {
+	public void Awake() {
 		GameObject UI = GameObject.FindWithTag("UI");
 		menuController = UI.GetComponent<MenuController>();
 		transController = UI.GetComponent<Transaction>();
-	}
+    }
 
 	void Update() {
         // If an item is on the mouse, move its position.
         if (itemOnMouse != null) {
 			itemOnMouse.transform.position = Input.mousePosition;
-        }
+        }    
     }
-
 
 	public void HandleClick(Slot slot, Vector2 pos) {
         if (stack.gameObject.activeSelf || transController.gameObject.activeSelf) DisableAllFrontLayer();
@@ -67,7 +70,6 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
             slot.item.Consume();
         }
     }
-
 
     public void PickUpFrom(Slot slot, Vector2 pos) {
 		// IF slot is empty
@@ -119,8 +121,7 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
     public void DropItemConfirm(Vector2 pos) {
         if (itemOnMouse != null) {
             dropItem.SetActive(true);
-            dropItem.transform.position = pos;
-            
+            dropItem.transform.position = pos;           
         }
     }
 
@@ -145,14 +146,12 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
 	}
 
     public void ActivateTooltipItem(Item item, Vector2 pos) {
-
         if (!itemOnMouse) {
             tooltip.ActivateItem(item, pos);
         }
     }
 
     public void ActivateTooltipRecipe(Recipe recipe, Vector2 pos) {
-
         if (!itemOnMouse) {
             tooltip.ActivateRecipe(recipe, pos);
         }
@@ -167,18 +166,37 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
             if (itemOnMouse != null) { 
             DropItemConfirm(eventData.position);
             } 
-            else {
-                DisableAllFrontLayer();
-            }  
         }       
     }
 
+    public void CreateBackBlocker() {
+        backBlock = Instantiate(blockPrefab);
+        backBlock.name = "BackBlocker";
+        backBlock.blockingAction = backBlock.BackBlocker;
+        backBlock.transform.SetAsFirstSibling();
+        backBlock.transform.localScale = Vector3.one;
+    }
+
+    public void CreateFrontBlocker() {
+        frontBlock = Instantiate(blockPrefab);
+        frontBlock.name = "FrontBlocker";
+        frontBlock.blockingAction = frontBlock.FrontBlocker;
+        frontBlock.transform.SetSiblingIndex(2);
+    }
+
+    public void DestroyBackBlocker() {
+        Destroy(backBlock.gameObject);
+        backBlock = null;
+    }
+
     public void DisableAllFrontLayer() {
-        for(int i = 0; i < transform.childCount; i++) {
-            GameObject currChild = transform.GetChild(i).gameObject;
-            if(currChild.layer == 8) {
-                currChild.SetActive(false);
-            }
+        foreach (Transform child in frontUI) {
+            child.gameObject.SetActive(false);
+        }
+        if (frontBlock != null) { 
+            Destroy(frontBlock.gameObject);
+            frontBlock = null;
         }
     }
+
 }
