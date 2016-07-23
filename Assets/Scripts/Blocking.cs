@@ -29,7 +29,6 @@ public class FrontBlocker : Blocking {
 
     protected override void Awake() {
         base.Awake();
-        Debug.Log("Hello?");
         gameObject.name = "FrontBlocker";
         transform.SetSiblingIndex(2);
         transform.localScale = Vector3.one;
