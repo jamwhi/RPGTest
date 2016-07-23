@@ -1,30 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using System;
 
-public class Blocking : MonoBehaviour, 
+public abstract class Blocking : MonoBehaviour, 
     IPointerClickHandler, 
     IDropHandler {
 
     public MouseController mouseController;
-    public delegate void BlockingAction(Vector2 pos);
-    public BlockingAction blockingAction;
+    public GameObject blockPrefab;
 
     // Use this for initialization
-    void Awake() {
+    protected virtual void Awake() {
         mouseController = GameObject.FindGameObjectWithTag("UI").GetComponent<MouseController>();      
-        transform.SetParent(mouseController.transform);     
-    }
-
-    public void FrontBlocker(Vector2 pos) {
-        mouseController.DisableAllFrontLayer();
-    }
-
-    public void BackBlocker(Vector2 pos) {
-        if(mouseController.itemOnMouse != null) {
-            mouseController.DropItemConfirm(pos);
-        }
+        transform.SetParent(mouseController.transform);        
     }
 
     public void OnDrop(PointerEventData eventData) {
@@ -35,4 +22,36 @@ public class Blocking : MonoBehaviour,
         blockingAction(eventData.position);
     }
 
+    protected abstract void blockingAction(Vector2 pos);
+}
+
+public class FrontBlocker : Blocking {
+
+    protected override void Awake() {
+        base.Awake();
+        Debug.Log("Hello?");
+        gameObject.name = "FrontBlocker";
+        transform.SetSiblingIndex(2);
+        transform.localScale = Vector3.one;
+    }
+
+    protected override void blockingAction(Vector2 pos) {
+        mouseController.DisableAllFrontLayer();
+    }
+}
+
+public class BackBlocker : Blocking {
+
+    protected override void Awake() {
+        base.Awake();
+        gameObject.name = "BackBlocker";
+        transform.SetAsFirstSibling();
+        transform.localScale = Vector3.one;
+    }
+
+    protected override void blockingAction(Vector2 pos) {
+        if(mouseController.itemOnMouse != null) {
+            mouseController.DropItemConfirm(pos);
+        }
+    }
 }

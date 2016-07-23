@@ -14,9 +14,9 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
     public ItemData itemOnMouse = null;
 	public MenuController menuController;
 	public Transaction transController;
-    public Blocking blockPrefab;
-    public Blocking frontBlock;
-    public Blocking backBlock;
+    public GameObject blockPrefab;
+    public GameObject frontBlock;
+    public GameObject backBlock;
 
     private Slot draggingFrom = null;
 
@@ -171,17 +171,14 @@ public class MouseController : MonoBehaviour, IPointerClickHandler {
 
     public void CreateBackBlocker() {
         backBlock = Instantiate(blockPrefab);
-        backBlock.name = "BackBlocker";
-        backBlock.blockingAction = backBlock.BackBlocker;
-        backBlock.transform.SetAsFirstSibling();
-        backBlock.transform.localScale = Vector3.one;
+        backBlock.AddComponent<BackBlocker>();
+        backBlock.transform.localPosition = Vector3.zero;
     }
 
     public void CreateFrontBlocker() {
         frontBlock = Instantiate(blockPrefab);
-        frontBlock.name = "FrontBlocker";
-        frontBlock.blockingAction = frontBlock.FrontBlocker;
-        frontBlock.transform.SetSiblingIndex(2);
+        frontBlock.AddComponent<FrontBlocker>();
+        frontBlock.transform.localPosition = Vector3.zero;
     }
 
     public void DestroyBackBlocker() {

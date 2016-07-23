@@ -7913,7 +7913,7 @@ MonoBehaviour:
   itemOnMouse: {fileID: 0}
   menuController: {fileID: 1340847987}
   transController: {fileID: 1340847991}
-  blockPrefab: {fileID: 11474344, guid: f3c655f54f71274408a4eb1248e1c3d5, type: 2}
+  blockPrefab: {fileID: 103840, guid: f3c655f54f71274408a4eb1248e1c3d5, type: 2}
   frontBlock: {fileID: 0}
   backBlock: {fileID: 0}
 --- !u!114 &1340847990
@@ -7997,7 +7997,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
