@@ -18,6 +18,7 @@ public class Slot : MonoBehaviour,
     public Color selectedColor;
     public Color unselectedColor;
 
+    public AssetManager assetManager;
     public Inventory owner;
     public ItemData item;
     public Stack stack;
@@ -30,21 +31,21 @@ public class Slot : MonoBehaviour,
     public bool isSelected = false;
 
     // Use this for initialization
-    protected void Awake () {
+    protected void Awake() {
         this.item = null;
-        GameObject UI = GameObject.FindWithTag("UI");
-        mouseController = UI.GetComponent<MouseController>();
-        audioController = GameObject.FindWithTag("AudioControl").GetComponent<AudioController>();
-        stack = UI.GetComponent<Stack>();
-        transController = UI.GetComponent<Transaction>();
+        assetManager = GameObject.FindWithTag("Manager").GetComponent<AssetManager>();
+        mouseController = assetManager.mouseController;
+        audioController = assetManager.audioController;
+        stack = assetManager.stack;
+        transController = assetManager.transaction;
     }
 
     public void SelectSlot() {
-        if (this.owner.invType != 2) {
+        if (this.owner.invType != 2 && this.owner.invType != 3) {
             if (isSelected) {
                 myColor.color = unselectedColor;
                 this.isSelected = false;
-            } else {
+            } else if (this.item != null) {
                 myColor.color = selectedColor;
                 this.isSelected = true;
             }
@@ -61,6 +62,10 @@ public class Slot : MonoBehaviour,
         if(owner.invType == 2) {
             Debug.Log("Trying to update character");
             owner.equipment.UpdateEquipment();
+        }
+        else if(owner.invType == 4) {
+            Debug.Log("Dropped item into crafting slot");
+            owner.craftingControl.CheckItems();
         }
 		audioController.PlaySfx(itemDown);
 	}
@@ -111,7 +116,7 @@ public class Slot : MonoBehaviour,
 
     // Determine on click behaviour
     public void OnPointerClick(PointerEventData eventData) {
-        this.owner.transform.SetSiblingIndex(2);
+        owner.transform.SetAsLastSibling();
         // On Left click
         if (eventData.button == PointerEventData.InputButton.Left) {
             mouseController.HandleClick(this, eventData.position);    
@@ -132,14 +137,10 @@ public class Slot : MonoBehaviour,
 	public void OnDrag (PointerEventData eventData) {}
 
 	public void OnEndDrag (PointerEventData eventData) {
-        if (eventData.pointerEnter.CompareTag("UI")) {
-            mouseController.DropItemConfirm(eventData.position);
-        }
-        if (item == null) return;
-        mouseController.EndDrag(this);
 	}
 
 	public void OnDrop (PointerEventData eventData) {
+        owner.transform.SetAsLastSibling();
 		mouseController.EndDrag(this);
 	}
 

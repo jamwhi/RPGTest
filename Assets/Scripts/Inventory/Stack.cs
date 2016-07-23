@@ -29,14 +29,15 @@ public class Stack : MonoBehaviour {
 
         stack.SetActive(true);
         isActive = true;
-        stack.transform.position = pos;    
+        stack.transform.position = pos;
+        mouseController.CreateFrontBlocker();
     }
 
-    // Cancel button callback
-    public void StackCancel() {
+    public void Deactivate() {
         audioController.PlaySfx(menuSound);
         stack.SetActive(false);
         isActive = false;
+        mouseController.DisableAllFrontLayer();
     }
     
     // Confirm button callback
@@ -51,10 +52,7 @@ public class Stack : MonoBehaviour {
             ItemData newItems = inventory.CreateItemFromStack(itemToSeperate.item.id, (int)stackSlider.value);
             mouseController.AttachItemToMouse(newItems); 
         }
-
-        audioController.PlaySfx(menuSound);
-        stack.SetActive(false);
-        isActive = false;
+        Deactivate();
     }
     
 

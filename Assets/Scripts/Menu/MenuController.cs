@@ -1,103 +1,123 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class MenuController : MonoBehaviour {
 
     public GameObject menu;
-
     public GameObject inventory;
     public GameObject shop;
     public GameObject character;
     public GameObject settings;
     public GameObject crafting;
+    public GameObject windowContainer;
 
+    public MouseController mouseController;
     public AudioController audioController;
     public AudioClip menuSound;
+
+    private int frontWindow;
+
+    void Awake() {
+        frontWindow = windowContainer.transform.childCount - 1;
+    }
 
 
 	void Update () {
 
 		// Open menu
 		if (Input.GetKeyDown(KeyCode.Escape)) {
-			ToggleMenu(menu);
+            EscapePressed();
 		}
 
 		// Open inventory
 		if (Input.GetKeyDown(KeyCode.I)) {
-			ToggleMenu(inventory);
+            ToggleWindow(inventory);
 		}
 
 		// Open character panel (equipment)
 		if (Input.GetKeyDown(KeyCode.C)) {
-			ToggleMenu(character);
+            ToggleWindow(character);
 		}
 	}
 
 
-	public void ToggleMenu (GameObject toggled) {
-		toggled.SetActive(!toggled.activeSelf);
+    public void EscapePressed() {
+        GameObject frontObject = windowContainer.transform.GetChild(frontWindow).gameObject;
+        if (frontObject.activeSelf) {
+            if (frontObject.name == "InventoryPanel") {
+                shop.transform.SetAsFirstSibling();
+                shop.SetActive(false);
+            }
+            ToggleWindow(frontObject);
+        }
+        else {
+            ToggleWindow(menu);
+        }
+    }
+
+    public void CheckForWindows() {
+        GameObject frontObject = windowContainer.transform.GetChild(frontWindow).gameObject;
+        if (!frontObject.activeSelf) {
+            mouseController.DestroyBackBlocker();
+        }
+    }
+
+    public void ToggleWindow(GameObject toggled) {
+        toggled.SetActive(!toggled.activeSelf);
+        if (toggled.activeSelf) {
+            toggled.transform.SetAsLastSibling();
+            if(mouseController.backBlock == null) {
+                mouseController.CreateBackBlocker();
+            }
+        }
+        else {
+            toggled.transform.SetAsFirstSibling();
+            CheckForWindows();
+        }
 		audioController.PlaySfx(menuSound);
 	}
 
 	public void OpenShop() {
-		shop.SetActive(true);
+        DeselectInventory();
+        shop.SetActive(true);
 		inventory.SetActive(true);
-		audioController.PlaySfx(menuSound);
+        inventory.transform.SetAsLastSibling();
+        shop.transform.SetAsLastSibling();
+        audioController.PlaySfx(menuSound);
+        if(mouseController.backBlock == null) {
+            mouseController.CreateBackBlocker();
+        }
 	}
 
 	public void CloseShop () {
-		shop.SetActive(false);
-		inventory.SetActive(false);
-		audioController.PlaySfx(menuSound);
+        if (inventory.activeSelf) {
+            DeselectInventory();
+            shop.SetActive(false);
+            inventory.SetActive(false);
+            shop.transform.SetAsLastSibling();
+            inventory.transform.SetAsLastSibling();
+            CheckForWindows();
+            audioController.PlaySfx(menuSound);
+        }
 	}
-
-	public void MenutoInventory() {
-        DoButtonPress(menu, inventory);
-    }
-
-    public void InventoryToMenu() {
-		//shop.SetActive(false);
-		//character.SetActive(false);
-		//crafting.SetActive(false);
-		//DoButtonPress(inventory, menu);
-		inventory.SetActive(false);
-		audioController.PlaySfx(menuSound);
-	}
-
-    public void SettingsToMenu() {
-        DoButtonPress(settings, menu);
-    }
-
-    public void MenuToSettings() {
-        DoButtonPress(menu, settings);
-    }
-
-    public void CraftingToMenu() {
-        DoButtonPress(crafting, menu);
-    }
 
     public void ShopButton() {
-        shop.SetActive(!shop.activeSelf);
-        audioController.PlaySfx(menuSound);
+        ToggleWindow(shop);
+        DeselectInventory();
+    }
+
+    public void DeselectInventory() {
         inventory.GetComponent<Inventory>().DeselectAll();
         shop.GetComponent<Inventory>().DeselectAll();
     }
 
     public void CharButton() {
-        character.SetActive(!character.activeSelf);
-        audioController.PlaySfx(menuSound);
+        ToggleWindow(character);
     }
 
     public void CraftButton() {
-        crafting.SetActive(!crafting.activeSelf);
-        audioController.PlaySfx(menuSound);
-    }
-
-    public void DoButtonPress(GameObject closed, GameObject opened) {
-        opened.SetActive(true);
-        closed.SetActive(false);
-        audioController.PlaySfx(menuSound);
+        ToggleWindow(crafting);
     }
 
 }

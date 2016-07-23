@@ -12,6 +12,7 @@ public class Transaction : MonoBehaviour {
 
     public AudioSource audioController;
     public AudioClip sellItem;
+    public MouseController mouseController;
 
     public Text sellItemText;
     public Text sellValText;
@@ -113,6 +114,7 @@ public class Transaction : MonoBehaviour {
         sellItemText.text = sellString;
         buyItemText.text = buyString;
         goldText.text = "Gold Exchanged: <color=#D97F1E>" + goldExchanged.ToString() + "</color>";
+        mouseController.CreateFrontBlocker();
         confirmPanel.SetActive(true);
     }
 

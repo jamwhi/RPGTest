@@ -31,6 +31,35 @@ public class RecipeSelector : MonoBehaviour {
         recipeAmount = i;
 		recipes[0].Select();
 	}
+
+    public void MoveUp() {
+        if (selectedSlot.recpNum == 0) {
+            return;
+        } 
+        else {
+            int nextSlot = selectedSlot.recpNum - 1;
+            selectedSlot.Deselect();
+            recipes[nextSlot].Select();
+            Vector2 endPos = new Vector2(0, 67f * (nextSlot - 2));
+            StopAllCoroutines();
+            StartCoroutine(SmoothMovement(endPos));
+        }
+    }
+
+    public void MoveDown() {
+        if (selectedSlot.recpNum == (recipeAmount - 1)) {
+            return;
+        } 
+        else {
+            int nextSlot = selectedSlot.recpNum + 1;
+            selectedSlot.Deselect();
+            recipes[nextSlot].Select();
+            Vector2 endPos = new Vector2(0, 67f * (nextSlot - 2));
+            StopAllCoroutines();
+            StartCoroutine(SmoothMovement(endPos));
+        }
+
+    }
     
     public void MoveLeft() {
         if(selectedSlot.recpNum == 0) {
@@ -79,6 +108,14 @@ public class RecipeSelector : MonoBehaviour {
             Vector3 newPosition = Vector3.MoveTowards(recipeContent.transform.localPosition, end, 700 * Time.deltaTime);
             recipeContent.transform.localPosition = newPosition;
             sqrRemainingDistance = (recipeContent.transform.localPosition - end).sqrMagnitude;
+            if (recipeContent.localPosition.y < 0) {            
+                recipeContent.localPosition = Vector2.zero;
+                StopAllCoroutines();
+            }
+            else if(recipeContent.localPosition.y > 390) {
+                recipeContent.localPosition = new Vector2(0, 390f);
+                StopAllCoroutines();
+            }
             yield return null;
         }
     }

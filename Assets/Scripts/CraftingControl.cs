@@ -34,4 +34,8 @@ public class CraftingControl : MonoBehaviour {
         if (selectedRecipe.diamond > 0) componentText.text += selectedRecipe.diamond.ToString() + " Diamond\n";
         componentText.text = componentText.text.Remove(componentText.text.Length - 1);
     }
+
+    public void CheckItems() {
+
+    }
 }

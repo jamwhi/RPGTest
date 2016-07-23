@@ -5,8 +5,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Inventory : MonoBehaviour, IPointerClickHandler {
+public class Inventory : MonoBehaviour {
 
+    public AssetManager assetManager;
+    public CraftingControl craftingControl;
     public Equipment equipment;
     public ItemDatabase database;
     public Slot inventorySlot;
@@ -23,7 +25,8 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
 	}
 
     void Awake() {
-        database = GameObject.FindGameObjectWithTag("Database").GetComponent<ItemDatabase>();
+        assetManager = GameObject.FindGameObjectWithTag("Manager").GetComponent<AssetManager>();
+        database = assetManager.itemDatabase;
     }
 
 	void Start() {
@@ -132,10 +135,6 @@ public class Inventory : MonoBehaviour, IPointerClickHandler {
                 currSlot.SelectSlot();
             }
         }
-    }
-
-    public void OnPointerClick(PointerEventData eventData) {
-        this.transform.SetSiblingIndex(2);
     }
 
     public void ItemIntoSlot(Slot slot) {

@@ -7,16 +7,11 @@ public class Equipment : MonoBehaviour {
 
     public Inventory equipInventory;
     public Slot[] equipSlots;
-    public string[] statTypes;
-    public int[] startStats;
     public Text fullStatText;
     public Text itemStatText;
-    //public Text attackText;
-    //public Text defenseText;
-    //public Text healthText;
-    //public Text magicText;
 
     private int[] itemStats = { 0, 0, 0, 0 };
+    private int[] startStats = { 10, 10, 10, 10 };
 
 	// Use this for initialization
 	void Awake () {
